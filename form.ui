@@ -73,7 +73,7 @@
    <property name="maximumSize">
     <size>
      <width>16777215</width>
-     <height>1000</height>
+     <height>16777215</height>
     </size>
    </property>
    <property name="verticalScrollBarPolicy">
@@ -158,7 +158,7 @@
    <property name="maximumSize">
     <size>
      <width>16777215</width>
-     <height>1000</height>
+     <height>16777215</height>
     </size>
    </property>
    <property name="verticalScrollBarPolicy">

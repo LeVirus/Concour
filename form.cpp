@@ -33,6 +33,20 @@ void Form::on_pushButton_clicked()
     }
 }
 
+void Form::clearPlayerLines()
+{
+    for(int i = 0; i < m_memListWoman->count(); ++i)
+    {
+        QLayoutItem *dd = m_memListWoman->itemAt(i);
+        if(dd)delete dd;
+    }
+    for(int i = 0; i < m_memListMan->count(); ++i)
+    {
+        QLayoutItem *dd = m_memListMan->itemAt(i);
+        if(dd)delete dd;
+    }
+}
+
 bool Form::checkExist(const QString &str, QVBoxLayout &memVbox)
 {
     for(int i = 0; i < memVbox.count(); ++i)
@@ -72,6 +86,7 @@ void Form::setScrolls()
 Form::~Form()
 {
     delete m_ui;
+    clearPlayerLines();
     if(m_memListMan)delete m_memListMan;
     if(m_memListWoman)delete m_memListWoman;
 }

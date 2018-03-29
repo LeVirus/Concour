@@ -12,7 +12,9 @@ class PlayerLine : public QHBoxLayout
 private:
     QLabel *m_label = nullptr;
     QPushButton *m_del = nullptr, *m_modif = nullptr;
+private:
     void setButtons();
+    void linkButtons();
 public:
     PlayerLine(const QString &labelStr);
     const QLabel *getLabel()const;
@@ -21,6 +23,8 @@ public:
 signals:
 
 public slots:
+    void delThis();
+
 };
 
 #endif // PLAYERLINE_H

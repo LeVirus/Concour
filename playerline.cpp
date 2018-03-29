@@ -9,6 +9,7 @@ PlayerLine::PlayerLine(const QString &labelStr)
     addWidget(m_label);
     setGeometry(QRect());
     setButtons();
+    linkButtons();
 }
 
 void PlayerLine::setButtons()
@@ -19,14 +20,24 @@ void PlayerLine::setButtons()
     m_modif = new QPushButton();
     m_modif->setIcon(QIcon("../Concour/Icon/edit.png"));
     m_modif->setFixedWidth(40);
-
     addWidget(m_modif);
     addWidget(m_del);
+}
+
+void PlayerLine::linkButtons()
+{
+    QObject::connect(m_del, SIGNAL(clicked()), this, SLOT(delThis()));
 }
 
 const QLabel *PlayerLine::getLabel()const
 {
     return m_label;
+}
+
+void PlayerLine::delThis()
+{
+    m_label->setText("dfgdfgdf");
+    delete this;
 }
 
 PlayerLine::~PlayerLine()

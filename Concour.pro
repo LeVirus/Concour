@@ -16,14 +16,17 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     form.cpp \
-    playerline.cpp
+    playerline.cpp \
+    modifyline.cpp
 
 HEADERS  += mainwindow.h \
     form.h \
-    playerline.h
+    playerline.h \
+    modifyline.h
 
 FORMS    += mainwindow.ui \
-    form.ui
+    form.ui \
+    modifyline.ui
 
 RESOURCES += \
     playerline.qrc
