@@ -24,7 +24,7 @@ signals:
 
 public slots:
     void delThis();
-
+    void createModifyWindow();
 };
 
 #endif // PLAYERLINE_H

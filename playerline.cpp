@@ -1,4 +1,5 @@
 #include "playerline.h"
+#include "modifyline.h"
 #include <QPushButton>
 #include <QLabel>
 #include <memory>
@@ -27,6 +28,7 @@ void PlayerLine::setButtons()
 void PlayerLine::linkButtons()
 {
     QObject::connect(m_del, SIGNAL(clicked()), this, SLOT(delThis()));
+    QObject::connect(m_modif, SIGNAL(clicked()), this, SLOT(createModifyWindow()));
 }
 
 const QLabel *PlayerLine::getLabel()const
@@ -36,8 +38,13 @@ const QLabel *PlayerLine::getLabel()const
 
 void PlayerLine::delThis()
 {
-    m_label->setText("dfgdfgdf");
     delete this;
+}
+
+void PlayerLine::createModifyWindow()
+{
+//    ModifyLine m;
+//    m.show();
 }
 
 PlayerLine::~PlayerLine()
