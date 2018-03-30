@@ -22,7 +22,10 @@ private:
 
 public:
     PlayerLine(const QString &labelStr, bool homme);
+    void setLabel(const QString &label);
+    void setGender(bool gender);
     const QLabel *getLabel()const;
+    bool getGender()const;
     ~PlayerLine();
 
 signals:

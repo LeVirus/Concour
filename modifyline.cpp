@@ -1,5 +1,8 @@
 #include "modifyline.h"
 #include "ui_modifyline.h"
+#include "playerline.h"
+#include <QComboBox>
+#include <QLineEdit>
 
 ModifyLine::ModifyLine(QWidget *parent) :
     QDialog(parent),
@@ -8,6 +11,8 @@ ModifyLine::ModifyLine(QWidget *parent) :
     ui->setupUi(this);
     QPushButton* buttonOK = findChild<QPushButton*>("pushButton_2");
     QPushButton* buttonCancel = findChild<QPushButton*>("pushButton");
+    m_comboBox = findChild<QComboBox*>("comboBox");
+    m_lineEdit = findChild<QLineEdit*>("lineEdit");
 
     if(buttonOK)
     {
@@ -21,32 +26,48 @@ ModifyLine::ModifyLine(QWidget *parent) :
 
 }
 
-void ModifyLine::setParams(const QString &nom, bool homme)
+void ModifyLine::setParams(const QString &nom, bool homme, PlayerLine *refPlayerLine)
 {
-    QComboBox* comboBox = findChild<QComboBox*>("comboBox");
-    QLineEdit* lineEdit = findChild<QLineEdit*>("lineEdit");
-    if(homme)
+    if(m_comboBox && m_lineEdit)
     {
-        comboBox->setCurrentIndex(HOMME);
+        if(homme)
+        {
+            m_comboBox->setCurrentIndex(HOMME);
+        }
+        else
+        {
+            m_comboBox->setCurrentIndex(FEMME);
+        }
+        m_lineEdit->setText(nom);
+        m_memPlayerLine = refPlayerLine;
     }
-    else
-    {
-        comboBox->setCurrentIndex(FEMME);
-    }
-    lineEdit->setText(nom);
-}
-
-ModifyLine::~ModifyLine()
-{
-    delete ui;
 }
 
 void ModifyLine::clickedOk()
 {
+    if(m_comboBox && m_lineEdit && m_memPlayerLine)
+    {
+        if(m_comboBox->currentIndex() == HOMME)
+        {
+            m_memPlayerLine->setGender(true);
+        }
+        else if(m_comboBox->currentIndex() == FEMME)
+        {
+            m_memPlayerLine->setGender(false);
+        }
+        m_memPlayerLine->setLabel(m_lineEdit->text());
+    }
     m_memPlayerLine = nullptr;
+    hide();
 }
 
 void ModifyLine::clickedCancel()
 {
     m_memPlayerLine = nullptr;
+    hide();
+}
+
+ModifyLine::~ModifyLine()
+{
+    delete ui;
 }

@@ -12,6 +12,17 @@ PlayerLine::PlayerLine(const QString &labelStr, bool homme)
     setGeometry(QRect());
     setButtons();
     linkButtons();
+    m_modifLineWindow = std::make_unique<ModifyLine>();
+}
+
+void PlayerLine::setLabel(const QString &label)
+{
+    m_label->setText(label);
+}
+
+void PlayerLine::setGender(bool gender)
+{
+    m_gender = gender;
 }
 
 void PlayerLine::setButtons()
@@ -37,6 +48,11 @@ const QLabel *PlayerLine::getLabel()const
     return m_label;
 }
 
+bool PlayerLine::getGender() const
+{
+    return m_gender;
+}
+
 void PlayerLine::delThis()
 {
     delete this;
@@ -44,9 +60,11 @@ void PlayerLine::delThis()
 
 void PlayerLine::createModifyWindow()
 {
-    if(! m_modifLineWindow)m_modifLineWindow = std::make_unique<ModifyLine>();
-    m_modifLineWindow.get()->setParams(m_label->text(), m_gender);
-    m_modifLineWindow.get()->show();
+    if(m_modifLineWindow)
+    {
+        m_modifLineWindow.get()->setParams(m_label->text(), m_gender, this);
+        m_modifLineWindow.get()->show();
+    }
 }
 
 PlayerLine::~PlayerLine()

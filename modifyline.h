@@ -2,8 +2,12 @@
 #define MODIFYLINE_H
 
 #include <QDialog>
+
 class PlayerLine;
 class QAbstractButton;
+class QComboBox;
+class QLineEdit;
+
 enum{
     HOMME, FEMME
 };
@@ -17,7 +21,7 @@ class ModifyLine : public QDialog
 
 public:
     explicit ModifyLine(QWidget *parent = 0);
-    void setParams(const QString &nom, bool homme);
+    void setParams(const QString &nom, bool homme, PlayerLine *refPlayerLine);
     ~ModifyLine();
 signals:
 
@@ -28,6 +32,8 @@ private slots:
 private:
     Ui::ModifyLine *ui;
     PlayerLine *m_memPlayerLine = nullptr;
+    QComboBox* m_comboBox = nullptr;
+    QLineEdit* m_lineEdit = nullptr;
 };
 
 #endif // MODIFYLINE_H
