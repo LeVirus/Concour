@@ -22,11 +22,11 @@ void Form::on_pushButton_clicked()
             const QString &gender = comboBox->currentText();
             if(gender == "Homme")
             {
-                m_memListMan->addLayout(new PlayerLine(memLine->text()));
+                m_memListMan->addLayout(new PlayerLine(memLine->text(), true));
             }
             if(gender == "Femme")
             {
-                m_memListWoman->addLayout(new PlayerLine(memLine->text()));
+                m_memListWoman->addLayout(new PlayerLine(memLine->text(), false));
             }
         }
         memLine->clear();

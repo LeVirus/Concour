@@ -4,8 +4,9 @@
 #include <QLabel>
 #include <memory>
 
-PlayerLine::PlayerLine(const QString &labelStr)
+PlayerLine::PlayerLine(const QString &labelStr, bool homme)
 {
+    m_gender = homme;
     m_label = new QLabel(labelStr);
     addWidget(m_label);
     setGeometry(QRect());
@@ -43,8 +44,9 @@ void PlayerLine::delThis()
 
 void PlayerLine::createModifyWindow()
 {
-//    ModifyLine m;
-//    m.show();
+    if(! m_modifLineWindow)m_modifLineWindow = std::make_unique<ModifyLine>();
+    m_modifLineWindow.get()->setParams(m_label->text(), m_gender);
+    m_modifLineWindow.get()->show();
 }
 
 PlayerLine::~PlayerLine()

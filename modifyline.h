@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+class QAbstractButton;
+
 namespace Ui {
 class ModifyLine;
 }
@@ -13,7 +15,11 @@ class ModifyLine : public QDialog
 
 public:
     explicit ModifyLine(QWidget *parent = 0);
+    void setParams(const QString &nom, bool homme);
     ~ModifyLine();
+
+private slots:
+    void on_buttonBox_clicked();
 
 private:
     Ui::ModifyLine *ui;
