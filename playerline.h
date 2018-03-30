@@ -27,7 +27,7 @@ public:
 
 signals:
 
-public slots:
+private slots:
     void delThis();
     void createModifyWindow();
 };

@@ -27,6 +27,3 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui \
     form.ui \
     modifyline.ui
-
-RESOURCES += \
-    playerline.qrc

@@ -2,9 +2,11 @@
 #define MODIFYLINE_H
 
 #include <QDialog>
-
+class PlayerLine;
 class QAbstractButton;
-
+enum{
+    HOMME, FEMME
+};
 namespace Ui {
 class ModifyLine;
 }
@@ -17,12 +19,15 @@ public:
     explicit ModifyLine(QWidget *parent = 0);
     void setParams(const QString &nom, bool homme);
     ~ModifyLine();
+signals:
 
 private slots:
-    void on_buttonBox_clicked();
+    void clickedOk();
+    void clickedCancel();
 
 private:
     Ui::ModifyLine *ui;
+    PlayerLine *m_memPlayerLine = nullptr;
 };
 
 #endif // MODIFYLINE_H
