@@ -34,6 +34,8 @@ private:
     PlayerLine *m_memPlayerLine = nullptr;
     QComboBox* m_comboBox = nullptr;
     QLineEdit* m_lineEdit = nullptr;
+private:
+    void changeArrayLine();
 };
 
 #endif // MODIFYLINE_H

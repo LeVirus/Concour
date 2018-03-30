@@ -1,6 +1,8 @@
 #include "form.h"
 #include "ui_form.h"
 
+Form *Form::m_FormInstance;
+
 Form::Form(QWidget *parent) :
     QWidget(parent),
     m_ui(new Ui::Form)
@@ -8,6 +10,7 @@ Form::Form(QWidget *parent) :
     m_ui->setupUi(this);
     setLayouts();
     setScrolls();
+    m_FormInstance = this;
 }
 
 void Form::on_pushButton_clicked()
@@ -47,7 +50,7 @@ void Form::clearPlayerLines()
     }
 }
 
-bool Form::checkExist(const QString &str, QVBoxLayout &memVbox)
+bool Form::checkExist(const QString &str, QVBoxLayout &memVbox) const
 {
     for(int i = 0; i < memVbox.count(); ++i)
     {
@@ -58,6 +61,11 @@ bool Form::checkExist(const QString &str, QVBoxLayout &memVbox)
         }
     }
     return false;
+}
+
+bool Form::checkGlobalExist(const QString &str) const
+{
+    return checkExist(str, *m_memListMan) || checkExist(str, *m_memListWoman);
 }
 
 void Form::setLayouts()

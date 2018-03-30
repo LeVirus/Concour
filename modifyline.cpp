@@ -1,8 +1,10 @@
 #include "modifyline.h"
 #include "ui_modifyline.h"
 #include "playerline.h"
+#include "form.h"
 #include <QComboBox>
 #include <QLineEdit>
+#include <QMessageBox>
 
 ModifyLine::ModifyLine(QWidget *parent) :
     QDialog(parent),
@@ -47,6 +49,7 @@ void ModifyLine::clickedOk()
 {
     if(m_comboBox && m_lineEdit && m_memPlayerLine)
     {
+        bool currentGender = m_memPlayerLine->getGender();
         if(m_comboBox->currentIndex() == HOMME)
         {
             m_memPlayerLine->setGender(true);
@@ -55,7 +58,25 @@ void ModifyLine::clickedOk()
         {
             m_memPlayerLine->setGender(false);
         }
-        m_memPlayerLine->setLabel(m_lineEdit->text());
+        if(currentGender != m_memPlayerLine->getGender())
+        {
+            /////////
+        }
+        Form* instance = Form::getInstance();
+        if(instance)
+        {
+            const QString &memStrLabel = m_lineEdit->text();
+            if(! instance->checkGlobalExist(memStrLabel))
+            {
+                m_memPlayerLine->setLabel(memStrLabel);
+            }
+            else
+            {
+                QMessageBox::warning(this, "Erreur", "Le nom entré est déja existant.");
+                return;
+            }
+        }
+
     }
     m_memPlayerLine = nullptr;
     hide();
@@ -65,6 +86,11 @@ void ModifyLine::clickedCancel()
 {
     m_memPlayerLine = nullptr;
     hide();
+}
+
+void ModifyLine::changeArrayLine()
+{
+
 }
 
 ModifyLine::~ModifyLine()

@@ -16,16 +16,20 @@ class Form : public QWidget
 {
     Q_OBJECT
 private:
+    static Form* m_FormInstance;
     Ui::Form *m_ui;
     QVBoxLayout* m_memListMan = nullptr;
     QVBoxLayout* m_memListWoman = nullptr;
 
 private:
-    bool checkExist(const QString &str, QVBoxLayout &memVbox);
+    bool checkExist(const QString &str, QVBoxLayout &memVbox)const;
     void setLayouts();
     void setScrolls();
 public:
     explicit Form(QWidget *parent = 0);
+    bool checkGlobalExist(const QString &str)const;
+
+    static inline Form *getInstance(){return m_FormInstance;}
     ~Form();
 
 private slots:
