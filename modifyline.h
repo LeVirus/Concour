@@ -37,6 +37,9 @@ private:
     QString m_PreviousLabelValue;
 private:
     void changeArrayLine();
+    bool modifyPlayerLineLabel();
+    void modifyPlayerLineGender();
+    virtual void keyPressEvent(QKeyEvent *e);
 };
 
 #endif // MODIFYLINE_H

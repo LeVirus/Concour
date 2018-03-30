@@ -5,6 +5,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QMessageBox>
+#include <QKeyEvent>
 
 ModifyLine::ModifyLine(QWidget *parent) :
     QDialog(parent),
@@ -50,36 +51,52 @@ void ModifyLine::clickedOk()
 {
     if(m_comboBox && m_lineEdit && m_memPlayerLine)
     {
-        bool currentGender = m_memPlayerLine->getGender();
-        if(m_comboBox->currentIndex() == HOMME)
+        modifyPlayerLineGender();
+
+        if(! modifyPlayerLineLabel())
         {
-            m_memPlayerLine->setGender(true);
-        }
-        else if(m_comboBox->currentIndex() == FEMME)
-        {
-            m_memPlayerLine->setGender(false);
-        }
-        if(currentGender != m_memPlayerLine->getGender())
-        {
-            /////////
-        }
-        Form* instance = Form::getInstance();
-        const QString &memStrLabel = m_lineEdit->text();
-        if(m_PreviousLabelValue != memStrLabel && instance)
-        {
-            if(! instance->checkGlobalExist(memStrLabel))
-            {
-                m_memPlayerLine->setLabel(memStrLabel);
-            }
-            else
-            {
-                QMessageBox::warning(this, "Erreur", "Le nom entré est déja existant.");
-                return;
-            }
+            return;
         }
     }
     m_memPlayerLine = nullptr;
     hide();
+}
+
+bool ModifyLine::modifyPlayerLineLabel()
+{
+    Form* instance = Form::getInstance();
+    const QString &memStrLabel = m_lineEdit->text();
+    if(m_PreviousLabelValue != memStrLabel && instance)
+    {
+        if(! instance->checkGlobalExist(memStrLabel))
+        {
+            m_memPlayerLine->setLabel(memStrLabel);
+            return true;
+        }
+        else
+        {
+            QMessageBox::warning(this, "Erreur", "Le nom entré est déja existant.");
+            return false;
+        }
+    }
+    return false;
+}
+
+void ModifyLine::modifyPlayerLineGender()
+{
+    bool currentGender = m_memPlayerLine->getGender();
+    if(m_comboBox->currentIndex() == HOMME)
+    {
+        m_memPlayerLine->setGender(true);
+    }
+    else if(m_comboBox->currentIndex() == FEMME)
+    {
+        m_memPlayerLine->setGender(false);
+    }
+    if(currentGender != m_memPlayerLine->getGender())
+    {
+        changeArrayLine();
+    }
 }
 
 void ModifyLine::clickedCancel()
@@ -90,7 +107,20 @@ void ModifyLine::clickedCancel()
 
 void ModifyLine::changeArrayLine()
 {
+    //Form::getInstance();
+}
 
+void ModifyLine::keyPressEvent(QKeyEvent *e)
+{
+    switch (e->key ()) {
+    case Qt::Key_Return:
+    case Qt::Key_Enter:
+    clickedOk();
+        break;
+
+    default:
+        QDialog::keyPressEvent (e);
+    }
 }
 
 ModifyLine::~ModifyLine()
