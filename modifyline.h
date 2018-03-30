@@ -34,6 +34,7 @@ private:
     PlayerLine *m_memPlayerLine = nullptr;
     QComboBox* m_comboBox = nullptr;
     QLineEdit* m_lineEdit = nullptr;
+    QString m_PreviousLabelValue;
 private:
     void changeArrayLine();
 };

@@ -40,6 +40,7 @@ void ModifyLine::setParams(const QString &nom, bool homme, PlayerLine *refPlayer
         {
             m_comboBox->setCurrentIndex(FEMME);
         }
+        m_PreviousLabelValue = nom;
         m_lineEdit->setText(nom);
         m_memPlayerLine = refPlayerLine;
     }
@@ -63,9 +64,9 @@ void ModifyLine::clickedOk()
             /////////
         }
         Form* instance = Form::getInstance();
-        if(instance)
+        const QString &memStrLabel = m_lineEdit->text();
+        if(m_PreviousLabelValue != memStrLabel && instance)
         {
-            const QString &memStrLabel = m_lineEdit->text();
             if(! instance->checkGlobalExist(memStrLabel))
             {
                 m_memPlayerLine->setLabel(memStrLabel);
@@ -76,7 +77,6 @@ void ModifyLine::clickedOk()
                 return;
             }
         }
-
     }
     m_memPlayerLine = nullptr;
     hide();

@@ -1,5 +1,6 @@
 #include "form.h"
 #include "ui_form.h"
+#include <QMessageBox>
 
 Form *Form::m_FormInstance;
 
@@ -20,7 +21,11 @@ void Form::on_pushButton_clicked()
     if(memLine && comboBox && m_memListMan && m_memListWoman)
     {
         const QString &text = memLine->text();
-        if(! checkExist(text, *m_memListMan) && ! checkExist(text, *m_memListWoman))
+        if(text == "")
+        {
+            QMessageBox::warning(this, "Erreur", "Le nom entré est vide.");
+        }
+        else if(! checkExist(text, *m_memListMan) && ! checkExist(text, *m_memListWoman))
         {
             const QString &gender = comboBox->currentText();
             if(gender == "Homme")
@@ -31,6 +36,10 @@ void Form::on_pushButton_clicked()
             {
                 m_memListWoman->addLayout(new PlayerLine(memLine->text(), false));
             }
+        }
+        else
+        {
+            QMessageBox::warning(this, "Erreur", "Le nom entré est déja existant.");
         }
         memLine->clear();
     }
