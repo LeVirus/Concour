@@ -45,20 +45,6 @@ void Form::on_pushButton_clicked()
     }
 }
 
-void Form::clearPlayerLines()
-{
-    for(int i = 0; i < m_memListWoman->count(); ++i)
-    {
-        QLayoutItem *dd = m_memListWoman->itemAt(i);
-        if(dd)delete dd;
-    }
-    for(int i = 0; i < m_memListMan->count(); ++i)
-    {
-        QLayoutItem *dd = m_memListMan->itemAt(i);
-        if(dd)delete dd;
-    }
-}
-
 bool Form::checkExist(const QString &str, QVBoxLayout &memVbox) const
 {
     for(int i = 0; i < memVbox.count(); ++i)
@@ -75,6 +61,25 @@ bool Form::checkExist(const QString &str, QVBoxLayout &memVbox) const
 bool Form::checkGlobalExist(const QString &str) const
 {
     return checkExist(str, *m_memListMan) || checkExist(str, *m_memListWoman);
+}
+
+void Form::changePlayerLineGenderArray(PlayerLine *playerLine)
+{
+    if(! playerLine)
+    {
+        return;
+    }
+    bool gender = playerLine->getGender();
+    if(gender)//new gender :: man
+    {
+        m_memListWoman->removeItem(playerLine);
+        m_memListMan->addLayout(playerLine);
+    }
+    else//new gender :: woman
+    {
+        m_memListMan->removeItem(playerLine);
+        m_memListWoman->addLayout(playerLine);
+    }
 }
 
 void Form::setLayouts()
@@ -98,6 +103,18 @@ void Form::setScrolls()
     widg->setLayout(m_memListWoman);
     widg->setMaximumWidth(300);
     /**SOLUTION SCROLL*/
+}
+
+void Form::clearPlayerLines()
+{
+    for(int i = 0; i < m_memListWoman->count(); ++i)
+    {
+        delete m_memListWoman->itemAt(i);
+    }
+    for(int i = 0; i < m_memListMan->count(); ++i)
+    {
+        delete m_memListMan->itemAt(i);
+    }
 }
 
 Form::~Form()

@@ -29,6 +29,7 @@ public:
     explicit Form(QWidget *parent = 0);
     bool checkGlobalExist(const QString &str)const;
 
+    void changePlayerLineGenderArray(PlayerLine *playerLine);
     static inline Form *getInstance(){return m_FormInstance;}
     ~Form();
 

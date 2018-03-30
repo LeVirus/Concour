@@ -71,7 +71,6 @@ bool ModifyLine::modifyPlayerLineLabel()
         if(! instance->checkGlobalExist(memStrLabel))
         {
             m_memPlayerLine->setLabel(memStrLabel);
-            return true;
         }
         else
         {
@@ -79,7 +78,7 @@ bool ModifyLine::modifyPlayerLineLabel()
             return false;
         }
     }
-    return false;
+    return true;
 }
 
 void ModifyLine::modifyPlayerLineGender()
@@ -107,7 +106,7 @@ void ModifyLine::clickedCancel()
 
 void ModifyLine::changeArrayLine()
 {
-    //Form::getInstance();
+    Form::getInstance()->changePlayerLineGenderArray(m_memPlayerLine);
 }
 
 void ModifyLine::keyPressEvent(QKeyEvent *e)
