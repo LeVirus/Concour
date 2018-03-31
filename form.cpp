@@ -1,6 +1,11 @@
 #include "form.h"
 #include "ui_form.h"
 #include <QMessageBox>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QFile>
+#include <QTextStream>
+#include <QFileDialog>
 
 Form *Form::m_FormInstance;
 
@@ -12,6 +17,12 @@ Form::Form(QWidget *parent) :
     setLayouts();
     setScrolls();
     m_FormInstance = this;
+
+    QPushButton* buttonSave = findChild<QPushButton*>("pushButton_2");
+    if(buttonSave)
+    {
+        QObject::connect(buttonSave, SIGNAL(clicked()), this, SLOT(slotSavePlayers()));
+    }
 }
 
 void Form::on_pushButton_clicked()
@@ -114,6 +125,47 @@ void Form::clearPlayerLines()
     for(int i = 0; i < m_memListMan->count(); ++i)
     {
         delete m_memListMan->itemAt(i);
+    }
+}
+
+void Form::slotSavePlayers()
+{
+//    QFileDialog fileDial;
+    QString fileName =
+        QFileDialog::getSaveFileName(this,
+                                     tr("Save File"),
+                                     ".",
+                                     tr("json(*.json);;All files (*.*)"));
+    QJsonArray men, women;
+
+    for(int i = 0; i < m_memListMan->count(); ++i)
+    {
+        PlayerLine* memLine = static_cast<PlayerLine*>(m_memListMan->itemAt(i));
+        if(memLine)
+        {
+            men.insert(0, memLine->getLabel()->text());
+        }
+    }
+    for(int i = 0; i < m_memListWoman->count(); ++i)
+    {
+        PlayerLine* memLine = static_cast<PlayerLine*>(m_memListWoman->itemAt(i));
+        if(memLine)
+        {
+            women.insert(0, memLine->getLabel()->text());
+        }
+    }
+    QJsonObject jsonObj;
+    jsonObj.insert("Hommes", men);
+    jsonObj.insert("Femmes", women);
+
+
+    QJsonDocument doc(jsonObj);
+    QString strJson(doc.toJson(QJsonDocument::Compact));
+    QFile file(fileName);
+    if (file.open(QIODevice::ReadWrite))
+    {
+        QTextStream stream(&file);
+        stream << strJson;
     }
 }
 

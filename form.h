@@ -3,6 +3,7 @@
 
 #include "playerline.h"
 
+#include <QJsonObject>
 #include <QWidget>
 #include <memory>
 
@@ -36,7 +37,7 @@ public:
 private slots:
     void on_pushButton_clicked();
     void clearPlayerLines();
-
+    void slotSavePlayers();
 };
 
 #endif // FORM_H
