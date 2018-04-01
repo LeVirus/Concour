@@ -116,26 +116,14 @@ void Form::setScrolls()
     /**SOLUTION SCROLL*/
 }
 
-void Form::clearPlayerLines()
+void Form::getJsonFromPlayers(QJsonObject &jsonObj) const
 {
-    for(int i = 0; i < m_memListWoman->count(); ++i)
+    if(! jsonObj.empty())
     {
-        delete m_memListWoman->itemAt(i);
+        QMessageBox::warning(m_FormInstance, "Erreur", "Erreur lors de la sauvegarde. L'objet json n'est pas vide.");
+        return;
     }
-    for(int i = 0; i < m_memListMan->count(); ++i)
-    {
-        delete m_memListMan->itemAt(i);
-    }
-}
 
-void Form::slotSavePlayers()
-{
-//    QFileDialog fileDial;
-    QString fileName =
-        QFileDialog::getSaveFileName(this,
-                                     tr("Save File"),
-                                     ".",
-                                     tr("json(*.json);;All files (*.*)"));
     QJsonArray men, women;
 
     for(int i = 0; i < m_memListMan->count(); ++i)
@@ -154,11 +142,32 @@ void Form::slotSavePlayers()
             women.insert(0, memLine->getLabel()->text());
         }
     }
-    QJsonObject jsonObj;
     jsonObj.insert("Hommes", men);
     jsonObj.insert("Femmes", women);
+}
 
+void Form::clearPlayerLines()
+{
+    for(int i = 0; i < m_memListWoman->count(); ++i)
+    {
+        delete m_memListWoman->itemAt(i);
+    }
+    for(int i = 0; i < m_memListMan->count(); ++i)
+    {
+        delete m_memListMan->itemAt(i);
+    }
+}
 
+void Form::slotSavePlayers()
+{
+    QFileDialog dialog;
+    dialog.setDefaultSuffix("json");//doesn't fucking work
+    QString fileName = dialog.getSaveFileName(this,
+                       tr("Save File"),
+                       ".",
+                       tr("json(*.json);;All files (*)"));
+    QJsonObject jsonObj;
+    getJsonFromPlayers(jsonObj);
     QJsonDocument doc(jsonObj);
     QString strJson(doc.toJson(QJsonDocument::Compact));
     QFile file(fileName);

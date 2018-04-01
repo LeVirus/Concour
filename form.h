@@ -26,6 +26,7 @@ private:
     bool checkExist(const QString &str, QVBoxLayout &memVbox)const;
     void setLayouts();
     void setScrolls();
+    void getJsonFromPlayers(QJsonObject &jsonObj)const;
 public:
     explicit Form(QWidget *parent = 0);
     bool checkGlobalExist(const QString &str)const;
