@@ -17,13 +17,16 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     form.cpp \
     playerline.cpp \
-    modifyline.cpp
+    modifyline.cpp \
+    windowsaveask.cpp
 
 HEADERS  += mainwindow.h \
     form.h \
     playerline.h \
-    modifyline.h
+    modifyline.h \
+    windowsaveask.h
 
 FORMS    += mainwindow.ui \
     form.ui \
-    modifyline.ui
+    modifyline.ui \
+    windowsaveask.ui

@@ -59,6 +59,7 @@ void ModifyLine::clickedOk()
         }
     }
     m_memPlayerLine = nullptr;
+    Form::getInstance()->setDataSaved(false);
     hide();
 }
 

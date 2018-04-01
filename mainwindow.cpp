@@ -15,5 +15,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
+    f.cleanUpPlayers();
+    f.setDataSaved(true);
     f.show();
 }

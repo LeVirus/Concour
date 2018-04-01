@@ -23,37 +23,38 @@ Form::Form(QWidget *parent) :
     {
         QObject::connect(buttonSave, SIGNAL(clicked()), this, SLOT(slotSavePlayers()));
     }
+    m_lineEdit = findChild<QLineEdit*>("lineEdit");
+    m_comboBox = findChild<QComboBox*>("comboBox");
 }
 
 void Form::on_pushButton_clicked()
 {
-    QLineEdit* memLine = findChild<QLineEdit*>("lineEdit");
-    QComboBox* comboBox = findChild<QComboBox*>("comboBox");
-    if(memLine && comboBox && m_memListMan && m_memListWoman)
+    if(m_lineEdit && m_comboBox && m_memListMan && m_memListWoman)
     {
-        const QString &text = memLine->text();
+        const QString &text = m_lineEdit->text();
         if(text == "")
         {
             QMessageBox::warning(this, "Erreur", "Le nom entré est vide.");
         }
         else if(! checkExist(text, *m_memListMan) && ! checkExist(text, *m_memListWoman))
         {
-            const QString &gender = comboBox->currentText();
+            const QString &gender = m_comboBox->currentText();
             if(gender == "Homme")
             {
-                m_memListMan->addLayout(new PlayerLine(memLine->text(), true));
+                m_memListMan->addLayout(new PlayerLine(m_lineEdit->text(), true));
             }
             if(gender == "Femme")
             {
-                m_memListWoman->addLayout(new PlayerLine(memLine->text(), false));
+                m_memListWoman->addLayout(new PlayerLine(m_lineEdit->text(), false));
             }
         }
         else
         {
             QMessageBox::warning(this, "Erreur", "Le nom entré est déja existant.");
         }
-        memLine->clear();
+        m_lineEdit->clear();
     }
+    m_saved = false;
 }
 
 bool Form::checkExist(const QString &str, QVBoxLayout &memVbox) const
@@ -74,12 +75,18 @@ bool Form::checkGlobalExist(const QString &str) const
     return checkExist(str, *m_memListMan) || checkExist(str, *m_memListWoman);
 }
 
+void Form::setDataSaved(bool saved)
+{
+    m_saved = saved;
+}
+
 void Form::changePlayerLineGenderArray(PlayerLine *playerLine)
 {
     if(! playerLine)
     {
         return;
     }
+    m_saved = false;
     bool gender = playerLine->getGender();
     if(gender)//new gender :: man
     {
@@ -90,6 +97,15 @@ void Form::changePlayerLineGenderArray(PlayerLine *playerLine)
     {
         m_memListMan->removeItem(playerLine);
         m_memListWoman->addLayout(playerLine);
+    }
+}
+
+void Form::cleanUpPlayers()
+{
+    clearPlayerLines();
+    if(m_lineEdit)
+    {
+        m_lineEdit->clear();
     }
 }
 
@@ -146,6 +162,20 @@ void Form::getJsonFromPlayers(QJsonObject &jsonObj) const
     jsonObj.insert("Femmes", women);
 }
 
+void Form::closeEvent(QCloseEvent *event)
+{
+    if(! m_saved)
+    {
+        m_windowSave.show();
+        m_windowSave.activateWindow();
+        event->ignore();
+    }
+    else
+    {
+        event->accept();
+    }
+}
+
 void Form::clearPlayerLines()
 {
     for(int i = 0; i < m_memListWoman->count(); ++i)
@@ -161,7 +191,7 @@ void Form::clearPlayerLines()
 void Form::slotSavePlayers()
 {
     QFileDialog dialog;
-    dialog.setDefaultSuffix("json");//doesn't fucking work
+    dialog.setDefaultSuffix("json");//doesn't work
     QString fileName = dialog.getSaveFileName(this,
                        tr("Save File"),
                        ".",
@@ -176,6 +206,7 @@ void Form::slotSavePlayers()
         QTextStream stream(&file);
         stream << strJson;
     }
+    m_saved = true;
 }
 
 Form::~Form()
