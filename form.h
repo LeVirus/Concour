@@ -35,7 +35,7 @@ private:
     void setScrolls();
     void getJsonFromPlayers(QJsonObject &jsonObj)const;
     virtual void closeEvent (QCloseEvent *event);
-    QString getPathSaveFile();
+    QString getPathFile(QWidget *ptrWidget);
 public:
     explicit Form(QWidget *parent = 0);
     bool checkGlobalExist(const QString &str)const;
@@ -51,7 +51,5 @@ private slots:
 public slots:
     void slotSavePlayers();
 };
-
-
 
 #endif // FORM_H

@@ -18,26 +18,39 @@
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>80</y>
+      <y>30</y>
       <width>231</width>
       <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>Nouveau concour</string>
+     <string>Nouveau concours</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>150</y>
+      <y>100</y>
       <width>231</width>
       <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>Charger concour existant</string>
+     <string>Charger concours existant</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_3">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>170</y>
+      <width>231</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Quitter</string>
     </property>
    </widget>
   </widget>
