@@ -189,23 +189,29 @@ void Form::clearPlayerLines()
 
 void Form::slotSavePlayers()
 {
-    QFileDialog dialog;
-    dialog.setDefaultSuffix("json");//doesn't work
-    QString fileName = dialog.getSaveFileName(this,
-                       tr("Save File"),
-                       ".",
-                       tr("json(*.json);;All files (*)"));
+    QString fileName = getPathSaveFile();
+
     QJsonObject jsonObj;
     getJsonFromPlayers(jsonObj);
     QJsonDocument doc(jsonObj);
     QString strJson(doc.toJson(QJsonDocument::Compact));
     QFile file(fileName);
-    if (file.open(QIODevice::ReadWrite))
+    if (file.open(QIODevice::ReadWrite | QIODevice::Truncate | QIODevice::Text))
     {
         QTextStream stream(&file);
         stream << strJson;
     }
     m_saved = true;
+}
+
+QString Form::getPathSaveFile()
+{
+    QFileDialog dialog;
+    dialog.setDefaultSuffix("json");//doesn't work
+    return dialog.getSaveFileName(this,
+                       tr("Save File"),
+                       ".",
+                       tr("json(*.json);;All files (*)"));
 }
 
 Form::~Form()

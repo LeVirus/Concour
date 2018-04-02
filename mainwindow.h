@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QString>
 #include "form.h"
 
 namespace Ui {
@@ -23,5 +24,6 @@ private:
     Ui::MainWindow *ui;
     Form f;
 };
+
 
 #endif // MAINWINDOW_H
