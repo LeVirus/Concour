@@ -199,18 +199,6 @@ void Form::clearPlayerLines()
             }
         }
     }while(true);
-//    do
-//    {
-//        QLayoutItem *item = m_memListMan->layout()->takeAt(0);
-//        if(item)
-//        {
-//            delete item;
-//        }
-//        else
-//        {
-//            break;
-//        }
-//    }while(true);
 }
 
 void Form::slotSavePlayers()
