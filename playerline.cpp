@@ -58,7 +58,6 @@ void PlayerLine::delThis()
 
 void PlayerLine::createModifyWindow()
 {
-
         m_modifLineWindow.setParams(m_label->text(), m_gender, this);
         m_modifLineWindow.exec();
 }

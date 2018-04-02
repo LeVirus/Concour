@@ -177,14 +177,40 @@ void Form::closeEvent(QCloseEvent *event)
 
 void Form::clearPlayerLines()
 {
-    for(int i = 0; i < m_memListWoman->count(); ++i)
+    bool first = false;
+    QVBoxLayout *ptrCurrent = m_memListWoman;//begin women
+    do
     {
-        delete m_memListWoman->itemAt(i);
-    }
-    for(int i = 0; i < m_memListMan->count(); ++i)
-    {
-        delete m_memListMan->itemAt(i);
-    }
+        QLayoutItem *item = ptrCurrent->layout()->takeAt(0);
+        if(item)
+        {
+            delete item;
+        }
+        else
+        {
+            if(!first)
+            {
+                first = true;
+                ptrCurrent = m_memListMan;//finish men
+            }
+            else
+            {
+                break;
+            }
+        }
+    }while(true);
+//    do
+//    {
+//        QLayoutItem *item = m_memListMan->layout()->takeAt(0);
+//        if(item)
+//        {
+//            delete item;
+//        }
+//        else
+//        {
+//            break;
+//        }
+//    }while(true);
 }
 
 void Form::slotSavePlayers()
