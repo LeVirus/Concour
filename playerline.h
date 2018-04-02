@@ -3,6 +3,7 @@
 
 #include <QHBoxLayout>
 #include <memory>
+#include "modifyline.h"
 
 class QLabel;
 class QPushButton;
@@ -14,7 +15,7 @@ class PlayerLine : public QHBoxLayout
 private:
     QLabel *m_label = nullptr;
     QPushButton *m_del = nullptr, *m_modif = nullptr;
-    std::unique_ptr<ModifyLine> m_modifLineWindow;
+    ModifyLine m_modifLineWindow;
     bool m_gender;
 private:
     void setButtons();

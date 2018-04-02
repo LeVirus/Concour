@@ -10,7 +10,7 @@
 Form *Form::m_FormInstance;
 
 Form::Form(QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     m_ui(new Ui::Form)
 {
     m_ui->setupUi(this);

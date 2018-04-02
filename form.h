@@ -5,7 +5,7 @@
 #include "windowsaveask.h"
 #include <QCloseEvent>
 #include <QJsonObject>
-#include <QWidget>
+#include <QDialog>
 #include <memory>
 
 class QVBoxLayout;
@@ -16,7 +16,7 @@ namespace Ui {
 class Form;
 }
 
-class Form : public QWidget
+class Form : public QDialog
 {
     Q_OBJECT
 private:

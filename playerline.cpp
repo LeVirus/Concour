@@ -1,5 +1,4 @@
 #include "playerline.h"
-#include "modifyline.h"
 #include <QPushButton>
 #include <QLabel>
 #include <memory>
@@ -12,7 +11,6 @@ PlayerLine::PlayerLine(const QString &labelStr, bool homme)
     setGeometry(QRect());
     setButtons();
     linkButtons();
-    m_modifLineWindow = std::make_unique<ModifyLine>();
 }
 
 void PlayerLine::setLabel(const QString &label)
@@ -60,11 +58,9 @@ void PlayerLine::delThis()
 
 void PlayerLine::createModifyWindow()
 {
-    if(m_modifLineWindow)
-    {
-        m_modifLineWindow.get()->setParams(m_label->text(), m_gender, this);
-        m_modifLineWindow.get()->show();
-    }
+
+        m_modifLineWindow.setParams(m_label->text(), m_gender, this);
+        m_modifLineWindow.exec();
 }
 
 PlayerLine::~PlayerLine()
