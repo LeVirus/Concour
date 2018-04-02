@@ -166,8 +166,7 @@ void Form::closeEvent(QCloseEvent *event)
 {
     if(! m_saved)
     {
-        m_windowSave.show();
-        m_windowSave.activateWindow();
+        m_windowSave.exec();
         event->ignore();
     }
     else
