@@ -43,6 +43,7 @@ public:
     void changePlayerLineGenderArray(PlayerLine *playerLine);
     static inline Form *getInstance(){return m_FormInstance;}
     void cleanUpPlayers();
+    void insertPlayer(bool man, const QString &name);
     ~Form();
 
 private slots:

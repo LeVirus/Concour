@@ -109,6 +109,26 @@ void Form::cleanUpPlayers()
     }
 }
 
+void Form::insertPlayer(bool man, const QString &name)
+{
+    if(checkGlobalExist(name))
+    {
+        return;
+    }
+    if(man && m_memListMan)
+    {
+        m_memListMan->addLayout(new PlayerLine(name, true));
+    }
+    else
+    {
+        if(m_memListWoman)
+        {
+            m_memListWoman->addLayout(new PlayerLine(name, false));
+        }
+    }
+
+}
+
 void Form::setLayouts()
 {
     QScrollArea *sds = findChild<QScrollArea*>("scrollArea");
@@ -225,9 +245,7 @@ QString Form::getPathFile(QWidget* ptrWidget)
     {
         return "";
     }
-    QFileDialog dialog;
-    dialog.setDefaultSuffix("json");//doesn't work
-    return dialog.getSaveFileName(ptrWidget,
+    return QFileDialog::getSaveFileName(ptrWidget,
                        tr("Save File"),
                        ".",
                        tr("json(*.json);;All files (*)"));
