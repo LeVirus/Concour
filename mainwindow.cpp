@@ -58,6 +58,10 @@ QString MainWindow::getPathFile(QWidget* ptrWidget)
 bool MainWindow::extractAndGetJsonDoc(QJsonDocument &doc)
 {
     QString fileName = getPathFile(this), jsonContent;
+    if (fileName.size() == 0)
+    {
+        return false;
+    }
     QFile file(fileName);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
