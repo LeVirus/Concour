@@ -15,6 +15,7 @@ class MainWindow : public QMainWindow
 private:
     void linkButtons();
     QString getPathFile(QWidget *ptrWidget);
+    bool extractAndGetJsonDoc(QJsonDocument &doc);
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();

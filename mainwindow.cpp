@@ -52,18 +52,13 @@ QString MainWindow::getPathFile(QWidget* ptrWidget)
     return dialog.getOpenFileName(ptrWidget,
                        tr("Load File"),
                        ".",
-                       tr("json(*.json);;All files (*)"));
+                                  tr("json(*.json);;All files (*)"));
 }
 
-void MainWindow::loadDatasFromFile()
+bool MainWindow::extractAndGetJsonDoc(QJsonDocument &doc)
 {
     QString fileName = getPathFile(this), jsonContent;
     QFile file(fileName);
-    Form *form = Form::getInstance();
-    if(!form)
-    {
-        return;
-    }
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QTextStream stream(&file);
@@ -73,13 +68,28 @@ void MainWindow::loadDatasFromFile()
     }
     else
     {
-        return;
+        return false;
     }
 
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonContent.toUtf8());
-    if(jsonDoc.isNull() || jsonDoc.isEmpty())
+    doc = QJsonDocument::fromJson(jsonContent.toUtf8());
+    if(doc.isNull() || doc.isEmpty())
     {
         QMessageBox::warning(this, "Erreur", "Le fichier est vide.");
+        return false;
+    }
+    return true;
+}
+
+void MainWindow::loadDatasFromFile()
+{
+    Form *form = Form::getInstance();
+    if(!form)
+    {
+        return;
+    }
+    QJsonDocument jsonDoc;
+    if(! extractAndGetJsonDoc(jsonDoc))
+    {
         return;
     }
     QJsonObject obj = jsonDoc.object();
