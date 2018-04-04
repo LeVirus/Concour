@@ -2,6 +2,7 @@
 #define FORM_H
 
 #include "playerline.h"
+#include "contestgenerate.h"
 #include "windowsaveask.h"
 #include <QCloseEvent>
 #include <QJsonObject>
@@ -28,6 +29,7 @@ private:
     QComboBox* m_comboBox = nullptr;
     bool m_saved = true;
     WindowSaveAsk m_windowSave;
+    ContestGenerate m_contestGenWindow;
 
 private:
     bool checkExist(const QString &str, QVBoxLayout &memVbox)const;
@@ -36,6 +38,7 @@ private:
     void getJsonFromPlayers(QJsonObject &jsonObj)const;
     virtual void closeEvent (QCloseEvent *event);
     QString getPathFile(QWidget *ptrWidget);
+    bool checkPlayersNumber();
 public:
     explicit Form(QWidget *parent = 0);
     bool checkGlobalExist(const QString &str)const;
@@ -49,6 +52,7 @@ public:
 private slots:
     void on_pushButton_clicked();
     void clearPlayerLines();
+    void openGenerateContestMenu();
 public slots:
     void slotSavePlayers();
 };

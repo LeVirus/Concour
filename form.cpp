@@ -19,9 +19,15 @@ Form::Form(QWidget *parent) :
     m_FormInstance = this;
 
     QPushButton* buttonSave = findChild<QPushButton*>("pushButton_2");
+    QPushButton* buttonGenerate = findChild<QPushButton*>("pushButton_3");
+
     if(buttonSave)
     {
         QObject::connect(buttonSave, SIGNAL(clicked()), this, SLOT(slotSavePlayers()));
+    }
+    if(buttonGenerate)
+    {
+        QObject::connect(buttonGenerate, SIGNAL(clicked()), this, SLOT(openGenerateContestMenu()));
     }
     m_lineEdit = findChild<QLineEdit*>("lineEdit");
     m_comboBox = findChild<QComboBox*>("comboBox");
@@ -221,6 +227,16 @@ void Form::clearPlayerLines()
     }while(true);
 }
 
+void Form::openGenerateContestMenu()
+{
+    if(! checkPlayersNumber())
+    {
+        QMessageBox::warning(this, "Erreur", "Le Nombre de joueur est insuffisant. Minimum 5.");
+        return;
+    }
+    m_contestGenWindow.exec();
+}
+
 void Form::slotSavePlayers()
 {
     QString fileName = getPathFile(this);
@@ -248,7 +264,12 @@ QString Form::getPathFile(QWidget* ptrWidget)
     return QFileDialog::getSaveFileName(ptrWidget,
                        tr("Save File"),
                        ".",
-                       tr("json(*.json);;All files (*)"));
+                                        tr("json(*.json);;All files (*)"));
+}
+
+bool Form::checkPlayersNumber()
+{
+    return (m_memListMan->count() + m_memListWoman->count() >= 5);
 }
 
 Form::~Form()

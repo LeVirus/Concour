@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-QMAKE_CXXFLAGS += -std=c++14
+QMAKE_CXXFLAGS += -std=c++17
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,15 +18,18 @@ SOURCES += main.cpp\
     form.cpp \
     playerline.cpp \
     modifyline.cpp \
-    windowsaveask.cpp
+    windowsaveask.cpp \
+    contestgenerate.cpp
 
 HEADERS  += mainwindow.h \
     form.h \
     playerline.h \
     modifyline.h \
-    windowsaveask.h
+    windowsaveask.h \
+    contestgenerate.h
 
 FORMS    += mainwindow.ui \
     form.ui \
     modifyline.ui \
-    windowsaveask.ui
+    windowsaveask.ui \
+    contestgenerate.ui
