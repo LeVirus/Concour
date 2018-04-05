@@ -15,6 +15,11 @@ ContestGenerate::ContestGenerate(QWidget *parent) :
     {
         QMessageBox::warning(this, "Erreur", "Problème de liens.");
     }
+    else
+    {
+        QObject::connect(m_ThreePlayersTeam, SIGNAL(valueChanged(int)), this, SLOT(updateTeamThreesome(int)));
+        QObject::connect(m_TwoPlayersTeam, SIGNAL(valueChanged(int)), this, SLOT(updateTeamDoublet(int)));
+    }
 }
 
 bool ContestGenerate::linkWidgets()
@@ -37,7 +42,7 @@ bool ContestGenerate::updateCurrentContest(const QVBoxLayout* manLayout, const Q
         return false;
     }
 
-    if(! setNumberContestTeam(m_manLayout->count() + m_womanLayout->count()))
+    if(! setNumberContestTeam())
     {
         return false;
     }
@@ -45,8 +50,9 @@ bool ContestGenerate::updateCurrentContest(const QVBoxLayout* manLayout, const Q
     return true;
 }
 
-bool ContestGenerate::setNumberContestTeam(unsigned int totalPlayers)
+bool ContestGenerate::setNumberContestTeam()
 {
+    unsigned int totalPlayers = m_manLayout->count() + m_womanLayout->count();
     if(totalPlayers < 5)
     {
         QMessageBox::warning(this, "Erreur", "Le Nombre de joueur est insuffisant. Minimum 5.");
@@ -100,6 +106,17 @@ void ContestGenerate::updateUI()
     }
     m_ThreePlayersTeam->setValue(m_threePlayersTeam);
     m_TwoPlayersTeam->setValue(m_twoPlayersTeam);
+}
+
+void ContestGenerate::updateTeamThreesome(int value)
+{
+    int valThree = m_ThreePlayersTeam->value();
+    int valTwo = m_TwoPlayersTeam->value();
+}
+
+void ContestGenerate::updateTeamDoublet(int value)
+{
+
 }
 
 ContestGenerate::~ContestGenerate()
