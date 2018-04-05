@@ -38,15 +38,16 @@ private:
     void getJsonFromPlayers(QJsonObject &jsonObj)const;
     virtual void closeEvent (QCloseEvent *event);
     QString getPathFile(QWidget *ptrWidget);
-    bool checkPlayersNumber();
 public:
     explicit Form(QWidget *parent = 0);
     bool checkGlobalExist(const QString &str)const;
     void setDataSaved(bool saved);
     void changePlayerLineGenderArray(PlayerLine *playerLine);
-    static inline Form *getInstance(){return m_FormInstance;}
     void cleanUpPlayers();
     void insertPlayer(bool man, const QString &name);
+    static inline Form *getInstance(){return m_FormInstance;}
+    inline const QVBoxLayout* getManLayout()const{return m_memListMan;}
+    inline const QVBoxLayout* getWomanLayout()const{return m_memListWoman;}
     ~Form();
 
 private slots:

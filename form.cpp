@@ -229,11 +229,7 @@ void Form::clearPlayerLines()
 
 void Form::openGenerateContestMenu()
 {
-    if(! checkPlayersNumber())
-    {
-        QMessageBox::warning(this, "Erreur", "Le Nombre de joueur est insuffisant. Minimum 5.");
-        return;
-    }
+    m_contestGenWindow.updateCurrentContest(m_memListMan, m_memListWoman);
     m_contestGenWindow.exec();
 }
 
@@ -265,11 +261,6 @@ QString Form::getPathFile(QWidget* ptrWidget)
                        tr("Save File"),
                        ".",
                                         tr("json(*.json);;All files (*)"));
-}
-
-bool Form::checkPlayersNumber()
-{
-    return (m_memListMan->count() + m_memListWoman->count() >= 5);
 }
 
 Form::~Form()

@@ -1,4 +1,5 @@
 #include "playerline.h"
+#include "form.h"
 #include <QPushButton>
 #include <QLabel>
 #include <memory>
@@ -53,6 +54,11 @@ bool PlayerLine::getGender() const
 
 void PlayerLine::delThis()
 {
+    Form* form = Form::getInstance();
+    if(form)
+    {
+        form->setDataSaved(false);
+    }
     delete this;
 }
 
