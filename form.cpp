@@ -135,6 +135,11 @@ void Form::insertPlayer(bool man, const QString &name)
 
 }
 
+void Form::setTeamBuildOption(unsigned int option)
+{
+    m_contestGenWindow.setTeamBuildOption(option);
+}
+
 void Form::setLayouts()
 {
     QScrollArea *sds = findChild<QScrollArea*>("scrollArea");
@@ -229,8 +234,11 @@ void Form::clearPlayerLines()
 
 void Form::openGenerateContestMenu()
 {
-    m_contestGenWindow.updateCurrentContest(m_memListMan, m_memListWoman);
-    m_contestGenWindow.exec();
+    if(m_contestGenWindow.updateCurrentContest(m_memListMan, m_memListWoman))
+    {
+        m_windowConstruct.exec();
+        m_contestGenWindow.exec();
+    }
 }
 
 void Form::slotSavePlayers()

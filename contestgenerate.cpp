@@ -15,21 +15,15 @@ ContestGenerate::ContestGenerate(QWidget *parent) :
     {
         QMessageBox::warning(this, "Erreur", "Problème de liens.");
     }
-    else
-    {
-        QObject::connect(m_ThreePlayersTeam, SIGNAL(valueChanged(int)), this, SLOT(updateTeamThreesome(int)));
-        QObject::connect(m_TwoPlayersTeam, SIGNAL(valueChanged(int)), this, SLOT(updateTeamDoublet(int)));
-    }
 }
 
 bool ContestGenerate::linkWidgets()
 {
-    m_ThreePlayersTeam = findChild<QSpinBox*>("spinBox");
-    m_TwoPlayersTeam = findChild<QSpinBox*>("spinBox_2");
-
     m_MenTotal = findChild<QLabel*>("label");
     m_WomenTotal = findChild<QLabel*>("label_2");
-    return m_ThreePlayersTeam && m_TwoPlayersTeam && m_MenTotal && m_WomenTotal;
+    m_DoubletNumber = findChild<QLabel*>("label_4");
+    m_ThreesomeNumber = findChild<QLabel*>("label_3");
+    return m_DoubletNumber && m_ThreesomeNumber && m_MenTotal && m_WomenTotal;
 }
 
 bool ContestGenerate::updateCurrentContest(const QVBoxLayout* manLayout, const QVBoxLayout* womanLayout)
@@ -95,6 +89,18 @@ bool ContestGenerate::setNumberContestTeam()
 
 }
 
+void ContestGenerate::setTeamBuildOption(unsigned int option)
+{
+    if(option > MANUAL)//if bad option
+    {
+        m_teamBuildOption = MELEE;
+    }
+    else
+    {
+        m_teamBuildOption = option;
+    }
+}
+
 void ContestGenerate::updateUI()
 {
     if(m_manLayout && m_womanLayout)
@@ -104,19 +110,13 @@ void ContestGenerate::updateUI()
         m_MenTotal->setText(QString(man.c_str()));
         m_WomenTotal->setText(QString(woman.c_str()));
     }
-    m_ThreePlayersTeam->setValue(m_threePlayersTeam);
-    m_TwoPlayersTeam->setValue(m_twoPlayersTeam);
-}
-
-void ContestGenerate::updateTeamThreesome(int value)
-{
-    int valThree = m_ThreePlayersTeam->value();
-    int valTwo = m_TwoPlayersTeam->value();
-}
-
-void ContestGenerate::updateTeamDoublet(int value)
-{
-
+    if(m_DoubletNumber && m_ThreesomeNumber)
+    {
+        std::string doublet = "Doublettes : " + std::to_string(m_twoPlayersTeam);
+        std::string threeSome = "Triplettes : " + std::to_string(m_threePlayersTeam);
+        m_DoubletNumber->setText(QString(doublet.c_str()));
+        m_ThreesomeNumber->setText(QString(threeSome.c_str()));
+    }
 }
 
 ContestGenerate::~ContestGenerate()

@@ -1,68 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ContestGenerate</class>
- <widget class="QDialog" name="ContestGenerate">
+ <class>WindowTeamConstruct</class>
+ <widget class="QDialog" name="WindowTeamConstruct">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>624</width>
-    <height>328</height>
+    <width>400</width>
+    <height>123</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>70</y>
+     <width>83</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Mélée</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>70</y>
+     <width>121</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Mélée des mélée</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>70</y>
+     <width>83</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Manuel</string>
+   </property>
+  </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>40</y>
-     <width>171</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Effectif hommes</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>50</y>
-     <width>211</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Effectif femmes</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>130</y>
-     <width>161</width>
+     <x>70</x>
+     <y>20</y>
+     <width>261</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>Triplettes</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>130</y>
-     <width>151</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Doublettes</string>
+    <string>Méthode de construction des équipes.</string>
    </property>
   </widget>
  </widget>

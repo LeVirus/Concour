@@ -8,7 +8,6 @@ WindowSaveAsk::WindowSaveAsk(QWidget *parent) :
 {
     ui->setupUi(this);
     linkButtons();
-
 }
 
 void WindowSaveAsk::linkButtons()

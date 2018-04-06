@@ -4,6 +4,7 @@
 #include "playerline.h"
 #include "contestgenerate.h"
 #include "windowsaveask.h"
+#include "windowteamconstruct.h"
 #include <QCloseEvent>
 #include <QJsonObject>
 #include <QDialog>
@@ -16,6 +17,8 @@ class QComboBox;
 namespace Ui {
 class Form;
 }
+
+
 
 class Form : public QDialog
 {
@@ -30,7 +33,7 @@ private:
     bool m_saved = true;
     WindowSaveAsk m_windowSave;
     ContestGenerate m_contestGenWindow;
-
+    WindowTeamConstruct m_windowConstruct;
 private:
     bool checkExist(const QString &str, QVBoxLayout &memVbox)const;
     void setLayouts();
@@ -48,6 +51,7 @@ public:
     static inline Form *getInstance(){return m_FormInstance;}
     inline const QVBoxLayout* getManLayout()const{return m_memListMan;}
     inline const QVBoxLayout* getWomanLayout()const{return m_memListWoman;}
+    void setTeamBuildOption(unsigned int option);
     ~Form();
 
 private slots:
