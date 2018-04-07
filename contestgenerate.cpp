@@ -1,10 +1,14 @@
 #include "contestgenerate.h"
 #include "ui_contestgenerate.h"
+#include "form.h"
 #include <QMessageBox>
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QSpinBox>
 #include <QLabel>
+#include <cstdlib>
+#include <ctime>
+
 
 ContestGenerate::ContestGenerate(QWidget *parent) :
     QDialog(parent),
@@ -35,6 +39,7 @@ bool ContestGenerate::updateCurrentContest(const QVBoxLayout* manLayout, const Q
         QMessageBox::warning(this, "Erreur", "Données corrompues.");
         return false;
     }
+    storePlayersNames();
 
     if(! setNumberContestTeam())
     {
@@ -53,27 +58,27 @@ bool ContestGenerate::setNumberContestTeam()
         return false;
     }
     unsigned int threePlayersTeamNumberModulo = totalPlayers % 3;
-    m_threePlayersTeam = totalPlayers / 3;
-    m_twoPlayersTeam = threePlayersTeamNumberModulo / 2;
+    m_threePlayersTeamNumber = totalPlayers / 3;
+    m_twoPlayersTeamNumber = threePlayersTeamNumberModulo / 2;
     //set a pair number of team
     do
     {
 //        qDebug() << "\nTotal:: " << totalPlayers
 //                 << "\nTT3 players team:: " << threePlayersTeamNumber << "\n2 players team:: " << twoPlayersTeamNumber
 //                 << "\n3 players team mod:: "<< threePlayersTeamNumberModulo << "\n\n";
-        if(threePlayersTeamNumberModulo % 2 || (m_threePlayersTeam + m_twoPlayersTeam) % 2)
+        if(threePlayersTeamNumberModulo % 2 || (m_threePlayersTeamNumber + m_twoPlayersTeamNumber) % 2)
         {
-            if(m_threePlayersTeam == 0)
+            if(m_threePlayersTeamNumber == 0)
             {
-                m_threePlayersTeam = totalPlayers / 3;
+                m_threePlayersTeamNumber = totalPlayers / 3;
                 threePlayersTeamNumberModulo = totalPlayers % 3;
-                m_twoPlayersTeam = threePlayersTeamNumberModulo / 2;
+                m_twoPlayersTeamNumber = threePlayersTeamNumberModulo / 2;
                 QMessageBox::warning(this, "Attention", "Résolution impossible.");
                 break;
             }
-            --m_threePlayersTeam;
+            --m_threePlayersTeamNumber;
             threePlayersTeamNumberModulo += 3;
-            m_twoPlayersTeam = threePlayersTeamNumberModulo / 2;
+            m_twoPlayersTeamNumber = threePlayersTeamNumberModulo / 2;
         }
         else
         {
@@ -82,7 +87,7 @@ bool ContestGenerate::setNumberContestTeam()
     }while(true);
 
     qDebug() << "\nOKKKKKK\nTotal:: " << totalPlayers
-             << "\nTT3 players team:: " << m_threePlayersTeam << "\n2 players team:: " << m_twoPlayersTeam
+             << "\nTT3 players team:: " << m_threePlayersTeamNumber << "\n2 players team:: " << m_twoPlayersTeamNumber
              << "\n3 players team mod:: "<< threePlayersTeamNumberModulo << "\n\n";
 
     return true;
@@ -101,6 +106,86 @@ void ContestGenerate::setTeamBuildOption(unsigned int option)
     }
 }
 
+void ContestGenerate::storePlayersNames()
+{
+    m_stockPlayersMen.clear();
+    m_stockPlayersWomen.clear();
+    for(int i = 0; i < m_manLayout->count(); ++i)
+    {
+        PlayerLine* memLine = static_cast<PlayerLine*>(m_manLayout->itemAt(i));
+        if(memLine)
+        {
+            m_stockPlayersMen.push_back(memLine->getLabel()->text().toStdString());//get name
+        }
+    }
+    for(int i = 0; i < m_womanLayout->count(); ++i)
+    {
+        PlayerLine* memLine = static_cast<PlayerLine*>(m_womanLayout->itemAt(i));
+        if(memLine)
+        {
+            m_stockPlayersWomen.push_back(memLine->getLabel()->text().toStdString());
+        }
+    }
+}
+
+void ContestGenerate::generateTeam()
+{
+    if(m_stockPlayersMen.empty() || m_stockPlayersWomen.empty())
+    {
+        return;
+    }
+    m_threePlayersTeam.clear();
+    m_twoPlayersTeam.clear();
+    m_threePlayersTeam.resize(m_threePlayersTeamNumber);
+    m_twoPlayersTeam.resize(m_twoPlayersTeamNumber);
+
+    std::srand(std::time(nullptr));// use current time as seed for random generator
+    generateThreePlayersTeam();
+    generateTwoPlayersTeam();
+
+
+}
+
+void ContestGenerate::generateThreePlayersTeam()
+{
+    for(unsigned int i = 0; i < m_threePlayersTeamNumber; ++i)
+    {
+        for(unsigned int j = 0; j < 3; ++j)
+        {
+            if(j == 0 && !m_stockPlayersWomen.empty())
+            {
+                unsigned int rand = std::rand()/((RAND_MAX + 1u) / m_stockPlayersWomen.size());  // Note: 1+rand()%6 is wrong!
+                m_threePlayersTeam[i].push_back(m_stockPlayersWomen[rand]);
+                m_stockPlayersWomen.erase(m_stockPlayersWomen.begin() + rand);
+                ++j;
+            }
+            unsigned int rand = std::rand()/((RAND_MAX + 1u) / m_stockPlayersMen.size());  // Note: 1+rand()%6 is wrong!
+            m_threePlayersTeam[i].push_back(m_stockPlayersMen[rand]);
+            m_stockPlayersMen.erase(m_stockPlayersMen.begin() + rand);
+        }
+    }
+}
+
+void ContestGenerate::generateTwoPlayersTeam()
+{
+    for(unsigned int i = 0; i < m_twoPlayersTeamNumber; ++i)
+    {
+        for(unsigned int j = 0; j < 2; ++j)
+        {
+            if(j == 0 && !m_stockPlayersWomen.empty())
+            {
+                unsigned int rand = std::rand()/((RAND_MAX + 1u) / m_stockPlayersWomen.size());  // Note: 1+rand()%6 is wrong!
+                m_twoPlayersTeam[i].push_back(m_stockPlayersWomen[rand]);
+                m_stockPlayersWomen.erase(m_stockPlayersWomen.begin() + rand);
+                ++j;
+            }
+            unsigned int rand = std::rand()/((RAND_MAX + 1u) / m_stockPlayersMen.size());  // Note: 1+rand()%6 is wrong!
+            m_twoPlayersTeam[i].push_back(m_stockPlayersMen[rand]);
+            m_stockPlayersMen.erase(m_stockPlayersMen.begin() + rand);
+        }
+    }
+}
+
 void ContestGenerate::updateUI()
 {
     if(m_manLayout && m_womanLayout)
@@ -112,8 +197,8 @@ void ContestGenerate::updateUI()
     }
     if(m_DoubletNumber && m_ThreesomeNumber)
     {
-        std::string doublet = "Doublettes : " + std::to_string(m_twoPlayersTeam);
-        std::string threeSome = "Triplettes : " + std::to_string(m_threePlayersTeam);
+        std::string doublet = "Doublettes : " + std::to_string(m_twoPlayersTeamNumber);
+        std::string threeSome = "Triplettes : " + std::to_string(m_threePlayersTeamNumber);
         m_DoubletNumber->setText(QString(doublet.c_str()));
         m_ThreesomeNumber->setText(QString(threeSome.c_str()));
     }

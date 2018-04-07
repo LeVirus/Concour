@@ -66,6 +66,7 @@ void WindowTeamConstruct::launchGenerationWindow()
     close();
 }
 
+
 void WindowTeamConstruct::cancel()
 {
     close();
