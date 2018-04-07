@@ -8,6 +8,7 @@
 namespace Ui {
 class WindowTeamConstruct;
 }
+class QRadioButton;
 
 class WindowTeamConstruct : public QDialog
 {
@@ -19,10 +20,15 @@ public:
 
 private:
     Ui::WindowTeamConstruct *ui;
+    QRadioButton *m_radMelee = nullptr,
+    *m_radMeleeMelee = nullptr,
+    *m_radManual = nullptr;
 private:
     void linkButtons();
+    void linkRadio();
 private slots:
-    void launchGenerationWindow(unsigned int option);
+    void launchGenerationWindow();
+    void cancel();
 
 };
 
