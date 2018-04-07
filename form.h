@@ -34,6 +34,7 @@ private:
     WindowSaveAsk m_windowSave;
     ContestGenerate m_contestGenWindow;
     WindowTeamConstruct m_windowConstruct;
+    bool m_okGenerate = false;
 private:
     bool checkExist(const QString &str, QVBoxLayout &memVbox)const;
     void setLayouts();
@@ -52,6 +53,7 @@ public:
     inline const QVBoxLayout* getManLayout()const{return m_memListMan;}
     inline const QVBoxLayout* getWomanLayout()const{return m_memListWoman;}
     void setTeamBuildOption(unsigned int option);
+    void setGenerationOK(bool ok);
     ~Form();
 
 private slots:

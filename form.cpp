@@ -140,6 +140,11 @@ void Form::setTeamBuildOption(unsigned int option)
     m_contestGenWindow.setTeamBuildOption(option);
 }
 
+void Form::setGenerationOK(bool ok)
+{
+    m_okGenerate = ok;
+}
+
 void Form::setLayouts()
 {
     QScrollArea *sds = findChild<QScrollArea*>("scrollArea");
@@ -237,7 +242,11 @@ void Form::openGenerateContestMenu()
     if(m_contestGenWindow.updateCurrentContest(m_memListMan, m_memListWoman))
     {
         m_windowConstruct.exec();
-        m_contestGenWindow.exec();
+        if(m_okGenerate)
+        {
+            m_contestGenWindow.exec();
+        }
+        m_okGenerate = false;
     }
 }
 

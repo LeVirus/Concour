@@ -60,6 +60,7 @@ void WindowTeamConstruct::launchGenerationWindow()
                 option = MELEE_MELEE;
             }
             form->setTeamBuildOption(option);
+            form->setGenerationOK(true);
         }
     }
     close();
