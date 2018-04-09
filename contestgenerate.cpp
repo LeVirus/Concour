@@ -149,6 +149,7 @@ void ContestGenerate::generateTeam()
     std::srand(std::time(nullptr));// use current time as seed for random generator
     generateThreePlayersTeam();
     generateTwoPlayersTeam();
+    generateGames();
 }
 
 void ContestGenerate::generateThreePlayersTeam()
@@ -201,10 +202,21 @@ void ContestGenerate::displayTeams() const
 {
     for(unsigned int i = 0; i < m_threePlayersTeamNumber;++i)
     {
-        qDebug() << "\nTeam:: " << i << "\n";
+        qDebug() << "\nTeam 3:: " << i ;
+        for(unsigned int j = 0; j < 3;++j)
+        {
+            qDebug() <<  QString(m_threePlayersTeam[i].getPlayerName(j).c_str());
+        }
+
     }
     for(unsigned int i = 0; i < m_twoPlayersTeamNumber;++i)
     {
+        qDebug() << "\nTeam 2:: " << i ;
+        for(unsigned int j = 0; j < 2;++j)
+        {
+            qDebug() <<  QString(m_twoPlayersTeam[i].getPlayerName(j).c_str());
+
+        }
     }
      //<< "\nTT3 players team:: " << threePlayersTeamNumber << "\n2 players team:: " << twoPlayersTeamNumber
 }
@@ -224,6 +236,16 @@ void ContestGenerate::updateUI()
         std::string threeSome = "Triplettes : " + std::to_string(m_threePlayersTeamNumber);
         m_DoubletNumber->setText(QString(doublet.c_str()));
         m_ThreesomeNumber->setText(QString(threeSome.c_str()));
+    }
+}
+
+void ContestGenerate::generateGames()
+{
+    displayTeams();
+
+    for(unsigned int i = 0; i < m_gamesNumber;++i)
+    {
+        setTeamsOpponents(i);
     }
 }
 
