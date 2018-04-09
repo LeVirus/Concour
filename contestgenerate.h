@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <vector>
+#include "team.h"
 
 class QVBoxLayout;
 class QLabel;
@@ -11,7 +12,8 @@ namespace Ui {
 class ContestGenerate;
 }
 
-using vectVectString = std::vector<std::vector<std::string>>;
+//using vectVectString = std::vector<std::vector<std::string>>;
+using vectTeam = std::vector<Team>;
 
 enum
 {
@@ -23,7 +25,7 @@ class ContestGenerate : public QDialog
     Q_OBJECT
 
 private:
-    vectVectString m_threePlayersTeam, m_twoPlayersTeam;
+    vectTeam m_threePlayersTeam, m_twoPlayersTeam;
     QLabel *m_MenTotal, *m_WomenTotal, *m_DoubletNumber, *m_ThreesomeNumber;
     unsigned int m_threePlayersTeamNumber, m_twoPlayersTeamNumber;
     const QVBoxLayout* m_manLayout, *m_womanLayout;
@@ -36,6 +38,8 @@ private:
     bool setNumberContestTeamForDefinedThreesome();
     bool linkWidgets();
     void updateUI();
+    void setTeamsOpponents(unsigned int gameNumber);
+    void createTeams(unsigned int threesomeNumber, unsigned int doubletNumber);
 
 public:
     explicit ContestGenerate(QWidget *parent = 0);
@@ -44,6 +48,7 @@ public:
     void generateTeam();
     void generateThreePlayersTeam();
     void generateTwoPlayersTeam();
+    void displayTeams()const;
     bool updateCurrentContest(const QVBoxLayout *manLayout, const QVBoxLayout *womanLayout);
     ~ContestGenerate();
 };
