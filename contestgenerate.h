@@ -29,7 +29,7 @@ private:
     const QVBoxLayout* m_manLayout, *m_womanLayout;
     unsigned int m_numberMan = 0, m_numberWoman = 0;
     Ui::ContestGenerate *ui;
-    unsigned int m_teamBuildOption = MELEE;
+    unsigned int m_teamBuildOption = MELEE, m_gamesNumber = 0;
     std::vector<std::string> m_stockPlayersMen, m_stockPlayersWomen;
 private:
     bool setNumberContestTeam();
@@ -39,7 +39,7 @@ private:
 
 public:
     explicit ContestGenerate(QWidget *parent = 0);
-    void setTeamBuildOption(unsigned int option);
+    void setTeamBuildOption(unsigned int option, unsigned int gamesNumber);
     void storePlayersNames();
     void generateTeam();
     void generateThreePlayersTeam();

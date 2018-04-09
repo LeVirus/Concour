@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>123</height>
+    <width>482</width>
+    <height>383</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>80</y>
+     <x>110</x>
+     <y>320</y>
      <width>83</width>
      <height>25</height>
     </rect>
@@ -29,8 +29,8 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>10</y>
+     <x>140</x>
+     <y>20</y>
      <width>261</width>
      <height>31</height>
     </rect>
@@ -42,8 +42,8 @@
   <widget class="QRadioButton" name="radioButton">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>40</y>
+     <x>70</x>
+     <y>50</y>
      <width>100</width>
      <height>22</height>
     </rect>
@@ -58,8 +58,8 @@
   <widget class="QRadioButton" name="radioButton_2">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>40</y>
+     <x>330</x>
+     <y>50</y>
      <width>100</width>
      <height>22</height>
     </rect>
@@ -71,8 +71,8 @@
   <widget class="QRadioButton" name="radioButton_3">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>40</y>
+     <x>180</x>
+     <y>50</y>
      <width>131</width>
      <height>22</height>
     </rect>
@@ -84,14 +84,46 @@
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>80</y>
+     <x>280</x>
+     <y>320</y>
      <width>83</width>
      <height>25</height>
     </rect>
    </property>
    <property name="text">
     <string>Annuler</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="spinBox">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>120</y>
+     <width>45</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+   <property name="maximum">
+    <number>9</number>
+   </property>
+   <property name="value">
+    <number>4</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>120</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Nombre de parties?</string>
    </property>
   </widget>
  </widget>

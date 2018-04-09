@@ -135,9 +135,9 @@ void Form::insertPlayer(bool man, const QString &name)
 
 }
 
-void Form::setTeamBuildOption(unsigned int option)
+void Form::setTeamBuildOption(unsigned int teamOption, unsigned int gamesNumber)
 {
-    m_contestGenWindow.setTeamBuildOption(option);
+    m_contestGenWindow.setTeamBuildOption(teamOption, gamesNumber);
 }
 
 void Form::setGenerationOK(bool ok)
@@ -244,6 +244,7 @@ void Form::openGenerateContestMenu()
         m_windowConstruct.exec();
         if(m_okGenerate)
         {
+            m_contestGenWindow.generateTeam();
             m_contestGenWindow.exec();
         }
         m_okGenerate = false;

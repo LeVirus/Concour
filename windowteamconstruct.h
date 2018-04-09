@@ -9,6 +9,7 @@ namespace Ui {
 class WindowTeamConstruct;
 }
 class QRadioButton;
+class QSpinBox;
 
 class WindowTeamConstruct : public QDialog
 {
@@ -23,6 +24,7 @@ private:
     QRadioButton *m_radMelee = nullptr,
     *m_radMeleeMelee = nullptr,
     *m_radManual = nullptr;
+    QSpinBox * m_spinNumberGames = nullptr;
 private:
     void linkButtons();
     void linkRadio();

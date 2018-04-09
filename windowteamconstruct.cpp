@@ -2,6 +2,7 @@
 #include "ui_windowteamconstruct.h"
 #include "form.h"
 #include <QRadioButton>
+#include <QSpinBox>
 
 WindowTeamConstruct::WindowTeamConstruct(QWidget *parent) :
     QDialog(parent),
@@ -37,6 +38,8 @@ void WindowTeamConstruct::linkRadio()
     m_radMelee = findChild<QRadioButton*>("radioButton");
     m_radManual = findChild<QRadioButton*>("radioButton_2");
     m_radMeleeMelee = findChild<QRadioButton*>("radioButton_3");
+
+    m_spinNumberGames = findChild<QSpinBox*>("spinBox");
 }
 
 void WindowTeamConstruct::launchGenerationWindow()
@@ -44,14 +47,14 @@ void WindowTeamConstruct::launchGenerationWindow()
     Form *form = Form::getInstance();
     if(form)
     {
-        if(m_radMelee && m_radManual && m_radMeleeMelee)
+        if(m_radMelee && m_radManual && m_radMeleeMelee && m_spinNumberGames)
         {
             unsigned int option;
             if(m_radManual->isChecked())
             {
                 option = MANUAL;
             }
-            else if(m_radMelee)
+            else if(m_radMelee->isChecked())
             {
                 option = MELEE;
             }
@@ -59,7 +62,7 @@ void WindowTeamConstruct::launchGenerationWindow()
             {
                 option = MELEE_MELEE;
             }
-            form->setTeamBuildOption(option);
+            form->setTeamBuildOption(option, m_spinNumberGames->value());
             form->setGenerationOK(true);
         }
     }

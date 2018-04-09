@@ -94,7 +94,7 @@ bool ContestGenerate::setNumberContestTeam()
 
 }
 
-void ContestGenerate::setTeamBuildOption(unsigned int option)
+void ContestGenerate::setTeamBuildOption(unsigned int option, unsigned int gamesNumber)
 {
     if(option > MANUAL)//if bad option
     {
@@ -103,6 +103,14 @@ void ContestGenerate::setTeamBuildOption(unsigned int option)
     else
     {
         m_teamBuildOption = option;
+    }
+    if(gamesNumber != 0 && gamesNumber < 10)
+    {
+        m_gamesNumber = gamesNumber;
+    }
+    else
+    {
+       m_gamesNumber = 4;
     }
 }
 
@@ -142,8 +150,6 @@ void ContestGenerate::generateTeam()
     std::srand(std::time(nullptr));// use current time as seed for random generator
     generateThreePlayersTeam();
     generateTwoPlayersTeam();
-
-
 }
 
 void ContestGenerate::generateThreePlayersTeam()
@@ -157,11 +163,14 @@ void ContestGenerate::generateThreePlayersTeam()
                 unsigned int rand = std::rand()/((RAND_MAX + 1u) / m_stockPlayersWomen.size());  // Note: 1+rand()%6 is wrong!
                 m_threePlayersTeam[i].push_back(m_stockPlayersWomen[rand]);
                 m_stockPlayersWomen.erase(m_stockPlayersWomen.begin() + rand);
-                ++j;
+                continue;
             }
-            unsigned int rand = std::rand()/((RAND_MAX + 1u) / m_stockPlayersMen.size());  // Note: 1+rand()%6 is wrong!
-            m_threePlayersTeam[i].push_back(m_stockPlayersMen[rand]);
-            m_stockPlayersMen.erase(m_stockPlayersMen.begin() + rand);
+            if(!m_stockPlayersMen.empty())
+            {
+                unsigned int rand = std::rand()/((RAND_MAX + 1u) / m_stockPlayersMen.size());  // Note: 1+rand()%6 is wrong!
+                m_threePlayersTeam[i].push_back(m_stockPlayersMen[rand]);
+                m_stockPlayersMen.erase(m_stockPlayersMen.begin() + rand);
+            }
         }
     }
 }
@@ -177,11 +186,14 @@ void ContestGenerate::generateTwoPlayersTeam()
                 unsigned int rand = std::rand()/((RAND_MAX + 1u) / m_stockPlayersWomen.size());  // Note: 1+rand()%6 is wrong!
                 m_twoPlayersTeam[i].push_back(m_stockPlayersWomen[rand]);
                 m_stockPlayersWomen.erase(m_stockPlayersWomen.begin() + rand);
-                ++j;
+                continue;
             }
-            unsigned int rand = std::rand()/((RAND_MAX + 1u) / m_stockPlayersMen.size());  // Note: 1+rand()%6 is wrong!
-            m_twoPlayersTeam[i].push_back(m_stockPlayersMen[rand]);
-            m_stockPlayersMen.erase(m_stockPlayersMen.begin() + rand);
+            if(!m_stockPlayersMen.empty())
+            {
+                unsigned int rand = std::rand()/((RAND_MAX + 1u) / m_stockPlayersMen.size());  // Note: 1+rand()%6 is wrong!
+                m_twoPlayersTeam[i].push_back(m_stockPlayersMen[rand]);
+                m_stockPlayersMen.erase(m_stockPlayersMen.begin() + rand);
+            }
         }
     }
 }

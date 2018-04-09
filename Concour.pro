@@ -20,8 +20,7 @@ SOURCES += main.cpp\
     modifyline.cpp \
     windowsaveask.cpp \
     contestgenerate.cpp \
-    windowteamconstruct.cpp \
-    team.cpp
+    windowteamconstruct.cpp
 
 HEADERS  += mainwindow.h \
     form.h \
@@ -29,8 +28,7 @@ HEADERS  += mainwindow.h \
     modifyline.h \
     windowsaveask.h \
     contestgenerate.h \
-    windowteamconstruct.h \
-    team.h
+    windowteamconstruct.h
 
 FORMS    += mainwindow.ui \
     form.ui \
