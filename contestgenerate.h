@@ -38,6 +38,7 @@ private:
     bool setNumberContestTeamForDefinedThreesome();
     bool linkWidgets();
     void updateUI();
+    void generateGames();
     void setTeamsOpponents(unsigned int gameNumber);
     void createTeams(unsigned int threesomeNumber, unsigned int doubletNumber);
 
