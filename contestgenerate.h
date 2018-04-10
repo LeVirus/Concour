@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <vector>
 #include "team.h"
+#include "gamesopponnentscontainer.h"
 
 class QVBoxLayout;
 class QLabel;
@@ -25,6 +26,7 @@ class ContestGenerate : public QDialog
     Q_OBJECT
 
 private:
+    GamesOpponentsContainer m_gamesOpContainer;
     vectTeam m_threePlayersTeam, m_twoPlayersTeam;
     QLabel *m_MenTotal, *m_WomenTotal, *m_DoubletNumber, *m_ThreesomeNumber;
     unsigned int m_threePlayersTeamNumber, m_twoPlayersTeamNumber;

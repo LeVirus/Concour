@@ -45,7 +45,6 @@ bool ContestGenerate::updateCurrentContest(const QVBoxLayout* manLayout, const Q
     {
         return false;
     }
-    updateUI();
     return true;
 }
 
@@ -150,6 +149,7 @@ void ContestGenerate::generateTeam()
     generateThreePlayersTeam();
     generateTwoPlayersTeam();
     generateGames();
+    updateUI();
 }
 
 void ContestGenerate::generateThreePlayersTeam()
@@ -202,7 +202,8 @@ void ContestGenerate::displayTeams() const
 {
     for(unsigned int i = 0; i < m_threePlayersTeamNumber;++i)
     {
-        qDebug() << "\nTeam 3:: " << i ;
+        qDebug() << "\nTeam 3 Players:: number";
+        qDebug() <<  m_threePlayersTeam[i].getTeamNumber();
         for(unsigned int j = 0; j < 3;++j)
         {
             qDebug() <<  QString(m_threePlayersTeam[i].getPlayerName(j).c_str());
@@ -211,11 +212,11 @@ void ContestGenerate::displayTeams() const
     }
     for(unsigned int i = 0; i < m_twoPlayersTeamNumber;++i)
     {
-        qDebug() << "\nTeam 2:: " << i ;
+        qDebug() << "\nTeam 2 Players:: number";
+        qDebug() <<  m_twoPlayersTeam[i].getTeamNumber();
         for(unsigned int j = 0; j < 2;++j)
         {
             qDebug() <<  QString(m_twoPlayersTeam[i].getPlayerName(j).c_str());
-
         }
     }
      //<< "\nTT3 players team:: " << threePlayersTeamNumber << "\n2 players team:: " << twoPlayersTeamNumber
@@ -241,17 +242,43 @@ void ContestGenerate::updateUI()
 
 void ContestGenerate::generateGames()
 {
-    displayTeams();
-
+    //displayTeams();
     for(unsigned int i = 0; i < m_gamesNumber;++i)
     {
         setTeamsOpponents(i);
+        m_gamesOpContainer.display();
     }
 }
 
 void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
 {
+    if(m_threePlayersTeam.size() + m_twoPlayersTeam.size() % 2 == 1)//if error
+    {
+        return;
+    }
+    unsigned int iterationNumber = (m_threePlayersTeam.size() + m_twoPlayersTeam.size()) / 2;
 
+    for(unsigned int i = 0; i < iterationNumber;++i)
+    {
+        unsigned int currentOpponent = i + gameNumber;
+        if(currentOpponent < m_twoPlayersTeam.size())
+        {
+            if(currentOpponent < m_threePlayersTeam.size())
+            {
+                m_gamesOpContainer.addGames(m_twoPlayersTeam[i], m_threePlayersTeam[currentOpponent]);
+            }
+            else//if m_threePlayersTeam empty
+            {
+                m_gamesOpContainer.addGames(m_twoPlayersTeam[i], m_twoPlayersTeam[currentOpponent]);//increment
+                ++i;
+            }
+        }
+        else//if m_twoPlayersTeam empty
+        {
+            m_gamesOpContainer.addGames(m_threePlayersTeam[i], m_threePlayersTeam[currentOpponent]);
+            ++i;
+        }
+    }
 }
 
 void ContestGenerate::createTeams(unsigned int threesomeNumber, unsigned int doubletNumber)
