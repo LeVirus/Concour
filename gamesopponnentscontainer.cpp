@@ -47,8 +47,6 @@ void GamesOpponentsContainer::display() const
             {
                 playersNumber = 2;
             }
-            qDebug() << "\nTeam 3 Players:: number";
-
             qDebug() << "Team num :: " << team->getTeamNumber();
 
             for(unsigned int h = 0; h < playersNumber; ++h)

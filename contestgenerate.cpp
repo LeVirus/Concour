@@ -260,22 +260,22 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
 
     for(unsigned int i = 0; i < iterationNumber;++i)
     {
-        unsigned int currentOpponent = i + gameNumber;
+        unsigned int currentOpponent = (i + gameNumber) % iterationNumber;
         if(currentOpponent < m_twoPlayersTeam.size())
         {
             if(currentOpponent < m_threePlayersTeam.size())
             {
                 m_gamesOpContainer.addGames(m_twoPlayersTeam[i], m_threePlayersTeam[currentOpponent]);
             }
-            else//if m_threePlayersTeam empty
+            else//if m_threePlayersTeam finished
             {
-                m_gamesOpContainer.addGames(m_twoPlayersTeam[i], m_twoPlayersTeam[currentOpponent]);//increment
+                m_gamesOpContainer.addGames(m_twoPlayersTeam[i], m_twoPlayersTeam[currentOpponent + 1]);//increment
                 ++i;
             }
         }
-        else//if m_twoPlayersTeam empty
+        else//if m_twoPlayersTeam finished
         {
-            m_gamesOpContainer.addGames(m_threePlayersTeam[i], m_threePlayersTeam[currentOpponent]);
+            m_gamesOpContainer.addGames(m_threePlayersTeam[i], m_threePlayersTeam[currentOpponent + 1]);
             ++i;
         }
     }
