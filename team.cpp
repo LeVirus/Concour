@@ -16,6 +16,11 @@ Team::Team(bool threesome):m_threesome(threesome)
     }
 }
 
+size_t Team::getPlayerNumber() const
+{
+    return m_vectPlayers.size();
+}
+
 void Team::modifyPlayerName(const std::string &name, unsigned int index)
 {
     if(index < m_vectPlayers.size())

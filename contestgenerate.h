@@ -9,12 +9,15 @@
 class QVBoxLayout;
 class QLabel;
 class QSpinBox;
+class QTabWidget;
+
 namespace Ui {
 class ContestGenerate;
 }
 
 //using vectVectString = std::vector<std::vector<std::string>>;
 using vectTeam = std::vector<Team>;
+
 
 enum
 {
@@ -28,7 +31,8 @@ class ContestGenerate : public QDialog
 private:
     GamesOpponentsContainer m_gamesOpContainer;
     vectTeam m_threePlayersTeam, m_twoPlayersTeam;
-    QLabel *m_MenTotal, *m_WomenTotal, *m_DoubletNumber, *m_ThreesomeNumber;
+    QLabel *m_MenTotal = nullptr, *m_WomenTotal = nullptr, *m_DoubletNumber = nullptr, *m_ThreesomeNumber = nullptr;
+    QTabWidget *m_gamesTab = nullptr;
     unsigned int m_threePlayersTeamNumber, m_twoPlayersTeamNumber;
     const QVBoxLayout* m_manLayout, *m_womanLayout;
     unsigned int m_numberMan = 0, m_numberWoman = 0;

@@ -18,7 +18,7 @@ void GamesOpponentsContainer::addGames(const Team &a, const Team &b)
     m_gamesOpponents.push_back({a, b});
 }
 
-const t_vectPairUIBool &GamesOpponentsContainer::getGames() const
+const t_vectPairTeam &GamesOpponentsContainer::getGames() const
 {
     return m_gamesOpponents;
 }

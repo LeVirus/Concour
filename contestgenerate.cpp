@@ -6,8 +6,11 @@
 #include <QDebug>
 #include <QSpinBox>
 #include <QLabel>
+#include <QWidget>
+#include <QTabWidget>
 #include <cstdlib>
 #include <ctime>
+#include <versusteams.h>
 
 
 ContestGenerate::ContestGenerate(QWidget *parent) :
@@ -27,7 +30,8 @@ bool ContestGenerate::linkWidgets()
     m_WomenTotal = findChild<QLabel*>("label_2");
     m_DoubletNumber = findChild<QLabel*>("label_4");
     m_ThreesomeNumber = findChild<QLabel*>("label_3");
-    return m_DoubletNumber && m_ThreesomeNumber && m_MenTotal && m_WomenTotal;
+    m_gamesTab = findChild<QTabWidget*>("tabWidget");
+    return m_DoubletNumber && m_ThreesomeNumber && m_MenTotal && m_WomenTotal && m_gamesTab;
 }
 
 bool ContestGenerate::updateCurrentContest(const QVBoxLayout* manLayout, const QVBoxLayout* womanLayout)
@@ -243,10 +247,21 @@ void ContestGenerate::updateUI()
 void ContestGenerate::generateGames()
 {
     //displayTeams();
+    if(m_gamesTab)
+    {
+        m_gamesTab->clear();
+    }
     for(unsigned int i = 0; i < m_gamesNumber;++i)
     {
         setTeamsOpponents(i);
+        VersusTeams *versusTeams = new VersusTeams(m_gamesOpContainer);
+        QWidget *widg = new QWidget();
+        widg->setLayout(versusTeams);
+        m_gamesTab->addTab(widg, "Team");
         m_gamesOpContainer.display();
+        m_gamesOpContainer.clear();
+//        delete versusTeams;
+//        delete versusTeams;
     }
 }
 
@@ -257,7 +272,7 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
         return;
     }
     unsigned int iterationNumber = (m_threePlayersTeam.size() + m_twoPlayersTeam.size()) / 2;
-
+    m_gamesOpContainer.clear();
     for(unsigned int i = 0; i < iterationNumber;++i)
     {
         unsigned int currentOpponent = (i + gameNumber) % iterationNumber;
