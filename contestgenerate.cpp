@@ -278,7 +278,7 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
     for(unsigned int i = 0; i < iterationNumber;++i)
     {
         unsigned int currentOpponent = (i + gameNumber) % iterationNumber;
-        if(currentOpponent < m_twoPlayersTeam.size())
+        if(i < m_twoPlayersTeam.size())
         {
             if(currentOpponent < m_threePlayersTeam.size())
             {
