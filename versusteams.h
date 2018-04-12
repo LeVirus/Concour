@@ -13,7 +13,7 @@ private:
 
     void setVersusUI(const GamesOpponentsContainer &gamesOpp);
 public:
-    VersusTeams(const GamesOpponentsContainer &gamesOpp);
+    VersusTeams(const GamesOpponentsContainer &gamesOpp, QWidget *parent = nullptr);
     ~VersusTeams();
 };
 

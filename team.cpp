@@ -31,7 +31,7 @@ void Team::modifyPlayerName(const std::string &name, unsigned int index)
 
 std::string Team::getPlayerName(unsigned int index)const
 {
-    if(index < m_vectPlayers.size())
+    if(!m_vectPlayers.empty() && index < m_vectPlayers.size())
     {
         return m_vectPlayers[index];
     }

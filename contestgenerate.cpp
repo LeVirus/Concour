@@ -8,6 +8,7 @@
 #include <QLabel>
 #include <QWidget>
 #include <QTabWidget>
+#include <QScrollArea>
 #include <cstdlib>
 #include <ctime>
 #include <versusteams.h>
@@ -254,14 +255,15 @@ void ContestGenerate::generateGames()
     for(unsigned int i = 0; i < m_gamesNumber;++i)
     {
         setTeamsOpponents(i);
-        VersusTeams *versusTeams = new VersusTeams(m_gamesOpContainer);
-        QWidget *widg = new QWidget();
-        widg->setLayout(versusTeams);
-        m_gamesTab->addTab(widg, "Team");
+        QWidget * scrollAreaWidgetContents = new QWidget;
+        scrollAreaWidgetContents->setLayout(new VersusTeams(m_gamesOpContainer));
+        QScrollArea *scroll = new QScrollArea();
+        scroll->setWidgetResizable(true);
+        scroll->setWidget(scrollAreaWidgetContents);
+        scroll->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+        m_gamesTab->addTab(scroll, "Team");
         m_gamesOpContainer.display();
         m_gamesOpContainer.clear();
-//        delete versusTeams;
-//        delete versusTeams;
     }
 }
 

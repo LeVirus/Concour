@@ -5,7 +5,7 @@
 #include <QLabel>
 
 
-VersusTeams::VersusTeams(const GamesOpponentsContainer &gamesOpp)
+VersusTeams::VersusTeams(const GamesOpponentsContainer &gamesOpp, QWidget *parent):QHBoxLayout(parent)
 {
     m_firstTeams = new QVBoxLayout();
     addLayout(m_firstTeams);
