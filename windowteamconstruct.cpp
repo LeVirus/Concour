@@ -36,7 +36,6 @@ void WindowTeamConstruct::linkButtons()
 void WindowTeamConstruct::linkRadio()
 {
     m_radMelee = findChild<QRadioButton*>("radioButton");
-    m_radManual = findChild<QRadioButton*>("radioButton_2");
     m_radMeleeMelee = findChild<QRadioButton*>("radioButton_3");
 
     m_spinNumberGames = findChild<QSpinBox*>("spinBox");
@@ -47,14 +46,10 @@ void WindowTeamConstruct::launchGenerationWindow()
     Form *form = Form::getInstance();
     if(form)
     {
-        if(m_radMelee && m_radManual && m_radMeleeMelee && m_spinNumberGames)
+        if(m_radMelee  && m_radMeleeMelee && m_spinNumberGames)
         {
             unsigned int option;
-            if(m_radManual->isChecked())
-            {
-                option = MANUAL;
-            }
-            else if(m_radMelee->isChecked())
+            if(m_radMelee->isChecked())
             {
                 option = MELEE;
             }

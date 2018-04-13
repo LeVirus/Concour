@@ -11,6 +11,7 @@
 #include <QScrollArea>
 #include <cstdlib>
 #include <ctime>
+#include <cassert>
 #include <versusteams.h>
 
 
@@ -142,7 +143,7 @@ void ContestGenerate::storePlayersNames()
 
 void ContestGenerate::generateTeam()
 {
-    if(m_stockPlayersMen.empty() || m_stockPlayersWomen.empty())
+    if(m_stockPlayersMen.empty() && m_stockPlayersWomen.empty())
     {
         return;
     }
@@ -153,6 +154,8 @@ void ContestGenerate::generateTeam()
     std::srand(std::time(nullptr));// use current time as seed for random generator
     generateThreePlayersTeam();
     generateTwoPlayersTeam();
+//    displayTeams();
+displayNames();
     generateGames();
     updateUI();
 }
@@ -163,7 +166,7 @@ void ContestGenerate::generateThreePlayersTeam()
     {
         for(unsigned int j = 0; j < 3; ++j)
         {
-            if(j == 0 && !m_stockPlayersWomen.empty())
+            if( (j == 0 && !m_stockPlayersWomen.empty()) || m_stockPlayersMen.empty())
             {
                 unsigned int rand = std::rand()/((RAND_MAX + 1u) / m_stockPlayersWomen.size());  // Note: 1+rand()%6 is wrong!
                 m_threePlayersTeam[i].modifyPlayerName(m_stockPlayersWomen[rand], j);
@@ -186,7 +189,7 @@ void ContestGenerate::generateTwoPlayersTeam()
     {
         for(unsigned int j = 0; j < 2; ++j)
         {
-            if(j == 0 && !m_stockPlayersWomen.empty())
+            if( (j == 0 && !m_stockPlayersWomen.empty()) || m_stockPlayersMen.empty())
             {
                 unsigned int rand = std::rand()/((RAND_MAX + 1u) / m_stockPlayersWomen.size());  // Note: 1+rand()%6 is wrong!
                 m_twoPlayersTeam[i].modifyPlayerName(m_stockPlayersWomen[rand], j);
@@ -224,7 +227,23 @@ void ContestGenerate::displayTeams() const
             qDebug() <<  QString(m_twoPlayersTeam[i].getPlayerName(j).c_str());
         }
     }
-     //<< "\nTT3 players team:: " << threePlayersTeamNumber << "\n2 players team:: " << twoPlayersTeamNumber
+    //<< "\nTT3 players team:: " << threePlayersTeamNumber << "\n2 players team:: " << twoPlayersTeamNumber
+}
+
+void ContestGenerate::displayNames() const
+{
+    qDebug("man");
+
+    for(unsigned int i = 0; i < m_stockPlayersWomen.size();++i)
+    {
+        qDebug(m_stockPlayersWomen[i].c_str());
+    }
+    qDebug("woman");
+
+    for(unsigned int i = 0; i < m_stockPlayersMen.size();++i)
+    {
+        qDebug(m_stockPlayersMen[i].c_str());
+    }
 }
 
 void ContestGenerate::updateUI()
@@ -262,7 +281,7 @@ void ContestGenerate::generateGames()
         scroll->setWidget(scrollAreaWidgetContents);
         scroll->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
         m_gamesTab->addTab(scroll, "Team");
-        m_gamesOpContainer.display();
+//        m_gamesOpContainer.display();
         m_gamesOpContainer.clear();
     }
 }
@@ -287,13 +306,13 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
             else//if m_threePlayersTeam finished
             {
                 m_gamesOpContainer.addGames(m_twoPlayersTeam[i], m_twoPlayersTeam[currentOpponent + 1]);//increment
-                ++i;
+//                ++i;
             }
         }
         else//if m_twoPlayersTeam finished
         {
             m_gamesOpContainer.addGames(m_threePlayersTeam[i], m_threePlayersTeam[currentOpponent + 1]);
-            ++i;
+//            ++i;
         }
     }
 }

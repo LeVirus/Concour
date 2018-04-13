@@ -56,6 +56,7 @@ public:
     void generateThreePlayersTeam();
     void generateTwoPlayersTeam();
     void displayTeams()const;
+    void displayNames()const;
     bool updateCurrentContest(const QVBoxLayout *manLayout, const QVBoxLayout *womanLayout);
     ~ContestGenerate();
 };

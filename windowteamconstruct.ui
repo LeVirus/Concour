@@ -49,36 +49,23 @@
     </rect>
    </property>
    <property name="text">
-    <string>Mélée</string>
+    <string>&amp;Mélée</string>
    </property>
    <property name="checked">
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_2">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>50</y>
-     <width>100</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Manuel</string>
-   </property>
-  </widget>
   <widget class="QRadioButton" name="radioButton_3">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>270</x>
      <y>50</y>
      <width>131</width>
      <height>22</height>
     </rect>
    </property>
    <property name="text">
-    <string>Mélée des mélée</string>
+    <string>M&amp;élée des mélée</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_2">

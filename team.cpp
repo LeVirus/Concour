@@ -1,4 +1,6 @@
 #include "team.h"
+#include <QDebug>
+#include <cassert>
 
 unsigned int Team::m_cmpt = 0;
 
