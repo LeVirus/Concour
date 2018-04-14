@@ -21,7 +21,7 @@ using vectTeam = std::vector<Team>;
 
 enum
 {
-    MELEE, MELEE_MELEE, MANUAL
+    MELEE, MELEE_MELEE
 };
 
 class ContestGenerate : public QDialog
@@ -43,8 +43,6 @@ private:
     bool setNumberContestTeam();
     bool setNumberContestTeamForDefinedThreesome();
     bool linkWidgets();
-    void updateUI();
-    void generateGames();
     void setTeamsOpponents(unsigned int gameNumber);
     void createTeams(unsigned int threesomeNumber, unsigned int doubletNumber);
 
@@ -56,6 +54,8 @@ public:
     void generateThreePlayersTeam();
     void generateTwoPlayersTeam();
     void displayTeams()const;
+    void updateUI();
+    void generateGames();
     void displayNames()const;
     bool updateCurrentContest(const QVBoxLayout *manLayout, const QVBoxLayout *womanLayout);
     ~ContestGenerate();

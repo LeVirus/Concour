@@ -245,6 +245,8 @@ void Form::openGenerateContestMenu()
         if(m_okGenerate)
         {
             m_contestGenWindow.generateTeam();
+            m_contestGenWindow.generateGames();
+            m_contestGenWindow.updateUI();
             m_contestGenWindow.exec();
         }
         m_okGenerate = false;

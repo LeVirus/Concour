@@ -101,7 +101,7 @@ bool ContestGenerate::setNumberContestTeam()
 
 void ContestGenerate::setTeamBuildOption(unsigned int option, unsigned int gamesNumber)
 {
-    if(option > MANUAL)//if bad option
+    if(option > MELEE_MELEE)//if bad option
     {
         m_teamBuildOption = MELEE;
     }
@@ -155,9 +155,7 @@ void ContestGenerate::generateTeam()
     generateThreePlayersTeam();
     generateTwoPlayersTeam();
 //    displayTeams();
-displayNames();
-    generateGames();
-    updateUI();
+//    displayNames();
 }
 
 void ContestGenerate::generateThreePlayersTeam()
