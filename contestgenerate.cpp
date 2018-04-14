@@ -12,6 +12,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <cassert>
+//#include <chrono>
+//#include <thread>
 #include <versusteams.h>
 
 
@@ -149,56 +151,58 @@ void ContestGenerate::generateTeam()
     }
     m_threePlayersTeam.clear();
     m_twoPlayersTeam.clear();
-    createTeams(m_threePlayersTeamNumber, m_twoPlayersTeamNumber);
+    instanciateTeams(m_threePlayersTeamNumber, m_twoPlayersTeamNumber);
 
-    std::srand(std::time(nullptr));// use current time as seed for random generator
-    generateThreePlayersTeam();
-    generateTwoPlayersTeam();
+    std::srand(rand());// use current time as seed for random generator
+    vectString vectMenNames = m_stockPlayersMen,
+               vectWomenNames = m_stockPlayersWomen;
+    generateThreePlayersTeam(vectMenNames, vectWomenNames);
+    generateTwoPlayersTeam(vectMenNames, vectWomenNames);
 //    displayTeams();
 //    displayNames();
 }
 
-void ContestGenerate::generateThreePlayersTeam()
+void ContestGenerate::generateThreePlayersTeam(vectString &men, vectString &women)
 {
     for(unsigned int i = 0; i < m_threePlayersTeamNumber; ++i)
     {
         for(unsigned int j = 0; j < 3; ++j)
         {
-            if( (j == 0 && !m_stockPlayersWomen.empty()) || m_stockPlayersMen.empty())
+            if( (j == 0 && !women.empty()) || men.empty())
             {
-                unsigned int rand = std::rand()/((RAND_MAX + 1u) / m_stockPlayersWomen.size());  // Note: 1+rand()%6 is wrong!
-                m_threePlayersTeam[i].modifyPlayerName(m_stockPlayersWomen[rand], j);
-                m_stockPlayersWomen.erase(m_stockPlayersWomen.begin() + rand);
+                unsigned int rand = std::rand()/((RAND_MAX + 1u) / women.size());  // Note: 1+rand()%6 is wrong!
+                m_threePlayersTeam[i].modifyPlayerName(women[rand], j);
+                women.erase(women.begin() + rand);
                 continue;
             }
-            if(!m_stockPlayersMen.empty())
+            if(!men.empty())
             {
-                unsigned int rand = std::rand()/((RAND_MAX + 1u) / m_stockPlayersMen.size());
-                m_threePlayersTeam[i].modifyPlayerName(m_stockPlayersMen[rand], j);
-                m_stockPlayersMen.erase(m_stockPlayersMen.begin() + rand);
+                unsigned int rand = std::rand()/((RAND_MAX + 1u) / men.size());
+                m_threePlayersTeam[i].modifyPlayerName(men[rand], j);
+                men.erase(men.begin() + rand);
             }
         }
     }
 }
 
-void ContestGenerate::generateTwoPlayersTeam()
+void ContestGenerate::generateTwoPlayersTeam(vectString &men, vectString &women)
 {
     for(unsigned int i = 0; i < m_twoPlayersTeamNumber; ++i)
     {
         for(unsigned int j = 0; j < 2; ++j)
         {
-            if( (j == 0 && !m_stockPlayersWomen.empty()) || m_stockPlayersMen.empty())
+            if( (j == 0 && !women.empty()) || men.empty())
             {
-                unsigned int rand = std::rand()/((RAND_MAX + 1u) / m_stockPlayersWomen.size());  // Note: 1+rand()%6 is wrong!
-                m_twoPlayersTeam[i].modifyPlayerName(m_stockPlayersWomen[rand], j);
-                m_stockPlayersWomen.erase(m_stockPlayersWomen.begin() + rand);
+                unsigned int rand = std::rand()/((RAND_MAX + 1u) / women.size());  // Note: 1+rand()%6 is wrong!
+                m_twoPlayersTeam[i].modifyPlayerName(women[rand], j);
+                women.erase(women.begin() + rand);
                 continue;
             }
-            if(!m_stockPlayersMen.empty())
+            if(!men.empty())
             {
-                unsigned int rand = std::rand()/((RAND_MAX + 1u) / m_stockPlayersMen.size());  // Note: 1+rand()%6 is wrong!
-                m_twoPlayersTeam[i].modifyPlayerName(m_stockPlayersMen[rand], j);
-                m_stockPlayersMen.erase(m_stockPlayersMen.begin() + rand);
+                unsigned int rand = std::rand()/((RAND_MAX + 1u) / men.size());  // Note: 1+rand()%6 is wrong!
+                m_twoPlayersTeam[i].modifyPlayerName(men[rand], j);
+                men.erase(men.begin() + rand);
             }
         }
     }
@@ -262,26 +266,50 @@ void ContestGenerate::updateUI()
     }
 }
 
-void ContestGenerate::generateGames()
+void ContestGenerate::generateGlobalGames()
 {
-    //displayTeams();
     if(m_gamesTab)
     {
         m_gamesTab->clear();
     }
+    if(m_teamBuildOption == MELEE)
+    {
+        generateTeam();
+        generateGames();
+    }
+    else if(m_teamBuildOption == MELEE_MELEE)
+    {
+        for(unsigned int i = 0; i < m_gamesNumber; ++i)
+        {
+            generateTeam();
+            setTeamsOpponents(0);
+            createNewTeamTab(i);
+//            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+    }
+}
+
+void ContestGenerate::generateGames()
+{
+    //displayTeams();
     for(unsigned int i = 0; i < m_gamesNumber;++i)
     {
-        setTeamsOpponents(i);
-        QWidget * scrollAreaWidgetContents = new QWidget;
-        scrollAreaWidgetContents->setLayout(new VersusTeams(m_gamesOpContainer));
-        QScrollArea *scroll = new QScrollArea();
-        scroll->setWidgetResizable(true);
-        scroll->setWidget(scrollAreaWidgetContents);
-        scroll->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-        m_gamesTab->addTab(scroll, "Team");
-//        m_gamesOpContainer.display();
-        m_gamesOpContainer.clear();
+        setTeamsOpponents(i);//set m_gamesOpContainer
+        createNewTeamTab(i);
     }
+}
+
+void ContestGenerate::createNewTeamTab(unsigned int gameNumber)
+{
+    QWidget *scrollAreaWidgetContents = new QWidget;
+    scrollAreaWidgetContents->setLayout(new VersusTeams(m_gamesOpContainer));
+    QScrollArea *scroll = new QScrollArea();
+    scroll->setWidgetResizable(true);
+    scroll->setWidget(scrollAreaWidgetContents);
+    scroll->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+    m_gamesTab->addTab(scroll, QString(std::string("Team " + std::to_string(gameNumber)).c_str()));
+//        m_gamesOpContainer.display();
+    m_gamesOpContainer.clear();
 }
 
 void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
@@ -315,7 +343,7 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
     }
 }
 
-void ContestGenerate::createTeams(unsigned int threesomeNumber, unsigned int doubletNumber)
+void ContestGenerate::instanciateTeams(unsigned int threesomeNumber, unsigned int doubletNumber)
 {
     for(unsigned int i = 0; i < threesomeNumber;++i)
     {

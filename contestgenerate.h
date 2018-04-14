@@ -17,7 +17,7 @@ class ContestGenerate;
 
 //using vectVectString = std::vector<std::vector<std::string>>;
 using vectTeam = std::vector<Team>;
-
+using vectString = std::vector<std::string>;
 
 enum
 {
@@ -38,23 +38,25 @@ private:
     unsigned int m_numberMan = 0, m_numberWoman = 0;
     Ui::ContestGenerate *ui;
     unsigned int m_teamBuildOption = MELEE, m_gamesNumber = 0;
-    std::vector<std::string> m_stockPlayersMen, m_stockPlayersWomen;
+    vectString m_stockPlayersMen, m_stockPlayersWomen;
 private:
     bool setNumberContestTeam();
     bool setNumberContestTeamForDefinedThreesome();
     bool linkWidgets();
     void setTeamsOpponents(unsigned int gameNumber);
-    void createTeams(unsigned int threesomeNumber, unsigned int doubletNumber);
+    void createNewTeamTab(unsigned int gameNumber);
+    void instanciateTeams(unsigned int threesomeNumber, unsigned int doubletNumber);
 
 public:
     explicit ContestGenerate(QWidget *parent = 0);
     void setTeamBuildOption(unsigned int option, unsigned int gamesNumber);
     void storePlayersNames();
     void generateTeam();
-    void generateThreePlayersTeam();
-    void generateTwoPlayersTeam();
+    void generateThreePlayersTeam(vectString &men, vectString &women);
+    void generateTwoPlayersTeam(vectString &men, vectString &women);
     void displayTeams()const;
     void updateUI();
+    void generateGlobalGames();
     void generateGames();
     void displayNames()const;
     bool updateCurrentContest(const QVBoxLayout *manLayout, const QVBoxLayout *womanLayout);
