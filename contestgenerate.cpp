@@ -318,30 +318,53 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
     {
         return;
     }
-    vectUi threeSome, doublet;
-    getVectNumberTeam(threeSome, doublet);//get Number from existing team
+    vectUi threeSomeMem, doubletMem;
+    getVectNumberTeam(threeSomeMem, doubletMem);//get Number from existing team
 
     unsigned int iterationNumber = (m_threePlayersTeam.size() + m_twoPlayersTeam.size()) / 2;
     m_gamesOpContainer.clear();
     for(unsigned int i = 0; i < iterationNumber;++i)
     {
-        unsigned int currentOpponent = (i + gameNumber) % iterationNumber;
-        if(i < m_twoPlayersTeam.size())
+        unsigned int currentDoubletOpponent, currentThreesomeOpponent;
+        if(! doubletMem.empty())
         {
-            if(currentOpponent < m_threePlayersTeam.size())
+            currentDoubletOpponent = (1 + gameNumber) % doubletMem.size();
+        }
+        if(! threeSomeMem.empty())
+        {
+            currentThreesomeOpponent = (1 + gameNumber) % threeSomeMem.size();
+        }
+        if(! doubletMem.empty())
+        {
+            if(! threeSomeMem.empty())
             {
-                m_gamesOpContainer.addGames(m_twoPlayersTeam[i], m_threePlayersTeam[currentOpponent]);
+                m_gamesOpContainer.addGames(m_twoPlayersTeam[doubletMem[0]],
+                        m_threePlayersTeam[threeSomeMem[currentThreesomeOpponent]]);
+                doubletMem.erase(doubletMem.begin());
+                threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
             }
             else//if m_threePlayersTeam finished
             {
-                m_gamesOpContainer.addGames(m_twoPlayersTeam[i], m_twoPlayersTeam[currentOpponent + 1]);//increment
-//                ++i;
+                if(currentDoubletOpponent == 0)
+                {
+                    ++currentDoubletOpponent;
+                }
+                m_gamesOpContainer.addGames(m_twoPlayersTeam[doubletMem[0]],
+                        m_twoPlayersTeam[doubletMem[currentDoubletOpponent]]);
+                doubletMem.erase(doubletMem.begin() + currentDoubletOpponent);
+                doubletMem.erase(doubletMem.begin());
             }
         }
         else//if m_twoPlayersTeam finished
         {
-            m_gamesOpContainer.addGames(m_threePlayersTeam[i], m_threePlayersTeam[currentOpponent + 1]);
-//            ++i;
+            if(currentThreesomeOpponent == 0)
+            {
+                ++currentThreesomeOpponent;
+            }
+            m_gamesOpContainer.addGames(m_threePlayersTeam[threeSomeMem[0]],
+                                        m_threePlayersTeam[threeSomeMem[currentThreesomeOpponent]]);
+            threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
+            threeSomeMem.erase(threeSomeMem.begin());
         }
     }
 }
