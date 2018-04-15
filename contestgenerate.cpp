@@ -275,7 +275,7 @@ void ContestGenerate::generateGlobalGames()
     if(m_teamBuildOption == MELEE)
     {
         generateTeam();
-        generateGames();
+        generateMeleeGames();
     }
     else if(m_teamBuildOption == MELEE_MELEE)
     {
@@ -289,7 +289,7 @@ void ContestGenerate::generateGlobalGames()
     }
 }
 
-void ContestGenerate::generateGames()
+void ContestGenerate::generateMeleeGames()
 {
     //displayTeams();
     for(unsigned int i = 0; i < m_gamesNumber;++i)
@@ -318,6 +318,9 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
     {
         return;
     }
+    vectUi threeSome, doublet;
+    getVectNumberTeam(threeSome, doublet);//get Number from existing team
+
     unsigned int iterationNumber = (m_threePlayersTeam.size() + m_twoPlayersTeam.size()) / 2;
     m_gamesOpContainer.clear();
     for(unsigned int i = 0; i < iterationNumber;++i)
@@ -352,6 +355,26 @@ void ContestGenerate::instanciateTeams(unsigned int threesomeNumber, unsigned in
     for(unsigned int i = 0; i < doubletNumber;++i)
     {
         m_twoPlayersTeam.push_back(Team(false));
+    }
+}
+
+void ContestGenerate::getVectNumberTeam(vectUi &threeSome, vectUi &doublet) const
+{
+    if(! threeSome.empty())
+    {
+        threeSome.clear();
+    }
+    if(! doublet.empty())
+    {
+        doublet.clear();
+    }
+    for(unsigned int i = 0; i < m_threePlayersTeam.size(); ++i)
+    {
+        threeSome.push_back(i);
+    }
+    for(unsigned int i = 0; i < m_twoPlayersTeam.size(); ++i)
+    {
+        doublet.push_back(i);
     }
 }
 

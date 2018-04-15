@@ -18,6 +18,7 @@ class ContestGenerate;
 //using vectVectString = std::vector<std::vector<std::string>>;
 using vectTeam = std::vector<Team>;
 using vectString = std::vector<std::string>;
+using vectUi = std::vector<unsigned int>;
 
 enum
 {
@@ -46,7 +47,7 @@ private:
     void setTeamsOpponents(unsigned int gameNumber);
     void createNewTeamTab(unsigned int gameNumber);
     void instanciateTeams(unsigned int threesomeNumber, unsigned int doubletNumber);
-
+    void getVectNumberTeam(vectUi &threeSome, vectUi &doublet)const;
 public:
     explicit ContestGenerate(QWidget *parent = 0);
     void setTeamBuildOption(unsigned int option, unsigned int gamesNumber);
@@ -57,7 +58,7 @@ public:
     void displayTeams()const;
     void updateUI();
     void generateGlobalGames();
-    void generateGames();
+    void generateMeleeGames();
     void displayNames()const;
     bool updateCurrentContest(const QVBoxLayout *manLayout, const QVBoxLayout *womanLayout);
     ~ContestGenerate();
