@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     windowteamconstruct.cpp \
     team.cpp \
     gamesopponnentscontainer.cpp \
-    versusteams.cpp
+    versusteams.cpp \
+    pdfdocgeneration.cpp
 
 HEADERS  += mainwindow.h \
     form.h \
@@ -34,7 +35,8 @@ HEADERS  += mainwindow.h \
     windowteamconstruct.h \
     team.h \
     gamesopponnentscontainer.h \
-    versusteams.h
+    versusteams.h \
+    pdfdocgeneration.h
 
 FORMS    += mainwindow.ui \
     form.ui \

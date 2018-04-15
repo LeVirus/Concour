@@ -12,8 +12,6 @@
 #include <cstdlib>
 #include <ctime>
 #include <cassert>
-//#include <chrono>
-//#include <thread>
 #include <versusteams.h>
 
 
@@ -284,7 +282,6 @@ void ContestGenerate::generateGlobalGames()
             generateTeam();
             setTeamsOpponents(0);
             createNewTeamTab(i);
-//            std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
 }
@@ -295,6 +292,7 @@ void ContestGenerate::generateMeleeGames()
     for(unsigned int i = 0; i < m_gamesNumber;++i)
     {
         setTeamsOpponents(i);//set m_gamesOpContainer
+        m_pdfGen.push_back(PdfDocGeneration(m_gamesOpContainer));
         createNewTeamTab(i);
     }
 }
@@ -325,7 +323,7 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
     m_gamesOpContainer.clear();
     for(unsigned int i = 0; i < iterationNumber;++i)
     {
-        unsigned int currentDoubletOpponent, currentThreesomeOpponent;
+        unsigned int currentDoubletOpponent = 0, currentThreesomeOpponent = 0;
         if(! doubletMem.empty())
         {
             currentDoubletOpponent = (1 + gameNumber) % doubletMem.size();

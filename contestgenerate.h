@@ -5,6 +5,7 @@
 #include <vector>
 #include "team.h"
 #include "gamesopponnentscontainer.h"
+#include "pdfdocgeneration.h"
 
 class QVBoxLayout;
 class QLabel;
@@ -19,6 +20,7 @@ class ContestGenerate;
 using vectTeam = std::vector<Team>;
 using vectString = std::vector<std::string>;
 using vectUi = std::vector<unsigned int>;
+using vectPdfGen = std::vector<PdfDocGeneration>;
 
 enum
 {
@@ -40,6 +42,7 @@ private:
     Ui::ContestGenerate *ui;
     unsigned int m_teamBuildOption = MELEE, m_gamesNumber = 0;
     vectString m_stockPlayersMen, m_stockPlayersWomen;
+    vectPdfGen m_pdfGen;
 private:
     bool setNumberContestTeam();
     bool setNumberContestTeamForDefinedThreesome();
