@@ -1,19 +1,22 @@
 #include "pdfdocgeneration.h"
 #include "gamesopponnentscontainer.h"
+#include <QtWidgets>
+#include <QPrinter>
 
+//PdfDocGeneration::PdfDocGeneration()
+//{
 
-PdfDocGeneration::PdfDocGeneration()
+//}
+
+PdfDocGeneration::PdfDocGeneration(const GamesOpponentsContainer &goc, unsigned int numGame):m_gamesOpContain(goc),
+    m_gameNumber(numGame)
 {
-
+    updateDocFromGames();
 }
 
-PdfDocGeneration::PdfDocGeneration(const GamesOpponentsContainer &goc)
+void PdfDocGeneration::updateDocFromGames()
 {
-    updateDocFromGames(goc);
-}
-
-void PdfDocGeneration::updateDocFromGames(const GamesOpponentsContainer &goc)
-{
+    initDocument();
 //    const t_vectPairTeam &m_gamesOpponents = goc.getGames();
 //    for(size_t i = 0; i < m_gamesOpponents.size(); ++i)
 //    {
@@ -59,7 +62,33 @@ void PdfDocGeneration::updateDocFromGames(const GamesOpponentsContainer &goc)
 //                m_secondTeams->addWidget(new QLabel(mem.c_str()));
 //            }
 //        }
-//    }
+    //    }
+}
+
+void PdfDocGeneration::initDocument()
+{
+    m_htmlContent.clear();
+    m_htmlContent.append("<h1 style='text-align: center;'>Manche ");
+    m_htmlContent.append(QString::number(m_gameNumber));
+    m_htmlContent.append("</h1>");
+    generateDoc();
+}
+
+void PdfDocGeneration::generateDoc()
+{
+    QString fileName = "doc.pdf";/*QFileDialog::getSaveFileName((QWidget* )0, "Export PDF", QString(), "*.pdf");
+    if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }*/
+
+    QPrinter printer(QPrinter::PrinterResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setPaperSize(QPrinter::A4);
+    printer.setOutputFileName(fileName);
+
+    QTextDocument doc;
+//    doc.setHtml("<h1>Hello, World!</h1>\n<p>Lorem ipsum dolor sit amet, consectitur adipisci elit.</p>");
+    doc.setHtml(m_htmlContent);
+    doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
+    doc.print(&printer);
 }
 
 

@@ -9,11 +9,15 @@ class PdfDocGeneration
 {
 private:
     QString m_htmlContent;
+    unsigned int m_gameNumber;
+    const GamesOpponentsContainer &m_gamesOpContain;
 private:
-    void updateDocFromGames(const GamesOpponentsContainer &goc);
+    void updateDocFromGames();
+    void initDocument();
+    void generateDoc();
 public:
-    PdfDocGeneration();
-    PdfDocGeneration(const GamesOpponentsContainer &goc);
+    //PdfDocGeneration();
+    PdfDocGeneration(const GamesOpponentsContainer &goc, unsigned int numGame);
 };
 
 #endif // PDFDOCGENERATION_H

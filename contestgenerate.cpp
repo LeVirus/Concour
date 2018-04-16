@@ -289,10 +289,11 @@ void ContestGenerate::generateGlobalGames()
 void ContestGenerate::generateMeleeGames()
 {
     //displayTeams();
+    m_pdfGen.clear();
     for(unsigned int i = 0; i < m_gamesNumber;++i)
     {
         setTeamsOpponents(i);//set m_gamesOpContainer
-        m_pdfGen.push_back(PdfDocGeneration(m_gamesOpContainer));
+        m_pdfGen.push_back(PdfDocGeneration(m_gamesOpContainer, i));
         createNewTeamTab(i);
     }
 }
