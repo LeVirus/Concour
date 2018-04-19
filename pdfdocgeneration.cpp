@@ -4,11 +4,6 @@
 #include <QtWidgets>
 #include <QPrinter>
 
-//PdfDocGeneration::PdfDocGeneration()
-//{
-
-//}
-
 PdfDocGeneration::PdfDocGeneration(const GamesOpponentsContainer &goc, unsigned int numGame):m_gamesOpContain(goc),
     m_gameNumber(numGame)
 {
@@ -44,7 +39,14 @@ void PdfDocGeneration::initDocument()
 
 void PdfDocGeneration::createVersusTableTeams(const t_pairTeam *versusA, const t_pairTeam *versusB)
 {
-    m_htmlContent.append("<table style='text-align: center;' align='center'>");
+    if(versusB)
+    {
+        m_htmlContent.append("<table style='text-align: center;' align='left'>");
+    }
+    else
+    {
+        m_htmlContent.append("<table style='text-align: center;'>");
+    }
     m_htmlContent.append("<tbody><tr><td></td>");//set first case empty
     m_htmlContent.append("<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>");//set second case empty
     m_htmlContent.append("<td style='height: 18px;'><strong>Equipe " + QString::number(versusA->first.getTeamNumber()) + "</strong></td>");
@@ -113,8 +115,7 @@ void PdfDocGeneration::createVersusLineTeams(const t_pairTeam *versusA, const t_
 
 void PdfDocGeneration::generateDoc()
 {
-    QString fileName = "doc" + QString::number(m_gameNumber) + ".pdf";/*QFileDialog::getSaveFileName((QWidget* )0, "Export PDF", QString(), "*.pdf");
-    if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }*/
+    QString fileName = "doc" + QString::number(m_gameNumber) + ".pdf";
 
     QPrinter printer(QPrinter::PrinterResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
@@ -122,7 +123,6 @@ void PdfDocGeneration::generateDoc()
     printer.setOutputFileName(fileName);
 
     QTextDocument doc;
-//    doc.setHtml("<h1>Hello, World!</h1>\n<p>Lorem ipsum dolor sit amet, consectitur adipisci elit.</p>");
     doc.setHtml(m_htmlContent);
     doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
     doc.print(&printer);

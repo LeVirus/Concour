@@ -152,7 +152,7 @@ void ContestGenerate::generateTeam()
     m_twoPlayersTeam.clear();
     instanciateTeams(m_threePlayersTeamNumber, m_twoPlayersTeamNumber);
 
-    std::srand(rand());// use current time as seed for random generator
+    std::srand(rand());
     vectString vectMenNames = m_stockPlayersMen,
                vectWomenNames = m_stockPlayersWomen;
     generateThreePlayersTeam(vectMenNames, vectWomenNames);
@@ -340,10 +340,20 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
         {
             if(! threeSomeMem.empty())
             {
-                m_gamesOpContainer.addGames(m_twoPlayersTeam[doubletMem[0]],
-                        m_threePlayersTeam[threeSomeMem[currentThreesomeOpponent]]);
-                doubletMem.erase(doubletMem.begin());
-                threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
+                if(threeSomeMem.size() >= 2)
+                {
+                    m_gamesOpContainer.addGames(m_threePlayersTeam[threeSomeMem[0]],
+                            m_threePlayersTeam[threeSomeMem[currentThreesomeOpponent]]);
+                    threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
+                    threeSomeMem.erase(threeSomeMem.begin());
+                }
+                else
+                {
+                    m_gamesOpContainer.addGames(m_twoPlayersTeam[doubletMem[0]],
+                            m_threePlayersTeam[threeSomeMem[currentThreesomeOpponent]]);
+                    doubletMem.erase(doubletMem.begin());
+                    threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
+                }
             }
             else//if m_threePlayersTeam finished
             {
@@ -357,17 +367,17 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
                 doubletMem.erase(doubletMem.begin());
             }
         }
-        else//if m_twoPlayersTeam finished
-        {
-            if(currentThreesomeOpponent == 0)
-            {
-                ++currentThreesomeOpponent;
-            }
-            m_gamesOpContainer.addGames(m_threePlayersTeam[threeSomeMem[0]],
-                                        m_threePlayersTeam[threeSomeMem[currentThreesomeOpponent]]);
-            threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
-            threeSomeMem.erase(threeSomeMem.begin());
-        }
+//        else//if m_twoPlayersTeam finished
+//        {
+//            if(currentThreesomeOpponent == 0)
+//            {
+//                ++currentThreesomeOpponent;
+//            }
+//            m_gamesOpContainer.addGames(m_threePlayersTeam[threeSomeMem[0]],
+//                                        m_threePlayersTeam[threeSomeMem[currentThreesomeOpponent]]);
+//            threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
+//            threeSomeMem.erase(threeSomeMem.begin());
+//        }
     }
 }
 
