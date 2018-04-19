@@ -19,8 +19,8 @@ private:
 private:
     void updateDocFromGames(const GamesOpponentsContainer &goc);
     void initDocument();
-    void createVersusTableTeams(const t_pairTeam &versusA, const t_pairTeam &versusB);
-    void createVersusLineTeams(const t_pairTeam &versusA, const t_pairTeam &versusB, unsigned int lineNumber);
+    void createVersusTableTeams(const t_pairTeam *versusA, const t_pairTeam *versusB);
+    void createVersusLineTeams(const t_pairTeam *versusA, const t_pairTeam *versusB, unsigned int lineNumber);
     void generateDoc();
 public:
     //PdfDocGeneration();

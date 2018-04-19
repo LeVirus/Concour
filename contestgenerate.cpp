@@ -111,11 +111,11 @@ void ContestGenerate::setTeamBuildOption(unsigned int option, unsigned int games
     }
     if(gamesNumber != 0 && gamesNumber < 10)
     {
-        m_gamesNumber = gamesNumber;
+        m_gamesNumber = ++gamesNumber;
     }
     else
     {
-       m_gamesNumber = 4;
+       m_gamesNumber = 5;
     }
 }
 
@@ -280,7 +280,7 @@ void ContestGenerate::generateGlobalGames()
     }
     else if(m_teamBuildOption == MELEE_MELEE)
     {
-        for(unsigned int i = 0; i < m_gamesNumber; ++i)
+        for(unsigned int i = 1; i < m_gamesNumber; ++i)
         {
             generateTeam();
             setTeamsOpponents(0);
@@ -293,7 +293,7 @@ void ContestGenerate::generateGlobalGames()
 void ContestGenerate::generateMeleeGames()
 {
     //displayTeams();
-    for(unsigned int i = 0; i < m_gamesNumber;++i)
+    for(unsigned int i = 1; i < m_gamesNumber;++i)
     {
         setTeamsOpponents(i);//set m_gamesOpContainer
         m_pdfGen.push_back(PdfDocGeneration(m_gamesOpContainer, i));
