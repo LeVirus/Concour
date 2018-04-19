@@ -26,6 +26,14 @@ void PlayerLine::setGender(bool gender)
 
 void PlayerLine::setButtons()
 {
+    QString pathDel, pathEdit;
+    #ifdef _WIN32
+    pathDel = "..\Concour\Icon\del.png";
+    pathDel = "..\Concour\Icon\edit.png";
+    #else
+    pathDel = "../Concour/Icon/del.png";
+    pathDel = "../Concour/Icon/edit.png";
+    #endif
     m_del = new QPushButton();
     m_del->setIcon(QIcon("../Concour/Icon/del.png"));
     m_del->setFixedWidth(40);
