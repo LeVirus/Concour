@@ -2,6 +2,11 @@
 #define PDFDOCGENERATION_H
 
 #include <QString>
+#include <vector>
+
+class Team;
+using t_pairTeam = std::pair<const Team&, const Team&>;
+using t_vectPairTeam = std::vector<t_pairTeam>;
 
 class GamesOpponentsContainer;
 
@@ -12,8 +17,10 @@ private:
     unsigned int m_gameNumber;
     const GamesOpponentsContainer &m_gamesOpContain;
 private:
-    void updateDocFromGames();
+    void updateDocFromGames(const GamesOpponentsContainer &goc);
     void initDocument();
+    void createVersusTableTeams(const t_pairTeam &versusA, const t_pairTeam &versusB);
+    void createVersusLineTeams(const t_pairTeam &versusA, const t_pairTeam &versusB, unsigned int lineNumber);
     void generateDoc();
 public:
     //PdfDocGeneration();

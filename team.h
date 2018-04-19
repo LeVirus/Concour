@@ -18,6 +18,7 @@ public:
     inline unsigned int getTeamNumber()const{return m_teamNumber;}
     std::string getPlayerName(unsigned int index)const;
     void modifyPlayerName(const std::string &name, unsigned int index);
+    static inline void static_reinitCmpt(){m_cmpt = 0;}
 };
 
 #endif // TEAM_H

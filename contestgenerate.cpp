@@ -147,6 +147,7 @@ void ContestGenerate::generateTeam()
     {
         return;
     }
+    Team::static_reinitCmpt();
     m_threePlayersTeam.clear();
     m_twoPlayersTeam.clear();
     instanciateTeams(m_threePlayersTeamNumber, m_twoPlayersTeamNumber);
@@ -270,6 +271,8 @@ void ContestGenerate::generateGlobalGames()
     {
         m_gamesTab->clear();
     }
+    m_pdfGen.clear();
+
     if(m_teamBuildOption == MELEE)
     {
         generateTeam();
@@ -281,6 +284,7 @@ void ContestGenerate::generateGlobalGames()
         {
             generateTeam();
             setTeamsOpponents(0);
+            m_pdfGen.push_back(PdfDocGeneration(m_gamesOpContainer, i));
             createNewTeamTab(i);
         }
     }
@@ -289,7 +293,6 @@ void ContestGenerate::generateGlobalGames()
 void ContestGenerate::generateMeleeGames()
 {
     //displayTeams();
-    m_pdfGen.clear();
     for(unsigned int i = 0; i < m_gamesNumber;++i)
     {
         setTeamsOpponents(i);//set m_gamesOpContainer

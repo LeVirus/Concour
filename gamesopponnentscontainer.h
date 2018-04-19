@@ -5,7 +5,8 @@
 
 class Team;
 
-using t_vectPairTeam = std::vector<std::pair<const Team&, const Team&>>;
+using t_pairTeam = std::pair<const Team&, const Team&>;
+using t_vectPairTeam = std::vector<t_pairTeam>;
 
 class GamesOpponentsContainer
 {

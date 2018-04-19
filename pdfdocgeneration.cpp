@@ -1,4 +1,5 @@
 #include "pdfdocgeneration.h"
+#include "team.h"
 #include "gamesopponnentscontainer.h"
 #include <QtWidgets>
 #include <QPrinter>
@@ -11,67 +12,65 @@
 PdfDocGeneration::PdfDocGeneration(const GamesOpponentsContainer &goc, unsigned int numGame):m_gamesOpContain(goc),
     m_gameNumber(numGame)
 {
-    updateDocFromGames();
+    updateDocFromGames(goc);
 }
 
-void PdfDocGeneration::updateDocFromGames()
+void PdfDocGeneration::updateDocFromGames(const GamesOpponentsContainer &goc)
 {
     initDocument();
-//    const t_vectPairTeam &m_gamesOpponents = goc.getGames();
-//    for(size_t i = 0; i < m_gamesOpponents.size(); ++i)
-//    {
-//        for(size_t k = 0; k < 2; ++k)
-//        {
-//            std::string mem, current;
-//            size_t teamSize;
-//            if(k == 0)
-//            {
-//                teamSize = m_gamesOpponents[i].first.getPlayerNumber();
-//            }
-//            else
-//            {
-//                teamSize = m_gamesOpponents[i].second.getPlayerNumber();
-//            }
-//            for(size_t j = 0; j < teamSize; ++j)
-//            {
-//                if(k == 0)
-//                {
-//                    current = m_gamesOpponents[i].first.getPlayerName(j);
-//                }
-//                else
-//                {
-//                    current = m_gamesOpponents[i].second.getPlayerName(j);
-//                }
 
-//                if(current.empty())
-//                {
-//                    continue;
-//                }
-//                if(j != 0)
-//                {
-//                    mem += '\n';
-//                }
-//                mem += current;
-//            }
-//            if(k == 0)
-//            {
-//                m_firstTeams->addWidget(new QLabel(mem.c_str()));
-//            }
-//            else
-//            {
-//                m_secondTeams->addWidget(new QLabel(mem.c_str()));
-//            }
-//        }
-    //    }
+    const t_vectPairTeam &m_gamesOpponents = goc.getGames();
+    for(size_t i = 0; i < m_gamesOpponents.size() - 1; i += 2)
+    {
+        createVersusTableTeams(m_gamesOpponents[i], m_gamesOpponents[i + 1]);
+    }
+    generateDoc();
+
 }
 
 void PdfDocGeneration::initDocument()
 {
     m_htmlContent.clear();
-    m_htmlContent.append("<h1 style='text-align: center;'>Manche ");
-    m_htmlContent.append(QString::number(m_gameNumber));
-    m_htmlContent.append("</h1>");
-    generateDoc();
+    m_htmlContent.append("<h1 style='text-align: center;'>Manche " + QString::number(m_gameNumber) + "</h1>");
+}
+
+void PdfDocGeneration::createVersusTableTeams(const t_pairTeam &versusA, const t_pairTeam &versusB)
+{
+    m_htmlContent.append("<table style='text-align: center;' align='center'>");
+    m_htmlContent.append("<tbody><tr><td></td>");//set first case empty
+    m_htmlContent.append("<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>");//set second case empty
+    m_htmlContent.append("<td style='height: 18px;'><strong>Equipe " + QString::number(versusA.first.getTeamNumber()) + "</strong></td>");
+    m_htmlContent.append("<td>&nbsp;&nbsp;&nbsp;</td>");
+
+    m_htmlContent.append("<td style='height: 18px;'><strong>Equipe " + QString::number(versusA.second.getTeamNumber()) + "</strong></td>");
+    m_htmlContent.append("<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>");//set middle case empty
+    m_htmlContent.append("<td style='height: 18px;'><strong>Equipe " + QString::number(versusB.first.getTeamNumber()) + "</strong></td>");
+    m_htmlContent.append("<td>&nbsp;&nbsp;&nbsp;</td>");
+
+    m_htmlContent.append("<td style='height: 18px;'><strong>Equipe " + QString::number(versusB.second.getTeamNumber()) + "</strong></td>");
+    m_htmlContent.append("</tr>");
+
+    for(size_t i = 0; i < 3; ++i)
+    {
+        createVersusLineTeams(versusA, versusB, i);
+    }
+    m_htmlContent.append("</tbody></table>");
+}
+
+void PdfDocGeneration::createVersusLineTeams(const t_pairTeam &versusA, const t_pairTeam &versusB, unsigned int lineNumber)
+{
+    m_htmlContent.append("<tr><td><strong>Joueur " + QString::number(lineNumber) + "</strong></td>");
+    m_htmlContent.append("<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>");//set second case empty
+    m_htmlContent.append("<td style='height: 18px;'>" + QString(versusA.first.getPlayerName(lineNumber).c_str()) + "</td>");
+    m_htmlContent.append("<td>&nbsp;&nbsp;&nbsp;</td>");
+
+    m_htmlContent.append("<td style='height: 18px;'>" + QString(versusA.second.getPlayerName(lineNumber).c_str()) + "</td>");
+    m_htmlContent.append("<td></td>");//set middle case empty
+    m_htmlContent.append("<td style='height: 18px;'>" + QString(versusB.first.getPlayerName(lineNumber).c_str()) + "</td>");
+    m_htmlContent.append("<td>&nbsp;&nbsp;&nbsp;</td>");
+
+    m_htmlContent.append("<td style='height: 18px;'>" + QString(versusB.second.getPlayerName(lineNumber).c_str()) + "</td>");
+    m_htmlContent.append("</tr>");
 }
 
 void PdfDocGeneration::generateDoc()
