@@ -16,7 +16,7 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>40</x>
      <y>40</y>
      <width>171</width>
      <height>61</height>
@@ -29,7 +29,7 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>220</x>
      <y>50</y>
      <width>211</width>
      <height>51</height>
@@ -42,7 +42,7 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>40</x>
      <y>130</y>
      <width>161</width>
      <height>31</height>
@@ -55,7 +55,7 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>220</x>
      <y>130</y>
      <width>151</width>
      <height>31</height>
@@ -81,7 +81,7 @@
     <enum>QTabWidget::Rounded</enum>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <property name="elideMode">
     <enum>Qt::ElideNone</enum>
@@ -96,6 +96,19 @@
      <string>Tab 2</string>
     </attribute>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>60</y>
+     <width>131</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Générer PDF</string>
+   </property>
   </widget>
  </widget>
  <resources/>

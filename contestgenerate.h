@@ -21,6 +21,7 @@ using vectTeam = std::vector<Team>;
 using vectString = std::vector<std::string>;
 using vectUi = std::vector<unsigned int>;
 using vectPdfGen = std::vector<PdfDocGeneration>;
+using vectGamesOpCont= std::vector<GamesOpponentsContainer>;
 
 enum
 {
@@ -32,7 +33,13 @@ class ContestGenerate : public QDialog
     Q_OBJECT
 
 private:
-    GamesOpponentsContainer m_gamesOpContainer;
+#ifdef WIN32
+const QString m_slash="\\";
+#else
+const QString m_slash = "/";
+#endif
+    vectGamesOpCont m_vectGamesOpContainer;
+//    GamesOpponentsContainer m_gamesOpContainer;
     vectTeam m_threePlayersTeam, m_twoPlayersTeam;
     QLabel *m_MenTotal = nullptr, *m_WomenTotal = nullptr, *m_DoubletNumber = nullptr, *m_ThreesomeNumber = nullptr;
     QTabWidget *m_gamesTab = nullptr;
@@ -42,7 +49,7 @@ private:
     Ui::ContestGenerate *ui;
     unsigned int m_teamBuildOption = MELEE, m_gamesNumber = 0;
     vectString m_stockPlayersMen, m_stockPlayersWomen;
-    vectPdfGen m_pdfGen;
+//    vectPdfGen m_pdfGen;
 private:
     bool setNumberContestTeam();
     bool setNumberContestTeamForDefinedThreesome();
@@ -65,6 +72,8 @@ public:
     void displayNames()const;
     bool updateCurrentContest(const QVBoxLayout *manLayout, const QVBoxLayout *womanLayout);
     ~ContestGenerate();
+private slots:
+    void pdfGeneration();
 };
 
 #endif // CONTESTGENERATE_H

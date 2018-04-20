@@ -9,11 +9,11 @@
 #include <QWidget>
 #include <QTabWidget>
 #include <QScrollArea>
+#include <QFileDialog>
 #include <cstdlib>
 #include <ctime>
 #include <cassert>
 #include <versusteams.h>
-
 
 ContestGenerate::ContestGenerate(QWidget *parent) :
     QDialog(parent),
@@ -23,6 +23,12 @@ ContestGenerate::ContestGenerate(QWidget *parent) :
     if(! linkWidgets())
     {
         QMessageBox::warning(this, "Erreur", "Problème de liens.");
+    }
+    QPushButton* buttonGenerate = findChild<QPushButton*>("pushButton");
+
+    if(buttonGenerate)
+    {
+        QObject::connect(buttonGenerate, SIGNAL(clicked()), this, SLOT(pdfGeneration()));
     }
 }
 
@@ -271,8 +277,7 @@ void ContestGenerate::generateGlobalGames()
     {
         m_gamesTab->clear();
     }
-    m_pdfGen.clear();
-
+    m_vectGamesOpContainer.clear();
     if(m_teamBuildOption == MELEE)
     {
         generateTeam();
@@ -284,7 +289,8 @@ void ContestGenerate::generateGlobalGames()
         {
             generateTeam();
             setTeamsOpponents(0);
-            m_pdfGen.push_back(PdfDocGeneration(m_gamesOpContainer, i));
+
+//            m_pdfGen.push_back(PdfDocGeneration(m_gamesOpContainer, i));
             createNewTeamTab(i);
         }
     }
@@ -296,7 +302,7 @@ void ContestGenerate::generateMeleeGames()
     for(unsigned int i = 1; i < m_gamesNumber;++i)
     {
         setTeamsOpponents(i);//set m_gamesOpContainer
-        m_pdfGen.push_back(PdfDocGeneration(m_gamesOpContainer, i));
+//        m_pdfGen.push_back(PdfDocGeneration(m_gamesOpContainer, i));
         createNewTeamTab(i);
     }
 }
@@ -304,14 +310,14 @@ void ContestGenerate::generateMeleeGames()
 void ContestGenerate::createNewTeamTab(unsigned int gameNumber)
 {
     QWidget *scrollAreaWidgetContents = new QWidget;
-    scrollAreaWidgetContents->setLayout(new VersusTeams(m_gamesOpContainer));
+    scrollAreaWidgetContents->setLayout(new VersusTeams(m_vectGamesOpContainer[m_vectGamesOpContainer.size() - 1]));
     QScrollArea *scroll = new QScrollArea();
     scroll->setWidgetResizable(true);
     scroll->setWidget(scrollAreaWidgetContents);
     scroll->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
     m_gamesTab->addTab(scroll, QString(std::string("Team " + std::to_string(gameNumber)).c_str()));
 //        m_gamesOpContainer.display();
-    m_gamesOpContainer.clear();
+//    m_gamesOpContainer.clear();
 }
 
 void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
@@ -324,7 +330,9 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
     getVectNumberTeam(threeSomeMem, doubletMem);//get Number from existing team
 
     unsigned int iterationNumber = (m_threePlayersTeam.size() + m_twoPlayersTeam.size()) / 2;
-    m_gamesOpContainer.clear();
+//    m_gamesOpContainer.clear();
+    m_vectGamesOpContainer.push_back(GamesOpponentsContainer());
+    GamesOpponentsContainer &currentGameContainer = m_vectGamesOpContainer[m_vectGamesOpContainer.size() - 1];
     for(unsigned int i = 0; i < iterationNumber;++i)
     {
         unsigned int currentDoubletOpponent = 0, currentThreesomeOpponent = 0;
@@ -342,14 +350,14 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
             {
                 if(threeSomeMem.size() >= 2)
                 {
-                    m_gamesOpContainer.addGames(m_threePlayersTeam[threeSomeMem[0]],
+                    currentGameContainer.addGames(m_threePlayersTeam[threeSomeMem[0]],
                             m_threePlayersTeam[threeSomeMem[currentThreesomeOpponent]]);
                     threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
                     threeSomeMem.erase(threeSomeMem.begin());
                 }
                 else
                 {
-                    m_gamesOpContainer.addGames(m_twoPlayersTeam[doubletMem[0]],
+                    currentGameContainer.addGames(m_twoPlayersTeam[doubletMem[0]],
                             m_threePlayersTeam[threeSomeMem[currentThreesomeOpponent]]);
                     doubletMem.erase(doubletMem.begin());
                     threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
@@ -361,7 +369,7 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
                 {
                     ++currentDoubletOpponent;
                 }
-                m_gamesOpContainer.addGames(m_twoPlayersTeam[doubletMem[0]],
+                currentGameContainer.addGames(m_twoPlayersTeam[doubletMem[0]],
                         m_twoPlayersTeam[doubletMem[currentDoubletOpponent]]);
                 doubletMem.erase(doubletMem.begin() + currentDoubletOpponent);
                 doubletMem.erase(doubletMem.begin());
@@ -373,7 +381,7 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
 //            {
 //                ++currentThreesomeOpponent;
 //            }
-//            m_gamesOpContainer.addGames(m_threePlayersTeam[threeSomeMem[0]],
+//            currentGameContainer.addGames(m_threePlayersTeam[threeSomeMem[0]],
 //                                        m_threePlayersTeam[threeSomeMem[currentThreesomeOpponent]]);
 //            threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
 //            threeSomeMem.erase(threeSomeMem.begin());
@@ -410,6 +418,15 @@ void ContestGenerate::getVectNumberTeam(vectUi &threeSome, vectUi &doublet) cons
     for(unsigned int i = 0; i < m_twoPlayersTeam.size(); ++i)
     {
         doublet.push_back(i);
+    }
+}
+
+void ContestGenerate::pdfGeneration()
+{
+    PdfDocGeneration::setSaveDirectory(QFileDialog::getExistingDirectory() + m_slash);
+    for(size_t i = 0; i < m_vectGamesOpContainer.size(); ++i)
+    {
+        PdfDocGeneration::updateDocFromGames(m_vectGamesOpContainer[i], i + 1);
     }
 }
 

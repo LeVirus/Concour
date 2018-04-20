@@ -13,18 +13,18 @@ class GamesOpponentsContainer;
 class PdfDocGeneration
 {
 private:
-    QString m_htmlContent;
-    unsigned int m_gameNumber;
-    const GamesOpponentsContainer &m_gamesOpContain;
+    static QString m_htmlContent, m_saveDir;
+    static unsigned int m_gameNumber;
+//    const GamesOpponentsContainer &m_gamesOpContain;
 private:
-    void updateDocFromGames(const GamesOpponentsContainer &goc);
-    void initDocument();
-    void createVersusTableTeams(const t_pairTeam *versusA, const t_pairTeam *versusB);
-    void createVersusLineTeams(const t_pairTeam *versusA, const t_pairTeam *versusB, unsigned int lineNumber);
-    void generateDoc();
+    static void initDocument();
+    static void createVersusTableTeams(const t_pairTeam *versusA, const t_pairTeam *versusB);
+    static void createVersusLineTeams(const t_pairTeam *versusA, const t_pairTeam *versusB, unsigned int lineNumber);
+    static void generateDoc();
 public:
-    //PdfDocGeneration();
-    PdfDocGeneration(const GamesOpponentsContainer &goc, unsigned int numGame);
+    static void updateDocFromGames(const GamesOpponentsContainer &goc, unsigned int numGame);
+    static void setSaveDirectory(const QString &path);
+    //    PdfDocGeneration(const GamesOpponentsContainer &goc, unsigned int numGame);
 };
 
 #endif // PDFDOCGENERATION_H

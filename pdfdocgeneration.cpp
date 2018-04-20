@@ -4,14 +4,18 @@
 #include <QtWidgets>
 #include <QPrinter>
 
-PdfDocGeneration::PdfDocGeneration(const GamesOpponentsContainer &goc, unsigned int numGame):m_gamesOpContain(goc),
-    m_gameNumber(numGame)
-{
-    updateDocFromGames(goc);
-}
+QString PdfDocGeneration::m_htmlContent;
+QString PdfDocGeneration::m_saveDir;
+unsigned int PdfDocGeneration::m_gameNumber;
+//PdfDocGeneration::PdfDocGeneration(const GamesOpponentsContainer &goc, unsigned int numGame): m_gameNumber(numGame)
+//{
+//    updateDocFromGames(goc);
+//}
 
-void PdfDocGeneration::updateDocFromGames(const GamesOpponentsContainer &goc)
+void PdfDocGeneration::updateDocFromGames(const GamesOpponentsContainer &goc, unsigned int numGame)
 {
+    m_htmlContent.clear();
+    m_gameNumber = numGame;
     initDocument();
 
     const t_vectPairTeam &m_gamesOpponents = goc.getGames();
@@ -29,6 +33,11 @@ void PdfDocGeneration::updateDocFromGames(const GamesOpponentsContainer &goc)
     }
     generateDoc();
 
+}
+
+void PdfDocGeneration::setSaveDirectory(const QString &path)
+{
+    m_saveDir = path;
 }
 
 void PdfDocGeneration::initDocument()
@@ -115,7 +124,8 @@ void PdfDocGeneration::createVersusLineTeams(const t_pairTeam *versusA, const t_
 
 void PdfDocGeneration::generateDoc()
 {
-    QString fileName = "doc" + QString::number(m_gameNumber) + ".pdf";
+
+    QString fileName = m_saveDir + "doc" + QString::number(m_gameNumber) + ".pdf";
 
     QPrinter printer(QPrinter::PrinterResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
