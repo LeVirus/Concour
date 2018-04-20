@@ -67,6 +67,9 @@
    <property name="text">
     <string>M&amp;élée des mélée</string>
    </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">

@@ -49,15 +49,15 @@ void PdfDocGeneration::createVersusTableTeams(const t_pairTeam *versusA, const t
     }
     m_htmlContent.append("<tbody><tr><td></td>");//set first case empty
     m_htmlContent.append("<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>");//set second case empty
-    m_htmlContent.append("<td style='height: 18px;'><strong>Equipe " + QString::number(versusA->first.getTeamNumber()) + "</strong></td>");
+    m_htmlContent.append("<td style='height: 18px;'><strong>Equipe " + QString::number(versusA->first.getTeamNumber() + 1) + "</strong></td>");
     m_htmlContent.append("<td>&nbsp;&nbsp;&nbsp;</td>");
 
-    m_htmlContent.append("<td style='height: 18px;'><strong>Equipe " + QString::number(versusA->second.getTeamNumber()) + "</strong></td>");
+    m_htmlContent.append("<td style='height: 18px;'><strong>Equipe " + QString::number(versusA->second.getTeamNumber() + 1) + "</strong></td>");
     m_htmlContent.append("<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>");//set middle case empty
 
     if(versusB)
     {
-        m_htmlContent.append("<td style='height: 18px;'><strong>Equipe " + QString::number(versusB->first.getTeamNumber()) + "</strong></td>");
+        m_htmlContent.append("<td style='height: 18px;'><strong>Equipe " + QString::number(versusB->first.getTeamNumber() + 1) + "</strong></td>");
     }
     else
     {
@@ -67,7 +67,7 @@ void PdfDocGeneration::createVersusTableTeams(const t_pairTeam *versusA, const t
     m_htmlContent.append("<td>&nbsp;&nbsp;&nbsp;</td>");
     if(versusB)
     {
-        m_htmlContent.append("<td style='height: 18px;'><strong>Equipe " + QString::number(versusB->second.getTeamNumber()) + "</strong></td>");
+        m_htmlContent.append("<td style='height: 18px;'><strong>Equipe " + QString::number(versusB->second.getTeamNumber() + 1) + "</strong></td>");
     }
     else
     {
