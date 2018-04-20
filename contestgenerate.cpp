@@ -91,9 +91,9 @@ bool ContestGenerate::setNumberContestTeam()
         }
     }while(true);
 
-    qDebug() << "\nOKKKKKK\nTotal:: " << totalPlayers
-             << "\nTT3 players team:: " << m_threePlayersTeamNumber << "\n2 players team:: " << m_twoPlayersTeamNumber
-             << "\n3 players team mod:: "<< threePlayersTeamNumberModulo << "\n\n";
+//    qDebug() << "\nOKKKKKK\nTotal:: " << totalPlayers
+//             << "\nTT3 players team:: " << m_threePlayersTeamNumber << "\n2 players team:: " << m_twoPlayersTeamNumber
+//             << "\n3 players team mod:: "<< threePlayersTeamNumberModulo << "\n\n";
 
     return true;
 
@@ -336,8 +336,8 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
         {
             currentThreesomeOpponent = (1 + gameNumber) % threeSomeMem.size();
         }
-        if(! doubletMem.empty())
-        {
+//        if(! doubletMem.empty())
+//        {
             if(! threeSomeMem.empty())
             {
                 if(threeSomeMem.size() >= 2)
@@ -366,7 +366,7 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
                 doubletMem.erase(doubletMem.begin() + currentDoubletOpponent);
                 doubletMem.erase(doubletMem.begin());
             }
-        }
+//        }
 //        else//if m_twoPlayersTeam finished
 //        {
 //            if(currentThreesomeOpponent == 0)
