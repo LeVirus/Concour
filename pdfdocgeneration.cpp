@@ -41,11 +41,11 @@ void PdfDocGeneration::createVersusTableTeams(const t_pairTeam *versusA, const t
 {
     if(versusB)
     {
-        m_htmlContent.append("<table style='text-align: center;' align='left'>");
+        m_htmlContent.append("<table style='text-align: center;'align='left'>");
     }
     else
     {
-        m_htmlContent.append("<table style='text-align: center;'>");
+        m_htmlContent.append("<table style='text-align: center;'align='left'>");
     }
     m_htmlContent.append("<tbody><tr><td></td>");//set first case empty
     m_htmlContent.append("<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>");//set second case empty
