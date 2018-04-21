@@ -33,6 +33,8 @@ void WindowSaveAsk::linkButtons()
 void WindowSaveAsk::saveForm()
 {
     Form::getInstance()->slotSavePlayers();
+    Form::getInstance()->hide();
+    hide();
 }
 
 void WindowSaveAsk::closeForm()
