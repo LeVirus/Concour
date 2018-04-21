@@ -126,7 +126,6 @@ void PdfDocGeneration::generateDoc()
 {
 
     QString fileName = m_saveDir + "doc" + QString::number(m_gameNumber) + ".pdf";
-
     QPrinter printer(QPrinter::PrinterResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setPaperSize(QPrinter::A4);
@@ -137,6 +136,3 @@ void PdfDocGeneration::generateDoc()
     doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
     doc.print(&printer);
 }
-
-
-

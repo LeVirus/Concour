@@ -74,9 +74,6 @@ bool ContestGenerate::setNumberContestTeam()
     //set a pair number of team
     do
     {
-//        qDebug() << "\nTotal:: " << totalPlayers
-//                 << "\nTT3 players team:: " << threePlayersTeamNumber << "\n2 players team:: " << twoPlayersTeamNumber
-//                 << "\n3 players team mod:: "<< threePlayersTeamNumberModulo << "\n\n";
         if(threePlayersTeamNumberModulo % 2 || (m_threePlayersTeamNumber + m_twoPlayersTeamNumber) % 2)
         {
             if(m_threePlayersTeamNumber == 0)
@@ -289,8 +286,6 @@ void ContestGenerate::generateGlobalGames()
         {
             generateTeam();
             setTeamsOpponents(0);
-
-//            m_pdfGen.push_back(PdfDocGeneration(m_gamesOpContainer, i));
             createNewTeamTab(i);
         }
     }
@@ -302,7 +297,6 @@ void ContestGenerate::generateMeleeGames()
     for(unsigned int i = 1; i < m_gamesNumber;++i)
     {
         setTeamsOpponents(i);//set m_gamesOpContainer
-//        m_pdfGen.push_back(PdfDocGeneration(m_gamesOpContainer, i));
         createNewTeamTab(i);
     }
 }
@@ -316,8 +310,6 @@ void ContestGenerate::createNewTeamTab(unsigned int gameNumber)
     scroll->setWidget(scrollAreaWidgetContents);
     scroll->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
     m_gamesTab->addTab(scroll, QString(std::string("Team " + std::to_string(gameNumber)).c_str()));
-//        m_gamesOpContainer.display();
-//    m_gamesOpContainer.clear();
 }
 
 void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
@@ -330,7 +322,6 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
     getVectNumberTeam(threeSomeMem, doubletMem);//get Number from existing team
 
     unsigned int iterationNumber = (m_threePlayersTeam.size() + m_twoPlayersTeam.size()) / 2;
-//    m_gamesOpContainer.clear();
     m_vectGamesOpContainer.push_back(GamesOpponentsContainer());
     GamesOpponentsContainer &currentGameContainer = m_vectGamesOpContainer[m_vectGamesOpContainer.size() - 1];
     for(unsigned int i = 0; i < iterationNumber;++i)
@@ -344,8 +335,6 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
         {
             currentThreesomeOpponent = (1 + gameNumber) % threeSomeMem.size();
         }
-//        if(! doubletMem.empty())
-//        {
             if(! threeSomeMem.empty())
             {
                 if(threeSomeMem.size() >= 2)
@@ -374,18 +363,6 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
                 doubletMem.erase(doubletMem.begin() + currentDoubletOpponent);
                 doubletMem.erase(doubletMem.begin());
             }
-//        }
-//        else//if m_twoPlayersTeam finished
-//        {
-//            if(currentThreesomeOpponent == 0)
-//            {
-//                ++currentThreesomeOpponent;
-//            }
-//            currentGameContainer.addGames(m_threePlayersTeam[threeSomeMem[0]],
-//                                        m_threePlayersTeam[threeSomeMem[currentThreesomeOpponent]]);
-//            threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
-//            threeSomeMem.erase(threeSomeMem.begin());
-//        }
     }
 }
 
