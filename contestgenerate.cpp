@@ -399,7 +399,7 @@ void ContestGenerate::pdfGeneration()
         {
             PdfDocGeneration::updateDocFromGames(m_vectGamesOpContainer[i], i + 1);
         }
-        QMessageBox::information(this, "Info", "Fichiers PDF génértés");
+        QMessageBox::information(this, "Info", "Fichiers PDF générés");
     }
 }
 
