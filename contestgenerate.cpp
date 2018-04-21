@@ -390,12 +390,17 @@ void ContestGenerate::getVectNumberTeam(vectUi &threeSome, vectUi &doublet) cons
 
 void ContestGenerate::pdfGeneration()
 {
-    PdfDocGeneration::setSaveDirectory(QFileDialog::getExistingDirectory() + m_slash);
-    for(size_t i = 0; i < m_vectGamesOpContainer.size(); ++i)
+    QString path = QFileDialog::getExistingDirectory();
+    if(!path.isEmpty()&& !path.isNull())
     {
-        PdfDocGeneration::updateDocFromGames(m_vectGamesOpContainer[i], i + 1);
+        path += m_slash;
+        PdfDocGeneration::setSaveDirectory(path);
+        for(size_t i = 0; i < m_vectGamesOpContainer.size(); ++i)
+        {
+            PdfDocGeneration::updateDocFromGames(m_vectGamesOpContainer[i], i + 1);
+        }
+        QMessageBox::information(this, "Info", "Fichiers PDF génértés");
     }
-    QMessageBox::information(this, "Info", "Fichiers PDF génértés");
 }
 
 ContestGenerate::~ContestGenerate()
