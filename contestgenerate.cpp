@@ -266,30 +266,30 @@ void ContestGenerate::generateGlobalGames()
         m_gamesTab->clear();
     }
     m_vectGamesOpContainer.clear();
-    if(m_teamBuildOption == MELEE)
-    {
-        generateTeam();
-        generateMeleeGames();
-    }
-    else if(m_teamBuildOption == MELEE_MELEE)
-    {
+//    if(m_teamBuildOption == MELEE)
+//    {
+//        generateTeam();
+//        generateMeleeGames();
+//    }
+//    else if(m_teamBuildOption == MELEE_MELEE)
+//    {
         for(unsigned int i = 1; i < m_gamesNumber; ++i)
         {
             generateTeam();
             setTeamsOpponents(0);
             createNewTeamTab(i);
         }
-    }
+//    }
 }
 
-void ContestGenerate::generateMeleeGames()
-{
-    for(unsigned int i = 1; i < m_gamesNumber;++i)
-    {
-        setTeamsOpponents(i);
-        createNewTeamTab(i);
-    }
-}
+//void ContestGenerate::generateMeleeGames()
+//{
+//    for(unsigned int i = 1; i < m_gamesNumber;++i)
+//    {
+//        setTeamsOpponents(i);
+//        createNewTeamTab(i);
+//    }
+//}
 
 void ContestGenerate::createNewTeamTab(unsigned int gameNumber)
 {
