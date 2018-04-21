@@ -93,13 +93,7 @@ bool ContestGenerate::setNumberContestTeam()
             break;
         }
     }while(true);
-
-//    qDebug() << "\nOKKKKKK\nTotal:: " << totalPlayers
-//             << "\nTT3 players team:: " << m_threePlayersTeamNumber << "\n2 players team:: " << m_twoPlayersTeamNumber
-//             << "\n3 players team mod:: "<< threePlayersTeamNumberModulo << "\n\n";
-
     return true;
-
 }
 
 void ContestGenerate::setTeamBuildOption(unsigned int option, unsigned int gamesNumber)
@@ -160,8 +154,6 @@ void ContestGenerate::generateTeam()
                vectWomenNames = m_stockPlayersWomen;
     generateThreePlayersTeam(vectMenNames, vectWomenNames);
     generateTwoPlayersTeam(vectMenNames, vectWomenNames);
-//    displayTeams();
-//    displayNames();
 }
 
 void ContestGenerate::generateThreePlayersTeam(vectString &men, vectString &women)
@@ -231,7 +223,6 @@ void ContestGenerate::displayTeams() const
             qDebug() <<  QString(m_twoPlayersTeam[i].getPlayerName(j).c_str());
         }
     }
-    //<< "\nTT3 players team:: " << threePlayersTeamNumber << "\n2 players team:: " << twoPlayersTeamNumber
 }
 
 void ContestGenerate::displayNames() const
@@ -293,10 +284,9 @@ void ContestGenerate::generateGlobalGames()
 
 void ContestGenerate::generateMeleeGames()
 {
-    //displayTeams();
     for(unsigned int i = 1; i < m_gamesNumber;++i)
     {
-        setTeamsOpponents(i);//set m_gamesOpContainer
+        setTeamsOpponents(i);
         createNewTeamTab(i);
     }
 }

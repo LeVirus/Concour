@@ -5,7 +5,6 @@
 #include <QTextStream>
 #include <QJsonDocument>
 #include <QJsonArray>
-//#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -67,7 +66,6 @@ bool MainWindow::extractAndGetJsonDoc(QJsonDocument &doc)
     {
         QTextStream stream(&file);
         stream >> jsonContent;
-//        QMessageBox::warning(this, "test", jsonContent);
         file.close();
     }
     else
@@ -109,7 +107,6 @@ void MainWindow::loadDatasFromFile()
 
     QJsonArray women = obj["Femmes"].toArray();
     QJsonArray men = obj["Hommes"].toArray();
-//        qDebug() << men.count() << women.count();
     for(int i = 0; i < women.count(); ++i)
     {
         form->insertPlayer(false, women.at(i).toString());

@@ -7,10 +7,6 @@
 QString PdfDocGeneration::m_htmlContent;
 QString PdfDocGeneration::m_saveDir;
 unsigned int PdfDocGeneration::m_gameNumber;
-//PdfDocGeneration::PdfDocGeneration(const GamesOpponentsContainer &goc, unsigned int numGame): m_gameNumber(numGame)
-//{
-//    updateDocFromGames(goc);
-//}
 
 void PdfDocGeneration::updateDocFromGames(const GamesOpponentsContainer &goc, unsigned int numGame)
 {
