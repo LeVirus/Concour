@@ -293,9 +293,9 @@ void ContestGenerate::generateGlobalGames()
 
 void ContestGenerate::createNewTeamTab(unsigned int gameNumber)
 {
-    QWidget *scrollAreaWidgetContents = new QWidget;
+    QWidget *scrollAreaWidgetContents = new QWidget(this);
     scrollAreaWidgetContents->setLayout(new VersusTeams(m_vectGamesOpContainer[m_vectGamesOpContainer.size() - 1]));
-    QScrollArea *scroll = new QScrollArea();
+    QScrollArea *scroll = new QScrollArea(this);
     scroll->setWidgetResizable(true);
     scroll->setWidget(scrollAreaWidgetContents);
     scroll->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
