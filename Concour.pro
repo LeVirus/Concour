@@ -16,7 +16,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    form.cpp \
     playerline.cpp \
     modifyline.cpp \
     windowsaveask.cpp \
@@ -25,10 +24,13 @@ SOURCES += main.cpp\
     team.cpp \
     gamesopponnentscontainer.cpp \
     versusteams.cpp \
-    pdfdocgeneration.cpp
+    pdfdocgeneration.cpp \
+    modechoosewindow.cpp \
+    meleemeleeform.cpp \
+    presetteamform.cpp \
+    teamline.cpp
 
 HEADERS  += mainwindow.h \
-    form.h \
     playerline.h \
     modifyline.h \
     windowsaveask.h \
@@ -37,11 +39,17 @@ HEADERS  += mainwindow.h \
     team.h \
     gamesopponnentscontainer.h \
     versusteams.h \
-    pdfdocgeneration.h
+    pdfdocgeneration.h \
+    modechoosewindow.h \
+    meleemeleeform.h \
+    presetteamform.h \
+    teamline.h
 
 FORMS    += mainwindow.ui \
-    form.ui \
     modifyline.ui \
     windowsaveask.ui \
     contestgenerate.ui \
-    windowteamconstruct.ui
+    windowteamconstruct.ui \
+    modechoosewindow.ui \
+    presetteamform.ui \
+    meleemeleeform.ui

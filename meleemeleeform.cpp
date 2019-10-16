@@ -1,4 +1,4 @@
-#include "form.h"
+#include "meleemeleeform.h"
 #include "ui_form.h"
 #include <QMessageBox>
 #include <QJsonArray>
@@ -7,9 +7,9 @@
 #include <QTextStream>
 #include <QFileDialog>
 
-Form *Form::m_FormInstance;
+MeleeMeleeForm *MeleeMeleeForm::m_FormInstance;
 
-Form::Form(QWidget *parent) :
+MeleeMeleeForm::MeleeMeleeForm(QWidget *parent) :
     QDialog(parent),
     m_ui(new Ui::Form)
 {
@@ -33,7 +33,7 @@ Form::Form(QWidget *parent) :
     m_comboBox = findChild<QComboBox*>("comboBox");
 }
 
-void Form::on_pushButton_clicked()
+void MeleeMeleeForm::on_pushButton_clicked()
 {
     if(m_lineEdit && m_comboBox && m_memListMan && m_memListWoman)
     {
@@ -63,7 +63,7 @@ void Form::on_pushButton_clicked()
     m_saved = false;
 }
 
-bool Form::checkExist(const QString &str, QVBoxLayout &memVbox) const
+bool MeleeMeleeForm::checkExist(const QString &str, QVBoxLayout &memVbox) const
 {
     for(int i = 0; i < memVbox.count(); ++i)
     {
@@ -76,17 +76,17 @@ bool Form::checkExist(const QString &str, QVBoxLayout &memVbox) const
     return false;
 }
 
-bool Form::checkGlobalExist(const QString &str) const
+bool MeleeMeleeForm::checkGlobalExist(const QString &str) const
 {
     return checkExist(str, *m_memListMan) || checkExist(str, *m_memListWoman);
 }
 
-void Form::setDataSaved(bool saved)
+void MeleeMeleeForm::setDataSaved(bool saved)
 {
     m_saved = saved;
 }
 
-void Form::changePlayerLineGenderArray(PlayerLine *playerLine)
+void MeleeMeleeForm::changePlayerLineGenderArray(PlayerLine *playerLine)
 {
     if(! playerLine)
     {
@@ -106,7 +106,7 @@ void Form::changePlayerLineGenderArray(PlayerLine *playerLine)
     }
 }
 
-void Form::cleanUpPlayers()
+void MeleeMeleeForm::cleanUpPlayers()
 {
     clearPlayerLines();
     if(m_lineEdit)
@@ -115,7 +115,7 @@ void Form::cleanUpPlayers()
     }
 }
 
-void Form::insertPlayer(bool man, const QString &name)
+void MeleeMeleeForm::insertPlayer(bool man, const QString &name)
 {
     if(checkGlobalExist(name))
     {
@@ -135,17 +135,17 @@ void Form::insertPlayer(bool man, const QString &name)
 
 }
 
-void Form::setTeamBuildOption(unsigned int teamOption, unsigned int gamesNumber)
+void MeleeMeleeForm::setTeamBuildOption(unsigned int teamOption, unsigned int gamesNumber)
 {
     m_contestGenWindow.setTeamBuildOption(teamOption, gamesNumber);
 }
 
-void Form::setGenerationOK(bool ok)
+void MeleeMeleeForm::setGenerationOK(bool ok)
 {
     m_okGenerate = ok;
 }
 
-void Form::setLayouts()
+void MeleeMeleeForm::setLayouts()
 {
     QScrollArea *sds = findChild<QScrollArea*>("scrollArea");
     QScrollArea *sdsB = findChild<QScrollArea*>("scrollArea_2");
@@ -155,7 +155,7 @@ void Form::setLayouts()
     sdsB->setLayout(m_memListWoman);
 }
 
-void Form::setScrolls()
+void MeleeMeleeForm::setScrolls()
 {
     QWidget* wid = findChild<QScrollArea*>("scrollArea")->
             findChild<QWidget*>("scrollAreaWidgetContents");
@@ -168,7 +168,7 @@ void Form::setScrolls()
     /**SOLUTION SCROLL*/
 }
 
-void Form::getJsonFromPlayers(QJsonObject &jsonObj) const
+void MeleeMeleeForm::getJsonFromPlayers(QJsonObject &jsonObj) const
 {
     if(! jsonObj.empty())
     {
@@ -198,7 +198,7 @@ void Form::getJsonFromPlayers(QJsonObject &jsonObj) const
     jsonObj.insert("Femmes", women);
 }
 
-void Form::closeEvent(QCloseEvent *event)
+void MeleeMeleeForm::closeEvent(QCloseEvent *event)
 {
     if(! m_saved)
     {
@@ -211,7 +211,7 @@ void Form::closeEvent(QCloseEvent *event)
     }
 }
 
-void Form::clearPlayerLines()
+void MeleeMeleeForm::clearPlayerLines()
 {
     bool first = false;
     QVBoxLayout *ptrCurrent = m_memListWoman;//begin women
@@ -237,7 +237,7 @@ void Form::clearPlayerLines()
     }while(true);
 }
 
-void Form::openGenerateContestMenu()
+void MeleeMeleeForm::openGenerateContestMenu()
 {
     if(m_contestGenWindow.updateCurrentContest(m_memListMan, m_memListWoman))
     {
@@ -252,7 +252,7 @@ void Form::openGenerateContestMenu()
     }
 }
 
-void Form::slotSavePlayers()
+void MeleeMeleeForm::slotSavePlayers()
 {
     QString fileName = getPathFile(this);
 
@@ -270,7 +270,7 @@ void Form::slotSavePlayers()
     m_saved = true;
 }
 
-QString Form::getPathFile(QWidget* ptrWidget)
+QString MeleeMeleeForm::getPathFile(QWidget* ptrWidget)
 {
     if(! ptrWidget)
     {
@@ -282,7 +282,7 @@ QString Form::getPathFile(QWidget* ptrWidget)
                                         tr("json(*.json);;All files (*)"));
 }
 
-Form::~Form()
+MeleeMeleeForm::~MeleeMeleeForm()
 {
     delete m_ui;
     clearPlayerLines();

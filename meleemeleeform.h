@@ -20,11 +20,11 @@ class Form;
 
 
 
-class Form : public QDialog
+class MeleeMeleeForm : public QDialog
 {
     Q_OBJECT
 private:
-    static Form* m_FormInstance;
+    static MeleeMeleeForm* m_FormInstance;
     Ui::Form *m_ui;
     QVBoxLayout* m_memListMan = nullptr;
     QVBoxLayout* m_memListWoman = nullptr;
@@ -43,19 +43,18 @@ private:
     virtual void closeEvent (QCloseEvent *event);
     QString getPathFile(QWidget *ptrWidget);
 public:
-    explicit Form(QWidget *parent = 0);
+    explicit MeleeMeleeForm(QWidget *parent = 0);
     bool checkGlobalExist(const QString &str)const;
     void setDataSaved(bool saved);
     void changePlayerLineGenderArray(PlayerLine *playerLine);
     void cleanUpPlayers();
     void insertPlayer(bool man, const QString &name);
-    static inline Form *getInstance(){return m_FormInstance;}
+    static inline MeleeMeleeForm *getInstance(){return m_FormInstance;}
     inline const QVBoxLayout* getManLayout()const{return m_memListMan;}
     inline const QVBoxLayout* getWomanLayout()const{return m_memListWoman;}
     void setTeamBuildOption(unsigned int teamOption, unsigned int gamesNumber);
     void setGenerationOK(bool ok);
-    ~Form();
-
+    ~MeleeMeleeForm();
 private slots:
     void on_pushButton_clicked();
     void clearPlayerLines();

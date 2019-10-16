@@ -1,6 +1,6 @@
 #include "windowteamconstruct.h"
 #include "ui_windowteamconstruct.h"
-#include "form.h"
+#include "meleemeleeform.h"
 #include <QRadioButton>
 #include <QSpinBox>
 
@@ -43,7 +43,7 @@ void WindowTeamConstruct::linkRadio()
 
 void WindowTeamConstruct::launchGenerationWindow()
 {
-    Form *form = Form::getInstance();
+    MeleeMeleeForm *form = MeleeMeleeForm::getInstance();
     if(form)
     {
         if(m_radMelee  && m_radMeleeMelee && m_spinNumberGames)

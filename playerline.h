@@ -20,7 +20,6 @@ private:
 private:
     void setButtons();
     void linkButtons();
-
 public:
     PlayerLine(const QString &labelStr, bool homme);
     void setLabel(const QString &label);

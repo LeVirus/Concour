@@ -1,7 +1,7 @@
 #include "modifyline.h"
 #include "ui_modifyline.h"
 #include "playerline.h"
-#include "form.h"
+#include "meleemeleeform.h"
 #include <QComboBox>
 #include <QLineEdit>
 #include <QMessageBox>
@@ -59,13 +59,13 @@ void ModifyLine::clickedOk()
         }
     }
     m_memPlayerLine = nullptr;
-    Form::getInstance()->setDataSaved(false);
+    MeleeMeleeForm::getInstance()->setDataSaved(false);
     hide();
 }
 
 bool ModifyLine::modifyPlayerLineLabel()
 {
-    Form* instance = Form::getInstance();
+    MeleeMeleeForm* instance = MeleeMeleeForm::getInstance();
     const QString &memStrLabel = m_lineEdit->text();
     if(m_PreviousLabelValue != memStrLabel && instance)
     {
@@ -107,7 +107,7 @@ void ModifyLine::clickedCancel()
 
 void ModifyLine::changeArrayLine()
 {
-    Form::getInstance()->changePlayerLineGenderArray(m_memPlayerLine);
+    MeleeMeleeForm::getInstance()->changePlayerLineGenderArray(m_memPlayerLine);
 }
 
 void ModifyLine::keyPressEvent(QKeyEvent *e)

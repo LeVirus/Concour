@@ -35,9 +35,20 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    f.cleanUpPlayers();
-    f.setDataSaved(true);
-    f.exec();
+    m_meleeMeleeForm.cleanUpPlayers();
+    m_meleeMeleeForm.setDataSaved(true);
+    m_modeChooseWindow.exec();
+    if(m_modeChooseWindow.checkOK())
+    {
+        if(m_modeChooseWindow.isMeleeMeleeMode())
+        {
+            m_meleeMeleeForm.exec();
+        }
+        else
+        {
+            m_presetTeamForm.exec();
+        }
+    }
 }
 
 QString MainWindow::getPathFile(QWidget* ptrWidget)
@@ -49,9 +60,7 @@ QString MainWindow::getPathFile(QWidget* ptrWidget)
     QFileDialog dialog;
     dialog.setDefaultSuffix("json");//doesn't work
     return dialog.getOpenFileName(ptrWidget,
-                       tr("Load File"),
-                       ".",
-                                  tr("json(*.json);;All files (*)"));
+                       tr("Load File"), ".", tr("json(*.json);;All files (*)"));
 }
 
 bool MainWindow::extractAndGetJsonDoc(QJsonDocument &doc)
@@ -84,7 +93,7 @@ bool MainWindow::extractAndGetJsonDoc(QJsonDocument &doc)
 
 void MainWindow::loadDatasFromFile()
 {
-    Form *form = Form::getInstance();
+    MeleeMeleeForm *form = MeleeMeleeForm::getInstance();
     if(!form)
     {
         return;
@@ -102,8 +111,8 @@ void MainWindow::loadDatasFromFile()
     }
 
     //clean up existing form
-    f.cleanUpPlayers();
-    f.setDataSaved(true);
+    m_meleeMeleeForm.cleanUpPlayers();
+    m_meleeMeleeForm.setDataSaved(true);
 
     QJsonArray women = obj["Femmes"].toArray();
     QJsonArray men = obj["Hommes"].toArray();
@@ -115,7 +124,7 @@ void MainWindow::loadDatasFromFile()
     {
         form->insertPlayer(true, men.at(i).toString());
     }
-    f.exec();
+    m_meleeMeleeForm.exec();
 }
 
 /**

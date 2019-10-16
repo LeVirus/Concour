@@ -1,5 +1,5 @@
 #include "playerline.h"
-#include "form.h"
+#include "meleemeleeform.h"
 #include <QPushButton>
 #include <QLabel>
 #include <memory>
@@ -26,14 +26,7 @@ void PlayerLine::setGender(bool gender)
 
 void PlayerLine::setButtons()
 {
-    QString pathDel, pathEdit;
-    #ifdef _WIN32
-    pathDel = "..\Concour\Icon\del.png";
-    pathDel = "..\Concour\Icon\edit.png";
-    #else
-    pathDel = "../Concour/Icon/del.png";
-    pathDel = "../Concour/Icon/edit.png";
-    #endif
+    QString pathDel;
     m_del = new QPushButton();
     m_del->setIcon(QIcon("../Concour/Icon/del.png"));
     m_del->setFixedWidth(40);
@@ -62,7 +55,7 @@ bool PlayerLine::getGender() const
 
 void PlayerLine::delThis()
 {
-    Form* form = Form::getInstance();
+    MeleeMeleeForm* form = MeleeMeleeForm::getInstance();
     if(form)
     {
         form->setDataSaved(false);

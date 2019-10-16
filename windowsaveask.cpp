@@ -1,6 +1,6 @@
 #include "windowsaveask.h"
 #include "ui_windowsaveask.h"
-#include "form.h"
+#include "meleemeleeform.h"
 
 WindowSaveAsk::WindowSaveAsk(QWidget *parent) :
     QDialog(parent),
@@ -32,14 +32,14 @@ void WindowSaveAsk::linkButtons()
 
 void WindowSaveAsk::saveForm()
 {
-    Form::getInstance()->slotSavePlayers();
-    Form::getInstance()->hide();
+    MeleeMeleeForm::getInstance()->slotSavePlayers();
+    MeleeMeleeForm::getInstance()->hide();
     hide();
 }
 
 void WindowSaveAsk::closeForm()
 {
-    Form::getInstance()->hide();
+    MeleeMeleeForm::getInstance()->hide();
     hide();
 }
 

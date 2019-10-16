@@ -3,7 +3,9 @@
 
 #include <QMainWindow>
 #include <QString>
-#include "form.h"
+#include "meleemeleeform.h"
+#include "modechoosewindow.h"
+#include "presetteamform.h"
 
 namespace Ui {
 class MainWindow;
@@ -26,7 +28,9 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    Form f;
+    MeleeMeleeForm m_meleeMeleeForm;
+    ModeChooseWindow m_modeChooseWindow;
+    PresetTeamForm m_presetTeamForm;
 };
 
 

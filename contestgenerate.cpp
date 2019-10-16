@@ -1,6 +1,6 @@
 #include "contestgenerate.h"
 #include "ui_contestgenerate.h"
-#include "form.h"
+#include "meleemeleeform.h"
 #include <QMessageBox>
 #include <QVBoxLayout>
 #include <QDebug>
