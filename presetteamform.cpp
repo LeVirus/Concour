@@ -25,10 +25,10 @@ void PresetTeamForm::linkUIElement()
 
 }
 
-void PresetTeamForm::displayError()
+void PresetTeamForm::displayError(const std::string &message)const
 {
     QMessageBox msgBox;
-    msgBox.setText("Erreur: Mauvaises entrée(s) d'équipe.");
+    msgBox.setText(QString(message.c_str()));
     msgBox.exec();
 }
 
@@ -40,14 +40,25 @@ void PresetTeamForm::on_pushButton_clicked()
     QString strC = playerC->text();
     if(strA.isEmpty() || strB.isEmpty())
     {
-        displayError();
+        displayError("Erreur: Mauvaises entrée(s) d'équipe.");
         return;
     }
-    m_vectTeam.push_back({strA.toStdString(),
-                          strB.toStdString(),
-                          strC.toStdString()});
-    m_TeamLayout->addLayout(new TeamLine(strA + QString("\t") +
-                                         strB + QString("\t") + strC));
+    std::string strStdA = strA.toStdString();
+    std::string strStdB = strB.toStdString();
+    std::string strStdC = strC.toStdString();
+    if(!checkEqualsEntries(strStdA, strStdB, strStdC) ||
+            !checkExistingPlayers(strStdA, strStdB, strStdC))
+    {
+        return;
+    }
+    m_vectPlayers.emplace_back(strStdA);
+    m_vectPlayers.emplace_back(strStdB);
+    if(!strC.isEmpty())
+    {
+        m_vectPlayers.emplace_back(strStdC);
+    }
+    m_vectTeam.push_back({strStdA, strStdB, strStdC});
+    m_TeamLayout->addLayout(new TeamLine(*this, strStdA, strStdB, strStdC));
     clearLineEdit();
 }
 
@@ -67,4 +78,45 @@ void PresetTeamForm::clearLineEdit()
     playerA->clear();
     playerB->clear();
     playerC->clear();
+}
+
+bool PresetTeamForm::checkEqualsEntries(const std::string &strA,
+                                        const std::string &strB,
+                                        const std::string &strC)const
+{
+    if(strA == strB || strA == strC || strB == strC)
+    {
+        displayError("Erreur noms entrés similaires.");
+        return false;
+    }
+    return true;
+}
+
+bool PresetTeamForm::checkExistingPlayers(const std::string &strA,
+                                          const std::string &strB,
+                                          const std::string &strC)const
+{
+    bool res = true;
+    std::vector<std::string>::const_iterator it;
+    std::string message = "Erreur joueur(s) déja existant(s)\n";
+    if(std::find(m_vectPlayers.begin(), m_vectPlayers.end(), strA) != m_vectPlayers.end())
+    {
+        res = false;
+        message += " " + strA;
+    }
+    if(std::find(m_vectPlayers.begin(), m_vectPlayers.end(), strB) != m_vectPlayers.end())
+    {
+        res = false;
+        message += " " + strB;
+    }
+    if(!strC.empty() && std::find(m_vectPlayers.begin(), m_vectPlayers.end(), strC) != m_vectPlayers.end())
+    {
+        res = false;
+        message += " " + strC;
+    }
+    if(!res)
+    {
+        displayError(message);
+    }
+    return res;
 }

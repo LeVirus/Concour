@@ -1,15 +1,27 @@
 #include "teamline.h"
+#include "presetteamform.h"
 #include <QLabel>
 #include <QPushButton>
+#include <QScrollBar>
 
-TeamLine::TeamLine(const QString &playerNames)
+TeamLine::TeamLine(PresetTeamForm &memPresetTeamForm,
+                   const std::string &playerA,
+                   const std::string &playerB,
+                   const std::string &playerC):
+    m_memPresetTeamForm(memPresetTeamForm),
+    m_playerA(playerA),
+    m_playerB(playerB),
+    m_playerC(playerC)
 {
-    m_label = new QLabel(playerNames);
-    m_label->setText(playerNames);
-    addWidget(m_label);
+    m_label = new QLabel(QString(m_playerA.c_str()) + "\n" + QString(m_playerB.c_str()) +
+                         "\n" + QString(m_playerC.c_str()));
+    m_scroll.setWidget(m_label);
+    m_scroll.setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    addWidget(&m_scroll);
     setButtons();
     linkButtons();
 }
+
 
 void TeamLine::setButtons()
 {
@@ -29,10 +41,10 @@ void TeamLine::linkButtons()
     QObject::connect(m_modif, SIGNAL(clicked()), this, SLOT(createModifyWindow()));
 }
 
-
 void TeamLine::delThis()
 {
-
+//    m_memPresetTeamForm.delTeam();
+    delete this;
 }
 
 void TeamLine::createModifyWindow()
