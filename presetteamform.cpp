@@ -2,6 +2,7 @@
 #include "ui_presetteamform.h"
 #include "teamline.h"
 #include <QMessageBox>
+#include <iostream>
 
 PresetTeamForm::PresetTeamForm(QWidget *parent) :
     QDialog(parent),
@@ -12,9 +13,39 @@ PresetTeamForm::PresetTeamForm(QWidget *parent) :
     linkUIElement();
 }
 
+bool PresetTeamForm::delTeam(const std::string &playerA,
+                             const std::string &playerB,
+                             const std::string &playerC)
+{
+    bool retA = delPlayer(playerA);
+    bool retB = delPlayer(playerB);
+    bool retC = delPlayer(playerC);
+    return retA && retB && retC;
+}
+
 PresetTeamForm::~PresetTeamForm()
 {
     delete ui;
+}
+
+bool PresetTeamForm::delPlayer(const std::string &player)
+{
+    bool ret = true;
+    if(player.empty())
+    {
+        return ret;
+    }
+    itStrVect_t it = std::find(m_vectPlayers.begin(), m_vectPlayers.end(), player);
+    if(it == m_vectPlayers.end())
+    {
+        std::cerr << "Fuck " << player << " " << m_vectPlayers[0] << " d\n";
+        ret = false;
+    }
+    else
+    {
+        m_vectPlayers.erase(it);
+    }
+    return ret;
 }
 
 void PresetTeamForm::linkUIElement()
@@ -57,7 +88,6 @@ void PresetTeamForm::on_pushButton_clicked()
     {
         m_vectPlayers.emplace_back(strStdC);
     }
-    m_vectTeam.push_back({strStdA, strStdB, strStdC});
     m_TeamLayout->addLayout(new TeamLine(*this, strStdA, strStdB, strStdC));
     clearLineEdit();
 }

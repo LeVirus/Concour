@@ -3,6 +3,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QScrollBar>
+#include <cassert>
 
 TeamLine::TeamLine(PresetTeamForm &memPresetTeamForm,
                    const std::string &playerA,
@@ -43,7 +44,8 @@ void TeamLine::linkButtons()
 
 void TeamLine::delThis()
 {
-//    m_memPresetTeamForm.delTeam();
+    bool ok = m_memPresetTeamForm.delTeam(m_playerA, m_playerB, m_playerC);
+    assert(ok && "Error incoherent players array.");
     delete this;
 }
 

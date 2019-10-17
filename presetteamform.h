@@ -9,9 +9,11 @@
 #include <string>
 
 class QVBoxLayout;
-using vectTeam_t = std::vector<std::tuple<std::string, std::string, std::string>>;
+using itStrVect_t = std::vector<std::string>::iterator;
+using cstItStrVect_t = std::vector<std::string>::const_iterator;
 
-namespace Ui {
+namespace Ui
+{
 class PresetTeamForm;
 }
 
@@ -21,8 +23,12 @@ class PresetTeamForm : public QDialog
 
 public:
     explicit PresetTeamForm(QWidget *parent = 0);
+    bool delTeam(const std::string &playerA,
+                 const std::string &playerB,
+                 const std::string &playerC);
     ~PresetTeamForm();
 private:
+    bool delPlayer(const std::string &player);
     void linkUIElement();
     void displayError(const std::string &message)const;
     void setLayouts();
@@ -39,7 +45,6 @@ private slots:
 private:
     Ui::PresetTeamForm *ui;
     QLineEdit *playerA, *playerB, *playerC;
-    vectTeam_t m_vectTeam;
     std::vector<std::string> m_vectPlayers;
     QVBoxLayout *m_TeamLayout;
 };
