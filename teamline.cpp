@@ -51,7 +51,7 @@ void TeamLine::delThis()
 
 void TeamLine::createModifyWindow()
 {
-
+//    m_memPresetTeamForm.modTeam();
 }
 
 TeamLine::~TeamLine()

@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     modechoosewindow.cpp \
     meleemeleeform.cpp \
     presetteamform.cpp \
-    teamline.cpp
+    teamline.cpp \
+    modteam.cpp
 
 HEADERS  += mainwindow.h \
     playerline.h \
@@ -43,7 +44,8 @@ HEADERS  += mainwindow.h \
     modechoosewindow.h \
     meleemeleeform.h \
     presetteamform.h \
-    teamline.h
+    teamline.h \
+    modteam.h
 
 FORMS    += mainwindow.ui \
     modifyline.ui \
@@ -52,4 +54,5 @@ FORMS    += mainwindow.ui \
     windowteamconstruct.ui \
     modechoosewindow.ui \
     presetteamform.ui \
-    meleemeleeform.ui
+    meleemeleeform.ui \
+    modteam.ui

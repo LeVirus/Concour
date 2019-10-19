@@ -9,8 +9,10 @@
 #include <string>
 
 class QVBoxLayout;
-using itStrVect_t = std::vector<std::string>::iterator;
-using cstItStrVect_t = std::vector<std::string>::const_iterator;
+
+using vectStr_t = std::vector<std::string>;
+using itStrVect_t = std::vector<vectStr_t>::iterator;
+using cstItStrVect_t = std::vector<vectStr_t>::const_iterator;
 
 namespace Ui
 {
@@ -28,7 +30,6 @@ public:
                  const std::string &playerC);
     ~PresetTeamForm();
 private:
-    bool delPlayer(const std::string &player);
     void linkUIElement();
     void displayError(const std::string &message)const;
     void setLayouts();
@@ -45,7 +46,7 @@ private slots:
 private:
     Ui::PresetTeamForm *ui;
     QLineEdit *playerA, *playerB, *playerC;
-    std::vector<std::string> m_vectPlayers;
+    std::vector<std::vector<std::string>> m_vectPlayers;
     QVBoxLayout *m_TeamLayout;
 };
 

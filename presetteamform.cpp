@@ -2,7 +2,6 @@
 #include "ui_presetteamform.h"
 #include "teamline.h"
 #include <QMessageBox>
-#include <iostream>
 
 PresetTeamForm::PresetTeamForm(QWidget *parent) :
     QDialog(parent),
@@ -17,35 +16,22 @@ bool PresetTeamForm::delTeam(const std::string &playerA,
                              const std::string &playerB,
                              const std::string &playerC)
 {
-    bool retA = delPlayer(playerA);
-    bool retB = delPlayer(playerB);
-    bool retC = delPlayer(playerC);
-    return retA && retB && retC;
+    for(itStrVect_t it = m_vectPlayers.begin(); it != m_vectPlayers.end(); ++it)
+    {
+        if((*it)[0] == playerA &&
+           (*it)[1] == playerB &&
+           ((*it).size() <= 2 || (*it)[2] == playerC))
+        {
+            m_vectPlayers.erase(it);
+            return true;
+        }
+    }
+    return false;
 }
 
 PresetTeamForm::~PresetTeamForm()
 {
     delete ui;
-}
-
-bool PresetTeamForm::delPlayer(const std::string &player)
-{
-    bool ret = true;
-    if(player.empty())
-    {
-        return ret;
-    }
-    itStrVect_t it = std::find(m_vectPlayers.begin(), m_vectPlayers.end(), player);
-    if(it == m_vectPlayers.end())
-    {
-        std::cerr << "Fuck " << player << " " << m_vectPlayers[0] << " d\n";
-        ret = false;
-    }
-    else
-    {
-        m_vectPlayers.erase(it);
-    }
-    return ret;
 }
 
 void PresetTeamForm::linkUIElement()
@@ -77,16 +63,18 @@ void PresetTeamForm::on_pushButton_clicked()
     std::string strStdA = strA.toStdString();
     std::string strStdB = strB.toStdString();
     std::string strStdC = strC.toStdString();
-    if(!checkEqualsEntries(strStdA, strStdB, strStdC) ||
-            !checkExistingPlayers(strStdA, strStdB, strStdC))
+    if(checkEqualsEntries(strStdA, strStdB, strStdC) ||
+            checkExistingPlayers(strStdA, strStdB, strStdC))
     {
         return;
     }
-    m_vectPlayers.emplace_back(strStdA);
-    m_vectPlayers.emplace_back(strStdB);
     if(!strC.isEmpty())
     {
-        m_vectPlayers.emplace_back(strStdC);
+        m_vectPlayers.emplace_back(vectStr_t{strStdA, strStdB, strStdC});
+    }
+    else
+    {
+        m_vectPlayers.emplace_back(vectStr_t{strStdA, strStdB});
     }
     m_TeamLayout->addLayout(new TeamLine(*this, strStdA, strStdB, strStdC));
     clearLineEdit();
@@ -117,34 +105,48 @@ bool PresetTeamForm::checkEqualsEntries(const std::string &strA,
     if(strA == strB || strA == strC || strB == strC)
     {
         displayError("Erreur noms entrés similaires.");
-        return false;
+        return true;
     }
-    return true;
+    return false;
 }
 
 bool PresetTeamForm::checkExistingPlayers(const std::string &strA,
                                           const std::string &strB,
                                           const std::string &strC)const
 {
-    bool res = true;
-    std::vector<std::string>::const_iterator it;
+    bool res = false;
+    bool playerFoundA = false,
+         playerFoundB = false,
+         playerFoundC = false;
     std::string message = "Erreur joueur(s) déja existant(s)\n";
-    if(std::find(m_vectPlayers.begin(), m_vectPlayers.end(), strA) != m_vectPlayers.end())
+    for(size_t i = 0; i < m_vectPlayers.size(); ++i)
     {
-        res = false;
-        message += " " + strA;
+        if((!playerFoundA && m_vectPlayers[i][0] == strA) ||
+                (m_vectPlayers[i][1] == strA) ||
+                (m_vectPlayers[i].size() > 2 && m_vectPlayers[i][2] == strA))
+        {
+            res = true;
+            playerFoundA = true;
+            message += " " + strA;
+        }
+        if((!playerFoundB && m_vectPlayers[i][0] == strB) ||
+                (m_vectPlayers[i][1] == strB) ||
+                (m_vectPlayers[i].size() > 2 && m_vectPlayers[i][2] == strB))
+        {
+            res = true;
+            playerFoundB = true;
+            message += " " + strB;
+        }
+        if((!playerFoundC && m_vectPlayers[i][0] == strC) ||
+                (m_vectPlayers[i][1] == strC) ||
+                (m_vectPlayers[i].size() > 2 && m_vectPlayers[i][2] == strC))
+        {
+            res = true;
+            playerFoundC = true;
+            message += " " + strC;
+        }
     }
-    if(std::find(m_vectPlayers.begin(), m_vectPlayers.end(), strB) != m_vectPlayers.end())
-    {
-        res = false;
-        message += " " + strB;
-    }
-    if(!strC.empty() && std::find(m_vectPlayers.begin(), m_vectPlayers.end(), strC) != m_vectPlayers.end())
-    {
-        res = false;
-        message += " " + strC;
-    }
-    if(!res)
+    if(res)
     {
         displayError(message);
     }
