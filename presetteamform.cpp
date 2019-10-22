@@ -29,11 +29,6 @@ bool PresetTeamForm::delTeam(const std::string &playerA,
     return false;
 }
 
-PresetTeamForm::~PresetTeamForm()
-{
-    delete ui;
-}
-
 void PresetTeamForm::linkUIElement()
 {
     playerA = findChild<QLineEdit*>("lineEdit");
@@ -151,4 +146,10 @@ bool PresetTeamForm::checkExistingPlayers(const std::string &strA,
         displayError(message);
     }
     return res;
+}
+
+
+PresetTeamForm::~PresetTeamForm()
+{
+    delete ui;
 }

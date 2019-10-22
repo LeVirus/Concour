@@ -46,7 +46,7 @@ private slots:
 private:
     Ui::PresetTeamForm *ui;
     QLineEdit *playerA, *playerB, *playerC;
-    std::vector<std::vector<std::string>> m_vectPlayers;
+    std::vector<vectStr_t> m_vectPlayers;
     QVBoxLayout *m_TeamLayout;
 };
 

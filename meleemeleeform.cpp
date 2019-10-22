@@ -242,12 +242,9 @@ void MeleeMeleeForm::openGenerateContestMenu()
     if(m_contestGenWindow.updateCurrentContest(m_memListMan, m_memListWoman))
     {
         m_windowConstruct.exec();
-        if(m_okGenerate)
-        {
-            m_contestGenWindow.generateGlobalGames();
-            m_contestGenWindow.updateUI();
-            m_contestGenWindow.exec();
-        }
+        m_contestGenWindow.generateGlobalGames();
+        m_contestGenWindow.updateUI();
+        m_contestGenWindow.exec();
         m_okGenerate = false;
     }
 }
