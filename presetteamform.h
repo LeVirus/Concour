@@ -28,20 +28,23 @@ public:
     bool delTeam(const std::string &playerA,
                  const std::string &playerB,
                  const std::string &playerC);
+    bool addTeam(const std::string &strStdA,
+                 const std::string &strStdB,
+                 const std::string &strStdC);
     ~PresetTeamForm();
 private:
     void linkUIElement();
-    void displayError(const std::string &message)const;
     void setLayouts();
     void clearLineEdit();
-    bool checkExistingPlayers(const std::string &strA,
-                              const std::string &strB,
-                              const std::string &strC) const;
-    bool checkEqualsEntries(const std::string &strA,
-                            const std::string &strB,
-                            const std::string &strC) const;
+    itStrVect_t findElement(const std::string &playerA,
+                            const std::string &playerB,
+                            const std::string &playerC);
 private slots:
     void on_pushButton_clicked();
+public slots:
+    bool checkExistingPlayers(const std::string &strA,
+                              const std::string &strB,
+                              const std::string &strC)const;
 
 private:
     Ui::PresetTeamForm *ui;
@@ -49,5 +52,10 @@ private:
     std::vector<vectStr_t> m_vectPlayers;
     QVBoxLayout *m_TeamLayout;
 };
+
+void displayError(const std::string &message);
+bool checkEqualsEntries(const std::string &strA,
+                        const std::string &strB,
+                        const std::string &strC);
 
 #endif // PRESETTEAMFORM_H

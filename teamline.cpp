@@ -1,5 +1,6 @@
 #include "teamline.h"
 #include "presetteamform.h"
+#include "modteam.h"
 #include <QLabel>
 #include <QPushButton>
 #include <QScrollBar>
@@ -21,6 +22,24 @@ TeamLine::TeamLine(PresetTeamForm &memPresetTeamForm,
     addWidget(&m_scroll);
     setButtons();
     linkButtons();
+    m_ThreePlayer = playerC.empty() ? false : true;
+}
+
+bool TeamLine::checkEntries(const std::string &playerA,
+                            const std::string &playerB,
+                            const std::string &playerC)
+{
+    return checkEqualsEntries(playerA, playerB, playerC) &&
+            m_memPresetTeamForm.delTeam(playerA, playerB, playerC) &&
+            m_memPresetTeamForm.checkExistingPlayers(playerA, playerB, playerC);
+}
+
+void TeamLine::setPlayers(const std::string &playerA,
+                          const std::string &playerB,
+                          const std::string &playerC)
+{
+    m_label->setText(QString(playerA.c_str()) + "\n" + QString(playerB.c_str()) +
+                     "\n" + QString(playerC.c_str()));
 }
 
 
@@ -51,7 +70,8 @@ void TeamLine::delThis()
 
 void TeamLine::createModifyWindow()
 {
-    m_memPresetTeamForm.exec();
+    ModTeam modTeam(*this);
+    modTeam.exec();
 }
 
 TeamLine::~TeamLine()

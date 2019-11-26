@@ -16,17 +16,42 @@ bool PresetTeamForm::delTeam(const std::string &playerA,
                              const std::string &playerB,
                              const std::string &playerC)
 {
-    for(itStrVect_t it = m_vectPlayers.begin(); it != m_vectPlayers.end(); ++it)
+    itStrVect_t it = findElement(playerA, playerB, playerC);
+    if(it != m_vectPlayers.end())
     {
-        if((*it)[0] == playerA &&
-           (*it)[1] == playerB &&
-           ((*it).size() <= 2 || (*it)[2] == playerC))
-        {
-            m_vectPlayers.erase(it);
-            return true;
-        }
+
+        m_vectPlayers.erase(it);
+
+        //TMP
+//        for(size_t i = 0; i < m_vectPlayers.size(); ++i)
+//        {
+//            displayError(m_vectPlayers[i][0]);
+//            displayError(m_vectPlayers[i][1]);
+//        }
+        //TMP
+        return true;
     }
     return false;
+}
+
+bool PresetTeamForm::addTeam(const std::string &strStdA,
+                             const std::string &strStdB,
+                             const std::string &strStdC)
+{
+    if(checkEqualsEntries(strStdA, strStdB, strStdC) ||
+            checkExistingPlayers(strStdA, strStdB, strStdC))
+    {
+        return false;
+    }
+    if(!strStdC.empty())
+    {
+        m_vectPlayers.emplace_back(vectStr_t{strStdA, strStdB, strStdC});
+    }
+    else
+    {
+        m_vectPlayers.emplace_back(vectStr_t{strStdA, strStdB});
+    }
+    return true;
 }
 
 void PresetTeamForm::linkUIElement()
@@ -37,7 +62,7 @@ void PresetTeamForm::linkUIElement()
 
 }
 
-void PresetTeamForm::displayError(const std::string &message)const
+void displayError(const std::string &message)
 {
     QMessageBox msgBox;
     msgBox.setText(QString(message.c_str()));
@@ -58,18 +83,9 @@ void PresetTeamForm::on_pushButton_clicked()
     std::string strStdA = strA.toStdString();
     std::string strStdB = strB.toStdString();
     std::string strStdC = strC.toStdString();
-    if(checkEqualsEntries(strStdA, strStdB, strStdC) ||
-            checkExistingPlayers(strStdA, strStdB, strStdC))
+    if(!addTeam(strStdA, strStdB, strStdC))
     {
         return;
-    }
-    if(!strC.isEmpty())
-    {
-        m_vectPlayers.emplace_back(vectStr_t{strStdA, strStdB, strStdC});
-    }
-    else
-    {
-        m_vectPlayers.emplace_back(vectStr_t{strStdA, strStdB});
     }
     m_TeamLayout->addLayout(new TeamLine(*this, strStdA, strStdB, strStdC));
     clearLineEdit();
@@ -93,9 +109,26 @@ void PresetTeamForm::clearLineEdit()
     playerC->clear();
 }
 
-bool PresetTeamForm::checkEqualsEntries(const std::string &strA,
-                                        const std::string &strB,
-                                        const std::string &strC)const
+itStrVect_t PresetTeamForm::findElement(const std::string &playerA,
+                                        const std::string &playerB,
+                                        const std::string &playerC)
+{
+    itStrVect_t it = m_vectPlayers.begin();
+    for(; it != m_vectPlayers.end(); ++it)
+    {
+        if((*it)[0] == playerA &&
+           (*it)[1] == playerB &&
+           ((*it).size() <= 2 || (*it)[2] == playerC))
+        {
+            break;
+        }
+    }
+    return it;
+}
+
+bool checkEqualsEntries(const std::string &strA,
+                        const std::string &strB,
+                        const std::string &strC)
 {
     if(strA == strB || strA == strC || strB == strC)
     {
