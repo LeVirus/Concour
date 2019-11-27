@@ -21,14 +21,6 @@ bool PresetTeamForm::delTeam(const std::string &playerA,
     {
 
         m_vectPlayers.erase(it);
-
-        //TMP
-//        for(size_t i = 0; i < m_vectPlayers.size(); ++i)
-//        {
-//            displayError(m_vectPlayers[i][0]);
-//            displayError(m_vectPlayers[i][1]);
-//        }
-        //TMP
         return true;
     }
     return false;
@@ -181,8 +173,14 @@ bool PresetTeamForm::checkExistingPlayers(const std::string &strA,
     return res;
 }
 
+//Generate
+void PresetTeamForm::on_pushButton_2_clicked()
+{
+
+}
 
 PresetTeamForm::~PresetTeamForm()
 {
     delete ui;
 }
+

@@ -60,7 +60,7 @@ private:
     void getVectNumberTeam(vectUi &threeSome, vectUi &doublet)const;
 public:
     explicit ContestGenerate(QWidget *parent = 0);
-    void setTeamBuildOption(unsigned int option, unsigned int gamesNumber);
+    void setTeamBuildOption(unsigned int gamesNumber);
     void storePlayersNames();
     void generateTeam();
     void generateThreePlayersTeam(vectString &men, vectString &women);

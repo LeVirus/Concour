@@ -52,7 +52,7 @@ public:
     static inline MeleeMeleeForm *getInstance(){return m_FormInstance;}
     inline const QVBoxLayout* getManLayout()const{return m_memListMan;}
     inline const QVBoxLayout* getWomanLayout()const{return m_memListWoman;}
-    void setTeamBuildOption(unsigned int teamOption, unsigned int gamesNumber);
+    void setTeamBuildOption(unsigned int gamesNumber);
     void setGenerationOK(bool ok);
     ~MeleeMeleeForm();
 private slots:

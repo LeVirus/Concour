@@ -135,9 +135,9 @@ void MeleeMeleeForm::insertPlayer(bool man, const QString &name)
 
 }
 
-void MeleeMeleeForm::setTeamBuildOption(unsigned int teamOption, unsigned int gamesNumber)
+void MeleeMeleeForm::setTeamBuildOption(unsigned int gamesNumber)
 {
-    m_contestGenWindow.setTeamBuildOption(teamOption, gamesNumber);
+    m_contestGenWindow.setTeamBuildOption(gamesNumber);
 }
 
 void MeleeMeleeForm::setGenerationOK(bool ok)

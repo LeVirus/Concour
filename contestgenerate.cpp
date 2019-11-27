@@ -96,16 +96,8 @@ bool ContestGenerate::setNumberContestTeam()
     return true;
 }
 
-void ContestGenerate::setTeamBuildOption(unsigned int option, unsigned int gamesNumber)
+void ContestGenerate::setTeamBuildOption(unsigned int gamesNumber)
 {
-    if(option > MELEE_MELEE)//if bad option
-    {
-        m_teamBuildOption = MELEE;
-    }
-    else
-    {
-        m_teamBuildOption = option;
-    }
     if(gamesNumber != 0 && gamesNumber < 10)
     {
         m_gamesNumber = ++gamesNumber;

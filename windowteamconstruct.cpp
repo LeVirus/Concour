@@ -35,9 +35,6 @@ void WindowTeamConstruct::linkButtons()
 
 void WindowTeamConstruct::linkRadio()
 {
-    m_radMelee = findChild<QRadioButton*>("radioButton");
-    m_radMeleeMelee = findChild<QRadioButton*>("radioButton_3");
-
     m_spinNumberGames = findChild<QSpinBox*>("spinBox");
 }
 
@@ -46,18 +43,9 @@ void WindowTeamConstruct::launchGenerationWindow()
     MeleeMeleeForm *form = MeleeMeleeForm::getInstance();
     if(form)
     {
-        if(m_radMelee  && m_radMeleeMelee && m_spinNumberGames)
+        if(m_spinNumberGames)
         {
-            unsigned int option;
-            if(m_radMelee->isChecked())
-            {
-                option = MELEE;
-            }
-            else
-            {
-                option = MELEE_MELEE;
-            }
-            form->setTeamBuildOption(option, m_spinNumberGames->value());
+            form->setTeamBuildOption(m_spinNumberGames->value());
             form->setGenerationOK(true);
         }
     }

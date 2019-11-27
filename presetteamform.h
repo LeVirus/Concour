@@ -1,6 +1,7 @@
 #ifndef PRESETTEAMFORM_H
 #define PRESETTEAMFORM_H
 
+#include "windowteamconstruct.h"
 #include <QWidget>
 #include <QDialog>
 #include <QLineEdit>
@@ -41,6 +42,8 @@ private:
                             const std::string &playerC);
 private slots:
     void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
+
 public slots:
     bool checkExistingPlayers(const std::string &strA,
                               const std::string &strB,
@@ -51,6 +54,7 @@ private:
     QLineEdit *playerA, *playerB, *playerC;
     std::vector<vectStr_t> m_vectPlayers;
     QVBoxLayout *m_TeamLayout;
+    WindowTeamConstruct m_windowTeamConstruct;
 };
 
 void displayError(const std::string &message);

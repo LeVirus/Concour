@@ -21,8 +21,6 @@ public:
 
 private:
     Ui::WindowTeamConstruct *ui;
-    QRadioButton *m_radMelee = nullptr,
-                *m_radMeleeMelee = nullptr;
     QSpinBox * m_spinNumberGames = nullptr;
 private:
     void linkButtons();
