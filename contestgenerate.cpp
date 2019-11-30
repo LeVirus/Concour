@@ -1,6 +1,7 @@
 #include "contestgenerate.h"
 #include "ui_contestgenerate.h"
 #include "meleemeleeform.h"
+#include "team.h"
 #include <QMessageBox>
 #include <QVBoxLayout>
 #include <QDebug>
@@ -42,8 +43,9 @@ bool ContestGenerate::linkWidgets()
     return m_DoubletNumber && m_ThreesomeNumber && m_MenTotal && m_WomenTotal && m_gamesTab;
 }
 
-bool ContestGenerate::updateCurrentContest(const QVBoxLayout* manLayout, const QVBoxLayout* womanLayout)
+bool ContestGenerate::updateCurrentContestMeleeMelee(const QVBoxLayout* manLayout, const QVBoxLayout* womanLayout)
 {
+    m_teamBuildOption = TeamGenerationMode::MELEE_MELEE;
     m_manLayout = manLayout;
     m_womanLayout = womanLayout;
     if(! m_manLayout || ! m_womanLayout)
@@ -58,6 +60,11 @@ bool ContestGenerate::updateCurrentContest(const QVBoxLayout* manLayout, const Q
         return false;
     }
     return true;
+}
+
+void ContestGenerate::updateContestPresetTeam(const std::vector<vectString> &vectTeam)
+{
+    m_vectPresetTeam = vectTeam;
 }
 
 bool ContestGenerate::setNumberContestTeam()
@@ -96,11 +103,13 @@ bool ContestGenerate::setNumberContestTeam()
     return true;
 }
 
-void ContestGenerate::setTeamBuildOption(unsigned int gamesNumber)
+void ContestGenerate::setTeamBuildOption(unsigned int gamesNumber,
+                                         TeamGenerationMode mode)
 {
+    m_teamBuildOption = mode;
     if(gamesNumber != 0 && gamesNumber < 10)
     {
-        m_gamesNumber = ++gamesNumber;
+       ++gamesNumber;
     }
     else
     {
@@ -130,7 +139,7 @@ void ContestGenerate::storePlayersNames()
     }
 }
 
-void ContestGenerate::generateTeam()
+void ContestGenerate::generateTeamMeleeMelee()
 {
     if(m_stockPlayersMen.empty() && m_stockPlayersWomen.empty())
     {
@@ -258,30 +267,21 @@ void ContestGenerate::generateGlobalGames()
         m_gamesTab->clear();
     }
     m_vectGamesOpContainer.clear();
-//    if(m_teamBuildOption == MELEE)
-//    {
-//        generateTeam();
-//        generateMeleeGames();
-//    }
-//    else if(m_teamBuildOption == MELEE_MELEE)
-//    {
-        for(unsigned int i = 1; i < m_gamesNumber; ++i)
+    for(unsigned int i = 1; i < m_gamesNumber; ++i)
+    {
+        if(m_teamBuildOption == TeamGenerationMode::MELEE_MELEE)
         {
-            generateTeam();
-            setTeamsOpponents(0);
+            generateTeamMeleeMelee();
+            setTeamsOpponentsMeleeMelee(0);
             createNewTeamTab(i);
         }
-//    }
+        //preset
+        else
+        {
+            setTeamsOpponentsPresetTeam();
+        }
+    }
 }
-
-//void ContestGenerate::generateMeleeGames()
-//{
-//    for(unsigned int i = 1; i < m_gamesNumber;++i)
-//    {
-//        setTeamsOpponents(i);
-//        createNewTeamTab(i);
-//    }
-//}
 
 void ContestGenerate::createNewTeamTab(unsigned int gameNumber)
 {
@@ -294,7 +294,7 @@ void ContestGenerate::createNewTeamTab(unsigned int gameNumber)
     m_gamesTab->addTab(scroll, QString(std::string("Team " + std::to_string(gameNumber)).c_str()));
 }
 
-void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
+void ContestGenerate::setTeamsOpponentsMeleeMelee(unsigned int gameNumber)
 {
     if(m_threePlayersTeam.size() + m_twoPlayersTeam.size() % 2 == 1)//if error
     {
@@ -346,6 +346,22 @@ void ContestGenerate::setTeamsOpponents(unsigned int gameNumber)
                 doubletMem.erase(doubletMem.begin());
             }
     }
+}
+
+void ContestGenerate::setTeamsOpponentsPresetTeam()
+{
+    m_vectGamesOpContainer.clear();
+    m_vectGamesOpContainer.reserve(m_vectPresetTeam.size());
+    for(std::vector<vectString>::iterator it = 0;
+        it != m_vectPresetTeam.end(); ++it)
+    {
+        m_vectGamesOpContainer.emplace_back(GamesOpponentsContainer());
+        size_t teamSize = it->size();
+        assert(teamSize < 3 );
+        Team teamA = it->size();
+        m_vectGamesOpContainer.back().addGames(Team(), const Team &b);
+    }
+
 }
 
 void ContestGenerate::instanciateTeams(unsigned int threesomeNumber, unsigned int doubletNumber)

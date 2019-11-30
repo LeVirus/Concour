@@ -1,16 +1,24 @@
 #include "windowteamconstruct.h"
 #include "ui_windowteamconstruct.h"
 #include "meleemeleeform.h"
+#include "presetteamform.h"
 #include <QRadioButton>
 #include <QSpinBox>
+#include <cassert>
 
-WindowTeamConstruct::WindowTeamConstruct(QWidget *parent) :
+WindowTeamConstruct::WindowTeamConstruct(bool meleeMeleeMode, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::WindowTeamConstruct)
+    ui(new Ui::WindowTeamConstruct),
+    m_meleeMeleeMode(meleeMeleeMode)
 {
     ui->setupUi(this);
     linkButtons();
     linkRadio();
+}
+
+void WindowTeamConstruct::memPresetTeamForm(PresetTeamForm *form)
+{
+    m_presetTeamForm = form;
 }
 
 WindowTeamConstruct::~WindowTeamConstruct()
@@ -40,13 +48,22 @@ void WindowTeamConstruct::linkRadio()
 
 void WindowTeamConstruct::launchGenerationWindow()
 {
-    MeleeMeleeForm *form = MeleeMeleeForm::getInstance();
-    if(form)
+    if(m_spinNumberGames)
     {
-        if(m_spinNumberGames)
+        if(m_meleeMeleeMode)
         {
-            form->setTeamBuildOption(m_spinNumberGames->value());
-            form->setGenerationOK(true);
+            MeleeMeleeForm *form = MeleeMeleeForm::getInstance();
+            if(form)
+            {
+                form->setTeamBuildOption(m_spinNumberGames->value());
+                form->setGenerationOK(true);
+            }
+        }
+        //preset team
+        else
+        {
+            assert(m_presetTeamForm);
+            m_presetTeamForm->setGamesNumber(m_spinNumberGames->value());
         }
     }
     close();

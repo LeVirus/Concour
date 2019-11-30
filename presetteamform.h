@@ -2,6 +2,7 @@
 #define PRESETTEAMFORM_H
 
 #include "windowteamconstruct.h"
+#include "contestgenerate.h"
 #include <QWidget>
 #include <QDialog>
 #include <QLineEdit>
@@ -32,6 +33,8 @@ public:
     bool addTeam(const std::string &strStdA,
                  const std::string &strStdB,
                  const std::string &strStdC);
+    inline void setGamesNumber(uint32_t games){m_gamesNumber = games;
+                                               m_generationOk = true;}
     ~PresetTeamForm();
 private:
     void linkUIElement();
@@ -55,6 +58,9 @@ private:
     std::vector<vectStr_t> m_vectPlayers;
     QVBoxLayout *m_TeamLayout;
     WindowTeamConstruct m_windowTeamConstruct;
+    bool m_generationOk = false;
+    uint32_t m_gamesNumber;
+    ContestGenerate m_contestGenerate;
 };
 
 void displayError(const std::string &message);

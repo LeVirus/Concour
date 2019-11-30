@@ -10,18 +10,21 @@ class WindowTeamConstruct;
 }
 class QRadioButton;
 class QSpinBox;
+class PresetTeamForm;
 
 class WindowTeamConstruct : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit WindowTeamConstruct(QWidget *parent = 0);
+    explicit WindowTeamConstruct(bool meleeMeleeMode = true, QWidget *parent = 0);
+    void memPresetTeamForm(PresetTeamForm *form);
     ~WindowTeamConstruct();
-
 private:
     Ui::WindowTeamConstruct *ui;
     QSpinBox * m_spinNumberGames = nullptr;
+    bool m_meleeMeleeMode;
+    PresetTeamForm *m_presetTeamForm = nullptr;
 private:
     void linkButtons();
     void linkRadio();

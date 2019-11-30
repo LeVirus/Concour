@@ -18,6 +18,29 @@ Team::Team(bool threesome):m_threesome(threesome)
     }
 }
 
+Team::Team(const std::string &nameA,
+           const std::string &nameB,
+           const std::string &nameC)
+{
+    m_teamNumber = m_cmpt;
+    ++m_cmpt;
+    m_vectPlayers.reserve(3);
+    m_vectPlayers.emplace_back(nameA);
+    m_vectPlayers.emplace_back(nameB);
+    m_vectPlayers.emplace_back(nameC);
+    m_threesome = true;
+}
+
+Team::Team(const std::string &nameA, const std::string &nameB)
+{
+    m_teamNumber = m_cmpt;
+    ++m_cmpt;
+    m_vectPlayers.reserve(2);
+    m_vectPlayers.emplace_back(nameA);
+    m_vectPlayers.emplace_back(nameB);
+    m_threesome = false;
+}
+
 size_t Team::getPlayerNumber() const
 {
     return m_vectPlayers.size();

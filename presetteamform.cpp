@@ -5,7 +5,8 @@
 
 PresetTeamForm::PresetTeamForm(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::PresetTeamForm)
+    ui(new Ui::PresetTeamForm),
+    m_windowTeamConstruct(false)
 {
     ui->setupUi(this);
     setLayouts();
@@ -51,7 +52,6 @@ void PresetTeamForm::linkUIElement()
     playerA = findChild<QLineEdit*>("lineEdit");
     playerB = findChild<QLineEdit*>("lineEdit_2");
     playerC = findChild<QLineEdit*>("lineEdit_3");
-
 }
 
 void displayError(const std::string &message)
@@ -176,7 +176,23 @@ bool PresetTeamForm::checkExistingPlayers(const std::string &strA,
 //Generate
 void PresetTeamForm::on_pushButton_2_clicked()
 {
-
+    m_windowTeamConstruct.memPresetTeamForm(this);
+    if(m_vectPlayers.size() > 1)
+    {
+        m_windowTeamConstruct.exec();
+        if(m_generationOk)
+        {
+            m_contestGenerate.setTeamBuildOption(m_gamesNumber,
+                                                 TeamGenerationMode::PRESET_TEAM);
+            m_contestGenerate.updateContestPresetTeam(m_vectPlayers);
+            m_contestGenerate.generateGlobalGames();
+            m_contestGenerate.exec();
+        }
+    }
+    else
+    {
+        displayError("Erreur nombre d'équipe insufisant\n Minimum 2.");
+    }
 }
 
 PresetTeamForm::~PresetTeamForm()

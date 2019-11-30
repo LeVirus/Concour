@@ -13,6 +13,8 @@ private:
     static unsigned int m_cmpt;
 public:
     Team(bool threesome);
+    Team(const std::string &nameA, const std::string &nameB, const std::string &nameC);
+    Team(const std::string &nameA, const std::string &nameB);
     size_t getPlayerNumber()const;
     inline bool isThreesome()const{return m_threesome;}
     inline unsigned int getTeamNumber()const{return m_teamNumber;}

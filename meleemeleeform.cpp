@@ -239,7 +239,7 @@ void MeleeMeleeForm::clearPlayerLines()
 
 void MeleeMeleeForm::openGenerateContestMenu()
 {
-    if(m_contestGenWindow.updateCurrentContest(m_memListMan, m_memListWoman))
+    if(m_contestGenWindow.updateCurrentContestMeleeMelee(m_memListMan, m_memListWoman))
     {
         m_windowConstruct.exec();
         m_contestGenWindow.generateGlobalGames();
