@@ -20,7 +20,6 @@ bool PresetTeamForm::delTeam(const std::string &playerA,
     itStrVect_t it = findElement(playerA, playerB, playerC);
     if(it != m_vectPlayers.end())
     {
-
         m_vectPlayers.erase(it);
         return true;
     }
@@ -49,9 +48,9 @@ bool PresetTeamForm::addTeam(const std::string &strStdA,
 
 void PresetTeamForm::linkUIElement()
 {
-    playerA = findChild<QLineEdit*>("lineEdit");
-    playerB = findChild<QLineEdit*>("lineEdit_2");
-    playerC = findChild<QLineEdit*>("lineEdit_3");
+    m_playerA = findChild<QLineEdit*>("lineEdit");
+    m_playerB = findChild<QLineEdit*>("lineEdit_2");
+    m_playerC = findChild<QLineEdit*>("lineEdit_3");
 }
 
 void displayError(const std::string &message)
@@ -64,9 +63,9 @@ void displayError(const std::string &message)
 
 void PresetTeamForm::on_pushButton_clicked()
 {
-    QString strA = playerA->text();
-    QString strB = playerB->text();
-    QString strC = playerC->text();
+    QString strA = m_playerA->text();
+    QString strB = m_playerB->text();
+    QString strC = m_playerC->text();
     if(strA.isEmpty() || strB.isEmpty())
     {
         displayError("Erreur: Mauvaises entrée(s) d'équipe.");
@@ -96,9 +95,9 @@ void PresetTeamForm::setLayouts()
 
 void PresetTeamForm::clearLineEdit()
 {
-    playerA->clear();
-    playerB->clear();
-    playerC->clear();
+    m_playerA->clear();
+    m_playerB->clear();
+    m_playerC->clear();
 }
 
 itStrVect_t PresetTeamForm::findElement(const std::string &playerA,

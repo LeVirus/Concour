@@ -22,7 +22,7 @@ public:
     ~WindowTeamConstruct();
 private:
     Ui::WindowTeamConstruct *ui;
-    QSpinBox * m_spinNumberGames = nullptr;
+    QSpinBox *m_spinNumberGames = nullptr;
     bool m_meleeMeleeMode;
     PresetTeamForm *m_presetTeamForm = nullptr;
 private:

@@ -27,9 +27,9 @@ class PresetTeamForm : public QDialog
 
 public:
     explicit PresetTeamForm(QWidget *parent = 0);
-    bool delTeam(const std::string &playerA,
-                 const std::string &playerB,
-                 const std::string &playerC);
+    bool delTeam(const std::string &m_playerA,
+                 const std::string &m_playerB,
+                 const std::string &m_playerC);
     bool addTeam(const std::string &strStdA,
                  const std::string &strStdB,
                  const std::string &strStdC);
@@ -54,7 +54,7 @@ public slots:
 
 private:
     Ui::PresetTeamForm *ui;
-    QLineEdit *playerA, *playerB, *playerC;
+    QLineEdit *m_playerA, *m_playerB, *m_playerC;
     std::vector<vectStr_t> m_vectPlayers;
     QVBoxLayout *m_TeamLayout;
     WindowTeamConstruct m_windowTeamConstruct;

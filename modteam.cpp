@@ -83,6 +83,6 @@ void ModTeam::on_pushButton_clicked()
     }
     else
     {
-        assert(false);
+        assert(false && "equipe incohérente");
     }
 }

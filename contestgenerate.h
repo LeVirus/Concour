@@ -18,7 +18,7 @@ class ContestGenerate;
 
 using vectTeam = std::vector<Team>;
 using vectString = std::vector<std::string>;
-using vectUi = std::vector<unsigned int>;
+using vectUi = std::vector<uint32_t>;
 using vectPdfGen = std::vector<PdfDocGeneration>;
 using vectGamesOpCont= std::vector<GamesOpponentsContainer>;
 
@@ -32,37 +32,20 @@ class ContestGenerate : public QDialog
     Q_OBJECT
 
 private:
-#ifdef WIN32
-const QString m_slash="\\";
-#else
-const QString m_slash = "/";
-#endif
-    vectGamesOpCont m_vectGamesOpContainer;
-    vectTeam m_threePlayersTeam, m_twoPlayersTeam;
-    QLabel *m_MenTotal = nullptr, *m_WomenTotal = nullptr, *m_DoubletNumber = nullptr, *m_ThreesomeNumber = nullptr;
-    QTabWidget *m_gamesTab = nullptr;
-    unsigned int m_threePlayersTeamNumber, m_twoPlayersTeamNumber;
-    const QVBoxLayout* m_manLayout, *m_womanLayout;
-    unsigned int m_numberMan = 0, m_numberWoman = 0, m_gamesNumber = 0;
-    Ui::ContestGenerate *ui;
-    TeamGenerationMode m_teamBuildOption;
-    vectString m_stockPlayersMen, m_stockPlayersWomen;
-    std::vector<vectString> m_vectPresetTeam;
-private:
     bool setNumberContestTeam();
     bool setNumberContestTeamForDefinedThreesome();
     bool linkWidgets();
-    void setTeamsOpponentsMeleeMelee(unsigned int gameNumber);
-    void setTeamsOpponentsPresetTeam();
-    void createNewTeamTab(unsigned int gameNumber);
-    void instanciateTeams(unsigned int threesomeNumber, unsigned int doubletNumber);
+    void setTeamsOpponentsMeleeMelee(uint32_t gameNumber);
+    void setTeamsOpponentsPresetTeam(uint32_t gameNumber);
+    void createNewTeamTab(uint32_t gameNumber);
+    void instanciateTeams(uint32_t threesomeNumber, uint32_t doubletNumber);
     void getVectNumberTeam(vectUi &threeSome, vectUi &doublet)const;
     void generateTeamMeleeMelee();
     void generateThreePlayersTeam(vectString &men, vectString &women);
     void generateTwoPlayersTeam(vectString &men, vectString &women);
 public:
     explicit ContestGenerate(QWidget *parent = 0);
-    void setTeamBuildOption(unsigned int gamesNumber, TeamGenerationMode mode = MELEE_MELEE);
+    void setTeamBuildOption(uint32_t gamesNumber, TeamGenerationMode mode = MELEE_MELEE);
     void storePlayersNames();
     void displayTeams()const;
     void updateUI();
@@ -73,6 +56,24 @@ public:
     ~ContestGenerate();
 private slots:
     void pdfGeneration();
+private:
+#ifdef WIN32
+const QString m_slash="\\";
+#else
+const QString m_slash = "/";
+#endif
+    vectGamesOpCont m_vectGamesOpContainer;
+    vectTeam m_threePlayersTeam, m_twoPlayersTeam, m_vectPresetTeam;
+    QLabel *m_MenTotal = nullptr, *m_WomenTotal = nullptr, *m_DoubletNumber = nullptr, *m_ThreesomeNumber = nullptr;
+    QTabWidget *m_gamesTab = nullptr;
+    uint32_t m_threePlayersTeamNumber, m_twoPlayersTeamNumber;
+    const QVBoxLayout* m_manLayout, *m_womanLayout;
+    uint32_t m_numberMan = 0, m_numberWoman = 0, m_gamesNumber = 0;
+    Ui::ContestGenerate *ui;
+    TeamGenerationMode m_teamBuildOption;
+    vectString m_stockPlayersMen, m_stockPlayersWomen;
+//    std::vector<vectString> m_vectPresetTeam;
+    vectUi m_vectOddTeamNumber;
 };
 
 #endif // CONTESTGENERATE_H

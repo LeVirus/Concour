@@ -40,6 +40,9 @@ void TeamLine::setPlayers(const std::string &playerA,
 {
     m_label->setText(QString(playerA.c_str()) + "\n" + QString(playerB.c_str()) +
                      "\n" + QString(playerC.c_str()));
+    m_playerA = playerA;
+    m_playerB= playerB;
+    m_playerC = playerC;
 }
 
 
