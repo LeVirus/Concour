@@ -291,7 +291,7 @@ void ContestGenerate::generateGlobalGames()
         if(m_teamBuildOption == TeamGenerationMode::MELEE_MELEE)
         {
             generateTeamMeleeMelee();
-            setTeamsOpponentsMeleeMelee(m_gamesNumber);
+            setTeamsOpponentsMeleeMelee(i);
             createNewTeamTab(i);
         }
         //preset
