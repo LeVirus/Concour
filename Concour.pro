@@ -18,7 +18,6 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     playerline.cpp \
     modifyline.cpp \
-    windowsaveask.cpp \
     contestgenerate.cpp \
     windowteamconstruct.cpp \
     team.cpp \
@@ -34,7 +33,6 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     playerline.h \
     modifyline.h \
-    windowsaveask.h \
     contestgenerate.h \
     windowteamconstruct.h \
     team.h \
@@ -49,7 +47,6 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     modifyline.ui \
-    windowsaveask.ui \
     contestgenerate.ui \
     windowteamconstruct.ui \
     modechoosewindow.ui \

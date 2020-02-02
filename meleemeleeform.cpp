@@ -1,5 +1,5 @@
 #include "meleemeleeform.h"
-#include "ui_form.h"
+#include "ui_meleemeleeform.h"
 #include <QMessageBox>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -196,19 +196,6 @@ void MeleeMeleeForm::getJsonFromPlayers(QJsonObject &jsonObj) const
     }
     jsonObj.insert("Hommes", men);
     jsonObj.insert("Femmes", women);
-}
-
-void MeleeMeleeForm::closeEvent(QCloseEvent *event)
-{
-    if(! m_saved)
-    {
-        m_windowSave.exec();
-        event->ignore();
-    }
-    else
-    {
-        event->accept();
-    }
 }
 
 void MeleeMeleeForm::clearPlayerLines()

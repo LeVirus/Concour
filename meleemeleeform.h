@@ -3,7 +3,6 @@
 
 #include "playerline.h"
 #include "contestgenerate.h"
-#include "windowsaveask.h"
 #include "windowteamconstruct.h"
 #include <QCloseEvent>
 #include <QJsonObject>
@@ -31,7 +30,6 @@ private:
     QLineEdit* m_lineEdit = nullptr;
     QComboBox* m_comboBox = nullptr;
     bool m_saved = true;
-    WindowSaveAsk m_windowSave;
     ContestGenerate m_contestGenWindow;
     WindowTeamConstruct m_windowConstruct;
     bool m_okGenerate = false;
@@ -40,7 +38,6 @@ private:
     void setLayouts();
     void setScrolls();
     void getJsonFromPlayers(QJsonObject &jsonObj)const;
-    virtual void closeEvent (QCloseEvent *event);
     QString getPathFile(QWidget *ptrWidget);
 public:
     explicit MeleeMeleeForm(QWidget *parent = 0);
