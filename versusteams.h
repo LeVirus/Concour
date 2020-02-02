@@ -10,7 +10,7 @@ class VersusTeams : public QHBoxLayout
 {
 private:
     QVBoxLayout *m_firstTeams = nullptr, *m_secondTeams = nullptr;
-
+private:
     void setVersusUI(const GamesOpponentsContainer &gamesOpp);
 public:
     VersusTeams(const GamesOpponentsContainer &gamesOpp, QWidget *parent = nullptr);

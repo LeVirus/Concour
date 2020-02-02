@@ -15,6 +15,10 @@
 #include <ctime>
 #include <cassert>
 #include <versusteams.h>
+#include <chrono>
+#include <thread>
+
+using namespace std::chrono_literals;
 
 ContestGenerate::ContestGenerate(QWidget *parent) :
     QDialog(parent),
@@ -164,7 +168,6 @@ void ContestGenerate::generateTeamMeleeMelee()
     m_twoPlayersTeam.clear();
     instanciateTeams(m_threePlayersTeamNumber, m_twoPlayersTeamNumber);
 
-    std::srand(std::time(0));
     vectString vectMenNames = m_stockPlayersMen,
                vectWomenNames = m_stockPlayersWomen;
     generateThreePlayersTeam(vectMenNames, vectWomenNames);
@@ -177,16 +180,17 @@ void ContestGenerate::generateThreePlayersTeam(vectString &men, vectString &wome
     {
         for(uint32_t j = 0; j < 3; ++j)
         {
+            std::this_thread::sleep_for(10ms);
             if( (j == 0 && !women.empty()) || men.empty())
             {
-                uint32_t rand = std::rand()/((RAND_MAX + 1u) / women.size());  // Note: 1+rand()%6 is wrong!
+                uint32_t rand = std::rand() % women.size();
                 m_threePlayersTeam[i].modifyPlayerName(women[rand], j);
                 women.erase(women.begin() + rand);
                 continue;
             }
             if(!men.empty())
             {
-                uint32_t rand = std::rand()/((RAND_MAX + 1u) / men.size());
+                uint32_t rand = std::rand() % men.size();
                 m_threePlayersTeam[i].modifyPlayerName(men[rand], j);
                 men.erase(men.begin() + rand);
             }
@@ -202,14 +206,14 @@ void ContestGenerate::generateTwoPlayersTeam(vectString &men, vectString &women)
         {
             if( (j == 0 && !women.empty()) || men.empty())
             {
-                uint32_t rand = std::rand()/((RAND_MAX + 1u) / women.size());  // Note: 1+rand()%6 is wrong!
+                uint32_t rand = std::rand() % women.size();
                 m_twoPlayersTeam[i].modifyPlayerName(women[rand], j);
                 women.erase(women.begin() + rand);
                 continue;
             }
             if(!men.empty())
             {
-                uint32_t rand = std::rand()/((RAND_MAX + 1u) / men.size());  // Note: 1+rand()%6 is wrong!
+                uint32_t rand = std::rand() % men.size();
                 m_twoPlayersTeam[i].modifyPlayerName(men[rand], j);
                 men.erase(men.begin() + rand);
             }
@@ -287,7 +291,7 @@ void ContestGenerate::generateGlobalGames()
         if(m_teamBuildOption == TeamGenerationMode::MELEE_MELEE)
         {
             generateTeamMeleeMelee();
-            setTeamsOpponentsMeleeMelee(0);
+            setTeamsOpponentsMeleeMelee(m_gamesNumber);
             createNewTeamTab(i);
         }
         //preset
@@ -302,7 +306,7 @@ void ContestGenerate::generateGlobalGames()
 void ContestGenerate::createNewTeamTab(uint32_t gameNumber)
 {
     QWidget *scrollAreaWidgetContents = new QWidget(this);
-    scrollAreaWidgetContents->setLayout(new VersusTeams(m_vectGamesOpContainer[m_vectGamesOpContainer.size() - 1]));
+    scrollAreaWidgetContents->setLayout(new VersusTeams(m_vectGamesOpContainer.back()));
     QScrollArea *scroll = new QScrollArea(this);
     scroll->setWidgetResizable(true);
     scroll->setWidget(scrollAreaWidgetContents);
@@ -321,7 +325,7 @@ void ContestGenerate::setTeamsOpponentsMeleeMelee(uint32_t gameNumber)
 
     uint32_t iterationNumber = (m_threePlayersTeam.size() + m_twoPlayersTeam.size()) / 2;
     m_vectGamesOpContainer.push_back(GamesOpponentsContainer());
-    GamesOpponentsContainer &currentGameContainer = m_vectGamesOpContainer[m_vectGamesOpContainer.size() - 1];
+    GamesOpponentsContainer &currentGameContainer = m_vectGamesOpContainer.back();
     for(uint32_t i = 0; i < iterationNumber; ++i)
     {
         uint32_t currentDoubletOpponent = 0, currentThreesomeOpponent = 0;
@@ -332,35 +336,36 @@ void ContestGenerate::setTeamsOpponentsMeleeMelee(uint32_t gameNumber)
         if(! threeSomeMem.empty())
         {
             currentThreesomeOpponent = (1 + gameNumber) % threeSomeMem.size();
-        }
-            if(! threeSomeMem.empty())
+            if(threeSomeMem.size() >= 2)
             {
-                if(threeSomeMem.size() >= 2)
+                if(currentThreesomeOpponent == 0)
                 {
-                    currentGameContainer.addGames(m_threePlayersTeam[threeSomeMem[0]],
-                            m_threePlayersTeam[threeSomeMem[currentThreesomeOpponent]]);
-                    threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
-                    threeSomeMem.erase(threeSomeMem.begin());
+                    ++currentThreesomeOpponent;
                 }
-                else
-                {
-                    currentGameContainer.addGames(m_twoPlayersTeam[doubletMem[0]],
-                            m_threePlayersTeam[threeSomeMem[currentThreesomeOpponent]]);
-                    doubletMem.erase(doubletMem.begin());
-                    threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
-                }
+                currentGameContainer.addGames(m_threePlayersTeam[threeSomeMem[0]],
+                        m_threePlayersTeam[threeSomeMem[currentThreesomeOpponent]]);
+                threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
+                threeSomeMem.erase(threeSomeMem.begin());
             }
-            else//if m_threePlayersTeam finished
+            else
             {
-                if(currentDoubletOpponent == 0)
-                {
-                    ++currentDoubletOpponent;
-                }
                 currentGameContainer.addGames(m_twoPlayersTeam[doubletMem[0]],
-                        m_twoPlayersTeam[doubletMem[currentDoubletOpponent]]);
-                doubletMem.erase(doubletMem.begin() + currentDoubletOpponent);
+                        m_threePlayersTeam[threeSomeMem[currentThreesomeOpponent]]);
                 doubletMem.erase(doubletMem.begin());
+                threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
             }
+        }
+        else//if m_threePlayersTeam finished
+        {
+            if(currentDoubletOpponent == 0)
+            {
+                ++currentDoubletOpponent;
+            }
+            currentGameContainer.addGames(m_twoPlayersTeam[doubletMem[0]],
+                    m_twoPlayersTeam[doubletMem[currentDoubletOpponent]]);
+            doubletMem.erase(doubletMem.begin() + currentDoubletOpponent);
+            doubletMem.erase(doubletMem.begin());
+        }
     }
 }
 
