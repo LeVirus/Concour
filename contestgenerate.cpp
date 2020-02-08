@@ -286,6 +286,7 @@ void ContestGenerate::generateGlobalGames()
     }
     m_vectGamesOpContainer.clear();
     m_vectGamesOpContainer.reserve(m_gamesNumber - 1);
+    std::srand(std::time(0));
     for(uint32_t i = 1; i < m_gamesNumber; ++i)
     {
         if(m_teamBuildOption == TeamGenerationMode::MELEE_MELEE)
@@ -322,12 +323,12 @@ void ContestGenerate::setTeamsOpponentsMeleeMelee(uint32_t gameNumber)
     }
     vectUi threeSomeMem, doubletMem;
     getVectNumberTeam(threeSomeMem, doubletMem);//get Number from existing team
-
     uint32_t iterationNumber = (m_threePlayersTeam.size() + m_twoPlayersTeam.size()) / 2;
     m_vectGamesOpContainer.push_back(GamesOpponentsContainer());
     GamesOpponentsContainer &currentGameContainer = m_vectGamesOpContainer.back();
     for(uint32_t i = 0; i < iterationNumber; ++i)
     {
+        std::this_thread::sleep_for(10ms);
         uint32_t currentDoubletOpponent = 0, currentThreesomeOpponent = 0;
         if(! doubletMem.empty())
         {
@@ -335,7 +336,12 @@ void ContestGenerate::setTeamsOpponentsMeleeMelee(uint32_t gameNumber)
         }
         if(! threeSomeMem.empty())
         {
-            currentThreesomeOpponent = (1 + gameNumber) % threeSomeMem.size();
+            //(1 + gameNumber) % threeSomeMem.size();
+            if(threeSomeMem.size() > 1)
+            {
+                currentThreesomeOpponent = (std::rand() % (threeSomeMem.size() - 1)) + 1;
+            }
+            assert(currentThreesomeOpponent < threeSomeMem.size());
             if(threeSomeMem.size() >= 2)
             {
                 if(currentThreesomeOpponent == 0)
@@ -381,7 +387,6 @@ void ContestGenerate::setTeamsOpponentsPresetTeam(uint32_t gameNumber)
     //if odd number of versus
     if(gameNumber > 1 && m_vectPresetTeam.size() % 2)
     {
-        std::srand(std::time(0));
         uint32_t teamOdd;
         do
         {
