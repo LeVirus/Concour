@@ -27,6 +27,7 @@ void PdfDocGeneration::updateDocFromGames(const GamesOpponentsContainer &goc, un
             createVersusTableTeams(&m_gamesOpponents[i], &m_gamesOpponents[i + 1]);
         }
     }
+    m_htmlContent.append("</body></html>");
     generateDoc();
 
 }
@@ -39,7 +40,13 @@ void PdfDocGeneration::setSaveDirectory(const QString &path)
 void PdfDocGeneration::initDocument()
 {
     m_htmlContent.clear();
-    m_htmlContent.append("<h1 style='text-align: center;'>Manche " + QString::number(m_gameNumber) + "</h1>");
+    m_htmlContent.append("<!DOCTYPE html>");
+    m_htmlContent.append("<html><head><style>");
+    m_htmlContent.append("td{font-size: 20px;}");
+    m_htmlContent.append("table{border-style:groove; border-width:1px; border-color:black;}");
+    m_htmlContent.append("</style></head>");
+    m_htmlContent.append("<body><h1 style='text-align: center;'>Manche "
+                         + QString::number(m_gameNumber) + "</h1>");
 }
 
 void PdfDocGeneration::createVersusTableTeams(const t_pairTeam *versusA, const t_pairTeam *versusB)
@@ -52,7 +59,7 @@ void PdfDocGeneration::createVersusTableTeams(const t_pairTeam *versusA, const t
     {
         m_htmlContent.append("<table style='text-align: center;'align='left'>");
     }
-    m_htmlContent.append("<tbody><tr><td></td>");//set first case empty
+    m_htmlContent.append("<tr><td></td>");//set first case empty
     m_htmlContent.append("<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>");//set second case empty
     m_htmlContent.append("<td style='height: 18px;'><strong>Equipe " + QString::number(versusA->first.getTeamNumber() + 1) + "</strong></td>");
     m_htmlContent.append("<td>&nbsp;&nbsp;&nbsp;</td>");
@@ -84,7 +91,7 @@ void PdfDocGeneration::createVersusTableTeams(const t_pairTeam *versusA, const t
     {
         createVersusLineTeams(versusA, versusB, i);
     }
-    m_htmlContent.append("</tbody></table>");
+    m_htmlContent.append("</table>");
 }
 
 void PdfDocGeneration::createVersusLineTeams(const t_pairTeam *versusA, const t_pairTeam *versusB, unsigned int lineNumber)
@@ -126,7 +133,6 @@ void PdfDocGeneration::generateDoc()
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setPaperSize(QPrinter::A4);
     printer.setOutputFileName(fileName);
-
     QTextDocument doc;
     doc.setHtml(m_htmlContent);
     doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number

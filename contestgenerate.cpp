@@ -286,7 +286,7 @@ void ContestGenerate::generateGlobalGames()
     }
     m_vectGamesOpContainer.clear();
     m_vectGamesOpContainer.reserve(m_gamesNumber - 1);
-    std::srand(std::time(0));
+    std::srand(std::time(nullptr));
     for(uint32_t i = 1; i < m_gamesNumber; ++i)
     {
         if(m_teamBuildOption == TeamGenerationMode::MELEE_MELEE)
