@@ -43,7 +43,7 @@ void PdfDocGeneration::initDocument()
     m_htmlContent.append("<!DOCTYPE html>");
     m_htmlContent.append("<html><head><style>");
     m_htmlContent.append("td{font-size: 20px;}");
-    m_htmlContent.append("table{border-style:groove; border-width:1px; border-color:black;}");
+    m_htmlContent.append("table{border-style:solid; border-width:1px; border-color:black;}");
     m_htmlContent.append("</style></head>");
     m_htmlContent.append("<body><h1 style='text-align: center;'>Manche "
                          + QString::number(m_gameNumber) + "</h1>");
@@ -132,6 +132,7 @@ void PdfDocGeneration::generateDoc()
     QPrinter printer(QPrinter::PrinterResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setPaperSize(QPrinter::A4);
+    printer.setPageOrientation(QPageLayout::Landscape);
     printer.setOutputFileName(fileName);
     QTextDocument doc;
     doc.setHtml(m_htmlContent);
