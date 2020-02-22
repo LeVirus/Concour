@@ -14,10 +14,11 @@ class PdfDocGeneration
 {
 private:
     static QString m_htmlContent, m_saveDir;
-    static unsigned int m_gameNumber;
+    static unsigned int m_gameNumber, m_groundNumber;
 //    const GamesOpponentsContainer &m_gamesOpContain;
 private:
     static void initDocument();
+    static void createGroundNumberLine();
     static void createVersusTableTeams(const t_pairTeam *versusA, const t_pairTeam *versusB);
     static void createVersusLineTeams(const t_pairTeam *versusA, const t_pairTeam *versusB, unsigned int lineNumber);
     static void generateDoc();
