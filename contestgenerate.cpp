@@ -17,6 +17,7 @@
 #include <versusteams.h>
 #include <chrono>
 #include <thread>
+#include <iostream>
 
 using namespace std::chrono_literals;
 
@@ -68,7 +69,7 @@ bool ContestGenerate::updateCurrentContestMeleeMelee(const QVBoxLayout* manLayou
 
 void ContestGenerate::updateContestPresetTeam(const std::vector<vectString> &vectTeam)
 {
-//    m_vectPresetTeam = vectTeam;
+    m_vectPresetTeam.clear();
     m_vectPresetTeam.reserve(vectTeam.size());
     for(uint32_t i = 0; i < vectTeam.size(); ++i)
     {
@@ -293,15 +294,13 @@ void ContestGenerate::generateGlobalGames()
         {
             generateTeamMeleeMelee();
             setTeamsOpponentsMeleeMelee(i);
-            createNewTeamTab(i);
         }
         //preset
         else
         {
             setTeamsOpponentsPresetTeam(i);
-            createNewTeamTab(i);
-            m_vectGamesOpContainer.back().display();
         }
+        createNewTeamTab(i);
     }
 }
 
@@ -383,32 +382,21 @@ void ContestGenerate::setTeamsOpponentsPresetTeam(uint32_t gameNumber)
     vectUi vectTeamNum(m_vectPresetTeam.size());
     std::iota(vectTeamNum.begin(), vectTeamNum.end(), 0);
     //in case of odd number one team doesn't play
-    for(uint32_t i = 0; i < m_vectPresetTeam.size() / 2; ++i)
+    while(vectTeamNum.size() >= 2)
     {
-        //Quick fix
-        if(vectTeamNum.size() < 2)
+        uint32_t i = (gameNumber < vectTeamNum.size()) ?
+                    gameNumber : gameNumber % vectTeamNum.size();
+        if(i == 0)
         {
-            break;
+            ++i;
         }
-        uint32_t j = ((i + gameNumber) < vectTeamNum.size()) ?
-                    i + gameNumber : (i + gameNumber) % vectTeamNum.size();
-        while(i == j)
-        {
-            ++j;
-            if(j >= vectTeamNum.size())
-            {
-                j %= vectTeamNum.size();
-            }
-        }
-        opContainer.addGames(m_vectPresetTeam[vectTeamNum[i]],
-                             m_vectPresetTeam[vectTeamNum[j]]);
-        if(i > j)
-        {
-            std::swap(i, j);
-        }
-        vectTeamNum.erase(vectTeamNum.begin() + j);
+        opContainer.addGames(m_vectPresetTeam[vectTeamNum[0]],
+                             m_vectPresetTeam[vectTeamNum[i]]);
+        assert(vectTeamNum.size() > i);
         vectTeamNum.erase(vectTeamNum.begin() + i);
+        vectTeamNum.erase(vectTeamNum.begin());
     }
+    //set resting team play on the other round
     if(!vectTeamNum.empty())
     {
         assert(vectTeamNum[0] < m_vectPresetTeam.size());
