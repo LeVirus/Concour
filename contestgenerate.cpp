@@ -299,6 +299,7 @@ void ContestGenerate::generateGlobalGames()
         else
         {
             setTeamsOpponentsPresetTeam(i);
+            createNewTeamTab(i);
             m_vectGamesOpContainer.back().display();
         }
     }
@@ -377,33 +378,41 @@ void ContestGenerate::setTeamsOpponentsMeleeMelee(uint32_t gameNumber)
 
 void ContestGenerate::setTeamsOpponentsPresetTeam(uint32_t gameNumber)
 {
-    m_vectGamesOpContainer.clear();
     m_vectGamesOpContainer.emplace_back(GamesOpponentsContainer());
     GamesOpponentsContainer &opContainer = m_vectGamesOpContainer.back();
-    uint32_t versusNumber = m_vectPresetTeam.size() / 2;
-    vectUi vectTeamNum(versusNumber);
+    vectUi vectTeamNum(m_vectPresetTeam.size());
     std::iota(vectTeamNum.begin(), vectTeamNum.end(), 0);
-
-    //if odd number of versus
-    if(gameNumber > 1 && m_vectPresetTeam.size() % 2)
-    {
-        uint32_t teamOdd;
-        do
-        {
-            teamOdd = std::rand() % vectTeamNum.size();
-        }while(std::find(m_vectOddTeamNumber.begin(),
-                         m_vectOddTeamNumber.end(),
-                         teamOdd) != m_vectOddTeamNumber.end());
-        vectTeamNum[teamOdd] = m_vectPresetTeam.size() - 1;
-        m_vectOddTeamNumber.emplace_back(teamOdd);
-    }
     //in case of odd number one team doesn't play
-    for(uint32_t i = 0; i < versusNumber; ++i)
+    for(uint32_t i = 0; i < m_vectPresetTeam.size() / 2; ++i)
     {
-        uint32_t j = ((i + gameNumber) < m_vectPresetTeam.size()) ?
-                    i + gameNumber : (i + gameNumber) % m_vectPresetTeam.size();
+        //Quick fix
+        if(vectTeamNum.size() < 2)
+        {
+            break;
+        }
+        uint32_t j = ((i + gameNumber) < vectTeamNum.size()) ?
+                    i + gameNumber : (i + gameNumber) % vectTeamNum.size();
+        while(i == j)
+        {
+            ++j;
+            if(j >= vectTeamNum.size())
+            {
+                j %= vectTeamNum.size();
+            }
+        }
         opContainer.addGames(m_vectPresetTeam[vectTeamNum[i]],
                              m_vectPresetTeam[vectTeamNum[j]]);
+        if(i > j)
+        {
+            std::swap(i, j);
+        }
+        vectTeamNum.erase(vectTeamNum.begin() + j);
+        vectTeamNum.erase(vectTeamNum.begin() + i);
+    }
+    if(!vectTeamNum.empty())
+    {
+        assert(vectTeamNum[0] < m_vectPresetTeam.size());
+        std::swap(m_vectPresetTeam[0], m_vectPresetTeam[vectTeamNum[0]]);
     }
 }
 

@@ -67,11 +67,11 @@ void PdfDocGeneration::createVersusTableTeams(const t_pairTeam *versusA, const t
 {
     if(versusB)
     {
-        m_htmlContent.append("<table style='text-align: center;'align='left'>");
+        m_htmlContent.append("<table style='text-align: center;'>");
     }
     else
     {
-        m_htmlContent.append("<table style='text-align: center;'align='left'>");
+        m_htmlContent.append("<table style='text-align: center;'>");
     }
     createGroundNumberLine();
     m_htmlContent.append("<tr><td></td>");//set first case empty
