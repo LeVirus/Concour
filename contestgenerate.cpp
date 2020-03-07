@@ -332,14 +332,14 @@ void ContestGenerate::setTeamsOpponentsMeleeMelee(uint32_t gameNumber)
         uint32_t currentDoubletOpponent = 0, currentThreesomeOpponent = 0;
         if(doubletMem.size() > 1)
         {
-            currentDoubletOpponent = (std::rand() % (doubletMem.size() - 1)) + 1;
+            currentDoubletOpponent = (std::rand() % (doubletMem.size()));
         }
         if(! threeSomeMem.empty())
         {
             //(1 + gameNumber) % threeSomeMem.size();
             if(threeSomeMem.size() > 1)
             {
-                currentThreesomeOpponent = (std::rand() % (threeSomeMem.size() - 1)) + 1;
+                currentThreesomeOpponent = (std::rand() % (threeSomeMem.size()));
             }
             assert(currentThreesomeOpponent < threeSomeMem.size());
             if(threeSomeMem.size() >= 2)
@@ -348,10 +348,15 @@ void ContestGenerate::setTeamsOpponentsMeleeMelee(uint32_t gameNumber)
                 {
                     ++currentThreesomeOpponent;
                 }
-                currentGameContainer.addGames(m_threePlayersTeam[threeSomeMem[0]],
+                uint32_t otherThreesome = getOtherRand(threeSomeMem.size(), currentThreesomeOpponent);
+                currentGameContainer.addGames(m_threePlayersTeam[threeSomeMem[otherThreesome]],
                         m_threePlayersTeam[threeSomeMem[currentThreesomeOpponent]]);
+                if(otherThreesome > currentThreesomeOpponent)
+                {
+                    std::swap(currentThreesomeOpponent, otherThreesome);
+                }
                 threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
-                threeSomeMem.erase(threeSomeMem.begin());
+                threeSomeMem.erase(threeSomeMem.begin() + otherThreesome);
             }
             //threeSomeMem :: 1 item
             else
@@ -368,12 +373,28 @@ void ContestGenerate::setTeamsOpponentsMeleeMelee(uint32_t gameNumber)
             {
                 ++currentDoubletOpponent;
             }
-            currentGameContainer.addGames(m_twoPlayersTeam[doubletMem[0]],
+            uint32_t otherDoublet = getOtherRand(doubletMem.size(), currentDoubletOpponent);
+            currentGameContainer.addGames(m_twoPlayersTeam[doubletMem[otherDoublet]],
                     m_twoPlayersTeam[doubletMem[currentDoubletOpponent]]);
+            if(otherDoublet > currentDoubletOpponent)
+            {
+                std::swap(currentDoubletOpponent, otherDoublet);
+            }
             doubletMem.erase(doubletMem.begin() + currentDoubletOpponent);
-            doubletMem.erase(doubletMem.begin());
+            doubletMem.erase(doubletMem.begin() + otherDoublet);
         }
     }
+}
+
+uint32_t ContestGenerate::getOtherRand(uint32_t arraySize, uint32_t exclude)
+{
+    assert(arraySize);
+    uint32_t currentRandom;
+    do
+    {
+    currentRandom = (std::rand() % arraySize);
+    }while(currentRandom == exclude);
+    return currentRandom;
 }
 
 void ContestGenerate::setTeamsOpponentsPresetTeam(uint32_t gameNumber)

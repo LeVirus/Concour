@@ -43,6 +43,7 @@ private:
     void generateTeamMeleeMelee();
     void generateThreePlayersTeam(vectString &men, vectString &women);
     void generateTwoPlayersTeam(vectString &men, vectString &women);
+    uint32_t getOtherRand(uint32_t arraySize, uint32_t exclude);
 public:
     explicit ContestGenerate(QWidget *parent = 0);
     void setTeamBuildOption(uint32_t gamesNumber, TeamGenerationMode mode = MELEE_MELEE);
