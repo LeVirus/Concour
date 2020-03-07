@@ -330,7 +330,7 @@ void ContestGenerate::setTeamsOpponentsMeleeMelee(uint32_t gameNumber)
     {
         std::this_thread::sleep_for(50ms);
         uint32_t currentDoubletOpponent = 0, currentThreesomeOpponent = 0;
-        if(! doubletMem.empty())
+        if(doubletMem.size() > 1)
         {
             currentDoubletOpponent = (std::rand() % (doubletMem.size() - 1)) + 1;
         }
