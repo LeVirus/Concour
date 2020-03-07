@@ -328,11 +328,11 @@ void ContestGenerate::setTeamsOpponentsMeleeMelee(uint32_t gameNumber)
     GamesOpponentsContainer &currentGameContainer = m_vectGamesOpContainer.back();
     for(uint32_t i = 0; i < iterationNumber; ++i)
     {
-        std::this_thread::sleep_for(10ms);
+        std::this_thread::sleep_for(50ms);
         uint32_t currentDoubletOpponent = 0, currentThreesomeOpponent = 0;
         if(! doubletMem.empty())
         {
-            currentDoubletOpponent = (1 + gameNumber) % doubletMem.size();
+            currentDoubletOpponent = (std::rand() % (doubletMem.size() - 1)) + 1;
         }
         if(! threeSomeMem.empty())
         {
@@ -353,12 +353,13 @@ void ContestGenerate::setTeamsOpponentsMeleeMelee(uint32_t gameNumber)
                 threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
                 threeSomeMem.erase(threeSomeMem.begin());
             }
+            //threeSomeMem :: 1 item
             else
             {
-                currentGameContainer.addGames(m_twoPlayersTeam[doubletMem[0]],
-                        m_threePlayersTeam[threeSomeMem[currentThreesomeOpponent]]);
-                doubletMem.erase(doubletMem.begin());
-                threeSomeMem.erase(threeSomeMem.begin() + currentThreesomeOpponent);
+                currentGameContainer.addGames(m_twoPlayersTeam[doubletMem[currentDoubletOpponent]],
+                        m_threePlayersTeam[threeSomeMem[0]]);
+                doubletMem.erase(doubletMem.begin() + currentDoubletOpponent);
+                threeSomeMem.erase(threeSomeMem.begin());
             }
         }
         else//if m_threePlayersTeam finished
@@ -406,13 +407,15 @@ void ContestGenerate::setTeamsOpponentsPresetTeam(uint32_t gameNumber)
 
 void ContestGenerate::instanciateTeams(uint32_t threesomeNumber, uint32_t doubletNumber)
 {
-    for(uint32_t i = 0; i < threesomeNumber;++i)
+    m_threePlayersTeam.reserve(threesomeNumber);
+    m_twoPlayersTeam.reserve(doubletNumber);
+    for(uint32_t i = 0; i < threesomeNumber; ++i)
     {
-        m_threePlayersTeam.push_back(Team(true));
+        m_threePlayersTeam.emplace_back(Team(true));
     }
-    for(uint32_t i = 0; i < doubletNumber;++i)
+    for(uint32_t i = 0; i < doubletNumber; ++i)
     {
-        m_twoPlayersTeam.push_back(Team(false));
+        m_twoPlayersTeam.emplace_back(Team(false));
     }
 }
 
